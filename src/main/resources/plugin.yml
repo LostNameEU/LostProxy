@@ -1,0 +1,5 @@
+name: LostProxy
+version: ${revision}
+author: realEntwickler
+main: eu.lostname.lostproxy.LostProxy
+softdepend: [ CloudNet-Bridge, CloudNet-CloudPerms, CloudNet-LabyMod, CloudNet-SyncProxy ]
