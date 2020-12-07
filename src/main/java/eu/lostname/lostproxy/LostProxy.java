@@ -8,10 +8,7 @@ import eu.lostname.lostproxy.commands.KickCommand;
 import eu.lostname.lostproxy.commands.PingCommand;
 import eu.lostname.lostproxy.commands.TSCommand;
 import eu.lostname.lostproxy.databases.LostProxyDatabase;
-import eu.lostname.lostproxy.manager.HistoryManager;
-import eu.lostname.lostproxy.manager.LinkageManager;
-import eu.lostname.lostproxy.manager.PlayerManager;
-import eu.lostname.lostproxy.manager.TeamSpeakManager;
+import eu.lostname.lostproxy.manager.*;
 import eu.lostname.lostproxy.utils.CloudServices;
 import net.md_5.bungee.api.plugin.Plugin;
 
@@ -25,6 +22,7 @@ public class LostProxy extends Plugin {
     private PlayerManager playerManager;
     private TeamSpeakManager teamSpeakManager;
     private HistoryManager historyManager;
+    private TeamManager teamManager;
 
     public static LostProxy getInstance() {
         return instance;
