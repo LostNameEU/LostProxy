@@ -37,15 +37,13 @@ public class KickCommand extends Command {
                     ProxiedPlayer finalTarget = target;
 
                     LostProxy.getInstance().getPlayerManager().getIPlayerAsync(target.getUniqueId(), iPlayer -> {
-                        ProxyServer.getInstance().broadcast(iPlayer.getiPermissionGroup().getName().toLowerCase());
                         if (commandSender.hasPermission("lostproxy.command.kick." + iPlayer.getiPermissionGroup().getName().toLowerCase())) {
                             StringBuilder reason = new StringBuilder();
                             for (int i = 1; i < strings.length; i++) {
                                 reason.append(strings[i]).append(" ");
                             }
 
-                            //Test
-                            finalTarget.disconnect("§6§o■§r §8┃ §c§lLostName §8● §7the new version of us §8┃ §6§o■§r \n" +
+                            finalTarget.disconnect(new MessageBuilder("§6§o■§r §8┃ §c§lLostName §8● §7the new version of us §8┃ §6§o■§r \n" +
                                     "\n" +
                                     "§7Deine bestehende Verbindung zum Netzwerk wurde §egetrennt§8." +
                                     "\n" +
@@ -58,7 +56,7 @@ public class KickCommand extends Command {
                                     " §8» §cforum§8.§clostname§8.§ceu §8«" +
                                     "\n" +
                                     "\n" +
-                                    "§8§m--------------------------------------§r");
+                                    "§8§m--------------------------------------§r").build());
 
                             String uniqueId = finalTarget.getUniqueId().toString();
                             LostProxy.getInstance().getHistoryManager().getKickHistory(uniqueId, iKickHistory -> {
@@ -67,12 +65,6 @@ public class KickCommand extends Command {
                                     if (aBoolean)
                                         commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Du hast " + iPlayer.getPrefix() + iPlayer.getPlayerName() + " §7wegen §e" + reason.toString() + "§7gekickt§8.").build());
                                 });
-                            });
-
-                            ProxyServer.getInstance().getPlayers().forEach(all -> {
-                                if (all.hasPermission("lostproxy.command.")) {
-
-                                }
                             });
                         } else {
                             commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Du hast §ckeine §7Rechte§8, §7um " + iPlayer.getPrefix() + iPlayer.getPlayerName() + " §7zu §ekicken§8.").build());
