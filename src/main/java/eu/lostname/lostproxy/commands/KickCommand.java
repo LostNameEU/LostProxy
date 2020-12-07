@@ -66,6 +66,10 @@ public class KickCommand extends Command {
                                         commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Du hast " + iPlayer.getPrefix() + iPlayer.getPlayerName() + " §7wegen §e" + reason.toString() + "§7gekickt§8.").build());
                                 });
                             });
+
+                            ProxyServer.getInstance().getPlayers().forEach(player -> {
+
+                            });
                         } else {
                             commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Du hast §ckeine §7Rechte§8, §7um " + iPlayer.getPrefix() + iPlayer.getPlayerName() + " §7zu §ekicken§8.").build());
                         }
