@@ -5,13 +5,13 @@ import de.dytanic.cloudnet.driver.CloudNetDriver;
 import de.dytanic.cloudnet.ext.bridge.player.IPlayerManager;
 import de.dytanic.cloudnet.ext.syncproxy.AbstractSyncProxyManagement;
 import eu.lostname.lostproxy.commands.KickCommand;
+import eu.lostname.lostproxy.commands.NotifyCommand;
 import eu.lostname.lostproxy.commands.PingCommand;
 import eu.lostname.lostproxy.commands.TSCommand;
 import eu.lostname.lostproxy.databases.LostProxyDatabase;
-import eu.lostname.lostproxy.manager.HistoryManager;
-import eu.lostname.lostproxy.manager.LinkageManager;
-import eu.lostname.lostproxy.manager.PlayerManager;
-import eu.lostname.lostproxy.manager.TeamSpeakManager;
+import eu.lostname.lostproxy.listener.PlayerDisconnectListener;
+import eu.lostname.lostproxy.listener.PostLoginListener;
+import eu.lostname.lostproxy.manager.*;
 import eu.lostname.lostproxy.utils.CloudServices;
 import net.md_5.bungee.api.plugin.Plugin;
 
@@ -25,6 +25,7 @@ public class LostProxy extends Plugin {
     private PlayerManager playerManager;
     private TeamSpeakManager teamSpeakManager;
     private HistoryManager historyManager;
+    private TeamManager teamManager;
 
     public static LostProxy getInstance() {
         return instance;
@@ -38,10 +39,15 @@ public class LostProxy extends Plugin {
         this.playerManager = new PlayerManager();
         this.historyManager = new HistoryManager();
         this.teamSpeakManager = new TeamSpeakManager("serveradmin", "windo10", "91.218.66.173", 10011);
+        this.teamManager = new TeamManager();
 
         getProxy().getPluginManager().registerCommand(this, new TSCommand("ts", "lostproxy.command.ts"));
         getProxy().getPluginManager().registerCommand(this, new PingCommand("ping", "lostproxy.command.ping"));
         getProxy().getPluginManager().registerCommand(this, new KickCommand("kick", "lostproxy.command.kick"));
+        getProxy().getPluginManager().registerCommand(this, new NotifyCommand("notify", "lostproxy.command.notify", "benachrichtigung"));
+
+        getProxy().getPluginManager().registerListener(this, new PostLoginListener());
+        getProxy().getPluginManager().registerListener(this, new PlayerDisconnectListener());
 
         CloudServices.SYNCPROXY_MANAGEMENT = CloudNetDriver.getInstance().getServicesRegistry().getFirstService(AbstractSyncProxyManagement.class);
     }
@@ -84,5 +90,9 @@ public class LostProxy extends Plugin {
 
     public HistoryManager getHistoryManager() {
         return historyManager;
+    }
+
+    public TeamManager getTeamManager() {
+        return teamManager;
     }
 }
