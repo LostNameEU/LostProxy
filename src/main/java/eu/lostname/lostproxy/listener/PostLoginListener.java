@@ -15,8 +15,13 @@ public class PostLoginListener implements Listener {
         ProxiedPlayer player = event.getPlayer();
 
         if (player.hasPermission("lostproxy.notify")) {
-            LostProxy.getInstance().getTeamManager().getNotificationOn().add(player);
-            player.sendMessage(new MessageBuilder(Prefix.NOTIFICATIONS + "§a✔").build());
+            LostProxy.getInstance().getTeamManager().enableNotifications(player, aBoolean -> {
+                if (aBoolean) {
+                    player.sendMessage(new MessageBuilder(Prefix.NOTIFICATIONS + "§a✔").build());
+                } else {
+                    player.sendMessage(new MessageBuilder(Prefix.NOTIFICATIONS + "§7Es ist ein §4Fehler §7aufgetreten§8. §7Bitte wende dich an den zuständigen §eSachbearbeiter§8.").build());
+                }
+            });
         }
     }
 }
