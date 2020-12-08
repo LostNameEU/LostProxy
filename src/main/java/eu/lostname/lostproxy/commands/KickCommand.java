@@ -36,8 +36,8 @@ public class KickCommand extends Command {
                 if (!commandSender.getName().equalsIgnoreCase(target.getName())) {
                     ProxiedPlayer finalTarget = target;
 
-                    LostProxy.getInstance().getPlayerManager().getIPlayerAsync(target.getUniqueId(), iPlayer -> {
-                        if (commandSender.hasPermission("lostproxy.command.kick." + iPlayer.getiPermissionGroup().getName().toLowerCase())) {
+                    LostProxy.getInstance().getPlayerManager().getIPlayerAsync(target.getUniqueId(), targetIPlayer -> {
+                        if (commandSender.hasPermission("lostproxy.command.kick." + targetIPlayer.getiPermissionGroup().getName().toLowerCase())) {
                             StringBuilder reason = new StringBuilder();
                             for (int i = 1; i < strings.length; i++) {
                                 reason.append(strings[i]).append(" ");
@@ -63,15 +63,27 @@ public class KickCommand extends Command {
                                 iKickHistory.addEntry(new IKickEntry(uniqueId, (commandSender instanceof ProxiedPlayer ? ((ProxiedPlayer) commandSender).getUniqueId().toString() : "console"), reason.toString(), System.currentTimeMillis()));
                                 LostProxy.getInstance().getHistoryManager().saveKickHistory(uniqueId, iKickHistory, aBoolean -> {
                                     if (aBoolean)
-                                        commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Du hast " + iPlayer.getPrefix() + iPlayer.getPlayerName() + " §7wegen §e" + reason.toString() + "§7gekickt§8.").build());
+                                        commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Du hast " + targetIPlayer.getPrefix() + targetIPlayer.getPlayerName() + " §7wegen §e" + reason.toString() + "§7gekickt§8.").build());
                                 });
                             });
 
-                            ProxyServer.getInstance().getPlayers().forEach(player -> {
-
-                            });
+                            if (commandSender instanceof ProxiedPlayer) {
+                                LostProxy.getInstance().getPlayerManager().getIPlayerAsync(((ProxiedPlayer) commandSender).getUniqueId(), invoker -> LostProxy.getInstance().getTeamManager().getNotificationOn().forEach(all -> {
+                                    all.sendMessage(new MessageBuilder(Prefix.BKMS + invoker.getPrefix() + commandSender.getName() + " §8➼ " + targetIPlayer.getPrefix() + finalTarget.getName()).build());
+                                    all.sendMessage(new MessageBuilder("§8┃ §7Typ §8» §cKick").build());
+                                    all.sendMessage(new MessageBuilder("§8┃ §7Grund §8» §e" + reason.toString()).build());
+                                    all.sendMessage(new MessageBuilder("§8§m--------------------§r").build());
+                                }));
+                            } else {
+                                LostProxy.getInstance().getTeamManager().getNotificationOn().forEach(all -> {
+                                    all.sendMessage(new MessageBuilder(Prefix.BKMS + "§4" + commandSender.getName() + " §8➼ " + targetIPlayer.getPrefix() + finalTarget.getName()).build());
+                                    all.sendMessage(new MessageBuilder("§8┃ §7Typ §8» §cKick").build());
+                                    all.sendMessage(new MessageBuilder("§8┃ §7Grund §8» §e" + reason.toString()).build());
+                                    all.sendMessage(new MessageBuilder("§8§m--------------------§r").build());
+                                });
+                            }
                         } else {
-                            commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Du hast §ckeine §7Rechte§8, §7um " + iPlayer.getPrefix() + iPlayer.getPlayerName() + " §7zu §ekicken§8.").build());
+                            commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Du hast §ckeine §7Rechte§8, §7um " + targetIPlayer.getPrefix() + targetIPlayer.getPlayerName() + " §7zu §ekicken§8.").build());
                         }
                     });
                 } else {
