@@ -16,7 +16,7 @@ public class PostLoginListener implements Listener {
 
         if (player.hasPermission("lostproxy.notify")) {
             LostProxy.getInstance().getTeamManager().getNotificationOn().add(player);
-            player.sendMessage(new MessageBuilder(Prefix.NOTIFICATIONS + "§aAktiviert").build());
+            player.sendMessage(new MessageBuilder(Prefix.NOTIFICATIONS + "§7wurden §aaktiviert§8.").build());
         }
     }
 }
