@@ -37,10 +37,12 @@ public class LostProxy extends Plugin {
         this.playerManager = new PlayerManager();
         this.historyManager = new HistoryManager();
         this.teamSpeakManager = new TeamSpeakManager("serveradmin", "windo10", "91.218.66.173", 10011);
+        this.teamManager = new TeamManager();
 
         getProxy().getPluginManager().registerCommand(this, new TSCommand("ts", "lostproxy.command.ts"));
         getProxy().getPluginManager().registerCommand(this, new PingCommand("ping", "lostproxy.command.ping"));
         getProxy().getPluginManager().registerCommand(this, new KickCommand("kick", "lostproxy.command.kick"));
+
         getProxy().getPluginManager().registerListener(this, new PostLoginListener());
 
         CloudServices.SYNCPROXY_MANAGEMENT = CloudNetDriver.getInstance().getServicesRegistry().getFirstService(AbstractSyncProxyManagement.class);
