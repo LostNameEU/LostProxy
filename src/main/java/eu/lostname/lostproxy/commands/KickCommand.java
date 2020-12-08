@@ -74,6 +74,13 @@ public class KickCommand extends Command {
                                     all.sendMessage(new MessageBuilder("§8┃ §7Grund §8» §e" + reason.toString()).build());
                                     all.sendMessage(new MessageBuilder("§8§m--------------------§r").build());
                                 }));
+                            } else {
+                                LostProxy.getInstance().getTeamManager().getNotificationOn().forEach(all -> {
+                                    all.sendMessage(new MessageBuilder(Prefix.BKMS + "§4" + commandSender.getName() + " §8➼ " + targetIPlayer.getPrefix() + finalTarget.getName()).build());
+                                    all.sendMessage(new MessageBuilder("§8┃ §7Typ §8» §cKick").build());
+                                    all.sendMessage(new MessageBuilder("§8┃ §7Grund §8» §e" + reason.toString()).build());
+                                    all.sendMessage(new MessageBuilder("§8§m--------------------§r").build());
+                                });
                             }
                         } else {
                             commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Du hast §ckeine §7Rechte§8, §7um " + targetIPlayer.getPrefix() + targetIPlayer.getPlayerName() + " §7zu §ekicken§8.").build());
