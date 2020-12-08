@@ -31,6 +31,14 @@ public class TeamManager {
         consumer.accept(notificationOn.remove(player));
     }
 
+    /**
+     * @param proxiedPlayer the player who has to be checked
+     * @return whether the proxiedPlayer is in the notificationOn list
+     */
+    public boolean hasNotificationsEnabled(ProxiedPlayer proxiedPlayer) {
+        return getNotificationOn().contains(proxiedPlayer);
+    }
+
     public ArrayList<ProxiedPlayer> getNotificationOn() {
         return notificationOn;
     }
