@@ -8,6 +8,7 @@ import eu.lostname.lostproxy.commands.KickCommand;
 import eu.lostname.lostproxy.commands.PingCommand;
 import eu.lostname.lostproxy.commands.TSCommand;
 import eu.lostname.lostproxy.databases.LostProxyDatabase;
+import eu.lostname.lostproxy.listener.PostLoginListener;
 import eu.lostname.lostproxy.manager.*;
 import eu.lostname.lostproxy.utils.CloudServices;
 import net.md_5.bungee.api.plugin.Plugin;
@@ -40,6 +41,7 @@ public class LostProxy extends Plugin {
         getProxy().getPluginManager().registerCommand(this, new TSCommand("ts", "lostproxy.command.ts"));
         getProxy().getPluginManager().registerCommand(this, new PingCommand("ping", "lostproxy.command.ping"));
         getProxy().getPluginManager().registerCommand(this, new KickCommand("kick", "lostproxy.command.kick"));
+        getProxy().getPluginManager().registerListener(this, new PostLoginListener());
 
         CloudServices.SYNCPROXY_MANAGEMENT = CloudNetDriver.getInstance().getServicesRegistry().getFirstService(AbstractSyncProxyManagement.class);
     }
@@ -82,5 +84,9 @@ public class LostProxy extends Plugin {
 
     public HistoryManager getHistoryManager() {
         return historyManager;
+    }
+
+    public TeamManager getTeamManager() {
+        return teamManager;
     }
 }
