@@ -28,9 +28,7 @@ public class KickInfoCommand extends Command {
                 if (targetUUID != null) {
                     LostProxy.getInstance().getHistoryManager().getKickHistory(targetUUID.toString(), iKickHistory -> LostProxy.getInstance().getPlayerManager().getIPlayerAsync(targetUUID, iPlayer -> {
                         if (iKickHistory.getHistory().size() > 0) {
-                            commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Kick-History§8:").build());
-                            commandSender.sendMessage(new MessageBuilder("§8┃ §7Spieler §8» " + iPlayer.getPrefix() + iPlayer.getPlayerName()).build());
-
+                            commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Kicks von " + iPlayer.getPrefix() + iPlayer.getPlayerName() + "§8:").build());
                             AtomicInteger currentEntry = new AtomicInteger(0);
                             iKickHistory.getHistory().forEach(iKickEntry -> {
                                 String date = new SimpleDateFormat("dd.MM.yyyy").format(new Date(iKickEntry.getTimestamp()));
@@ -41,6 +39,7 @@ public class KickInfoCommand extends Command {
                                 } else {
                                     LostProxy.getInstance().getPlayerManager().getIPlayerAsync(UUID.fromString(iKickEntry.getInvokerId()), invokerIPlayer -> commandSender.sendMessage(new MessageBuilder("§8┃ §e" + date + " §7@ §e" + time + " §8» " + invokerIPlayer.getPrefix() + invokerIPlayer.getPlayerName() + " §8» §c" + iKickEntry.getReason()).build()));
                                 }
+
                                 currentEntry.set(currentEntry.get() + 1);
 
                                 if (iKickHistory.getHistory().size() == currentEntry.get()) {
