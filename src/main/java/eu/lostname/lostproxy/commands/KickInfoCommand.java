@@ -21,7 +21,7 @@ public class KickInfoCommand extends Command {
     public void execute(CommandSender commandSender, String[] strings) {
         if (strings.length == 0) {
             commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Benutzung von §c/kickinfo§8:").build());
-            commandSender.sendMessage(new MessageBuilder("§8┃ §c/kickinfo <Spieler> §8» §7Zeigt dir dieHistory-Einträge eines Spielers").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/kickinfo ").build());
+            commandSender.sendMessage(new MessageBuilder("§8┃ §c/kickinfo <Spieler> §8» §7Zeigt dir die History-Einträge eines Spielers").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/kickinfo ").build());
             commandSender.sendMessage(new MessageBuilder("§8§m--------------------§r").build());
         } else if (strings.length == 1) {
             LostProxy.getInstance().getPlayerManager().getUUIDofPlayername(strings[0], targetUUID -> {
