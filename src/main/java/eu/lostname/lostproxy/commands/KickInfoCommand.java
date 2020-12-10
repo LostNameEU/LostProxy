@@ -2,12 +2,14 @@ package eu.lostname.lostproxy.commands;
 
 import eu.lostname.lostproxy.LostProxy;
 import eu.lostname.lostproxy.builder.MessageBuilder;
+import eu.lostname.lostproxy.interfaces.historyandentries.IEntry;
 import eu.lostname.lostproxy.utils.Prefix;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.plugin.Command;
 
 import java.text.SimpleDateFormat;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -33,7 +35,7 @@ public class KickInfoCommand extends Command {
 
                             AtomicInteger currentEntry = new AtomicInteger(-1);
 
-                            iKickHistory.getHistory().stream().sorted((o1, o2) -> o1.compareTo(o2.getTimestamp())).forEach(iKickEntry -> {
+                            iKickHistory.getHistory().stream().sorted(Comparator.comparingLong(IEntry::getTimestamp)).forEach(iKickEntry -> {
                                 String date = new SimpleDateFormat("dd.MM.yyyy").format(new Date(iKickEntry.getTimestamp()));
                                 String time = new SimpleDateFormat("HH:mm:ss").format(new Date(iKickEntry.getTimestamp()));
 
