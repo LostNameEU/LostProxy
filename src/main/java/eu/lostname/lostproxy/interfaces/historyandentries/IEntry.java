@@ -14,6 +14,10 @@ public class IEntry {
         this.timestamp = timestamp;
     }
 
+    public int compareTo(long timestamp2) {
+        return timestamp2 > timestamp ? 1 : 0;
+    }
+
     public String getUniqueId() {
         return _id;
     }
