@@ -31,7 +31,9 @@ public class KickInfoCommand extends Command {
                     LostProxy.getInstance().getHistoryManager().getKickHistory(targetUUID.toString(), iKickHistory -> LostProxy.getInstance().getPlayerManager().getIPlayerAsync(targetUUID, iPlayer -> {
                         if (iKickHistory.getHistory().size() > 0) {
                             commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Kicks von " + iPlayer.getPrefix() + iPlayer.getPlayerName() + "§8:").build());
-                            AtomicInteger currentEntry = new AtomicInteger(0);
+
+                            AtomicInteger currentEntry = new AtomicInteger(-1);
+
                             iKickHistory.getHistory().stream().sorted(Comparator.comparingLong(IEntry::getTimestamp)).forEach(iKickEntry -> {
                                 String date = new SimpleDateFormat("dd.MM.yyyy").format(new Date(iKickEntry.getTimestamp()));
                                 String time = new SimpleDateFormat("HH:mm:ss").format(new Date(iKickEntry.getTimestamp()));
