@@ -8,9 +8,11 @@ import java.util.function.Consumer;
 public class TeamManager {
 
     private final ArrayList<ProxiedPlayer> notificationOn;
+    private final ArrayList<ProxiedPlayer> loggedIn;
 
     public TeamManager() {
         this.notificationOn = new ArrayList<>();
+        this.loggedIn = new ArrayList<>();
     }
 
     /**
@@ -39,7 +41,27 @@ public class TeamManager {
         return getNotificationOn().contains(proxiedPlayer);
     }
 
+    /**
+     * @param proxiedPlayer the player who has to be logged in
+     * @param consumer      a consumer which includes the feedback whether the adding to the list worked
+     */
+    public void login(ProxiedPlayer proxiedPlayer, Consumer<Boolean> consumer) {
+        consumer.accept(loggedIn.add(proxiedPlayer));
+    }
+
+    /**
+     * @param proxiedPlayer the player who has to be logged out
+     * @param consumer      a consumer which includes the feedback whether the removing from the list worked
+     */
+    public void logout(ProxiedPlayer proxiedPlayer, Consumer<Boolean> consumer) {
+        consumer.accept(loggedIn.remove(proxiedPlayer));
+    }
+
     public ArrayList<ProxiedPlayer> getNotificationOn() {
         return notificationOn;
+    }
+
+    public ArrayList<ProxiedPlayer> getLoggedIn() {
+        return loggedIn;
     }
 }
