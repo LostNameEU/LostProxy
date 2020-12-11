@@ -23,5 +23,15 @@ public class PostLoginListener implements Listener {
                 }
             });
         }
+
+        if (player.hasPermission("lostproxy.command.team") && player.hasPermission("lostproxy.command.team.login")) {
+            LostProxy.getInstance().getTeamManager().login(player, aBoolean -> {
+                if (aBoolean) {
+                    player.sendMessage(new MessageBuilder(Prefix.TEAM + "§a✔").build());
+                } else {
+                    player.sendMessage(new MessageBuilder(Prefix.BKMS + "§7Es ist ein §4Fehler §7aufgetreten§8. §7Bitte kontaktiere sofort das Referat §4DEV/01§8!").build());
+                }
+            });
+        }
     }
 }
