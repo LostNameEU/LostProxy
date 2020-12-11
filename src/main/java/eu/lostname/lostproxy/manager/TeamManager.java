@@ -57,6 +57,14 @@ public class TeamManager {
         consumer.accept(loggedIn.remove(proxiedPlayer));
     }
 
+    /**
+     * @param proxiedPlayer the player who has to be checked
+     * @return whether the proxiedPlayer is logged in
+     */
+    public boolean isLoggedIn(ProxiedPlayer proxiedPlayer) {
+        return getLoggedIn().contains(proxiedPlayer);
+    }
+
     public ArrayList<ProxiedPlayer> getNotificationOn() {
         return notificationOn;
     }
