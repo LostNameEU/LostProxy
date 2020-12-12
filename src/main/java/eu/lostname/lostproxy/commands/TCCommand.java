@@ -25,6 +25,11 @@ public class TCCommand extends Command {
                 player.sendMessage(new MessageBuilder("§8§m--------------------§r").build());
             } else {
                 if (LostProxy.getInstance().getTeamManager().isLoggedIn(player)) {
+                    StringBuilder msg = new StringBuilder();
+                    for (int i = 0; i < strings.length; i++) {
+                        msg.append(strings[i]).append(" ");
+                    }
+
 
                 } else {
                     player.sendMessage(new MessageBuilder(Prefix.TMS + "Du bist §cnicht §7eingeloggt§8.").build());
