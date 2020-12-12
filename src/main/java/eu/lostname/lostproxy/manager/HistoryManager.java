@@ -13,6 +13,12 @@ import java.util.function.Consumer;
 
 public class HistoryManager {
 
+    private final ArrayList<String> kickHistoryClearCommandProcess;
+
+    public HistoryManager() {
+        this.kickHistoryClearCommandProcess = new ArrayList<>();
+    }
+
     public void getKickHistory(String uniqueId, Consumer<IKickHistory> consumer) {
         LostProxy.getInstance().getDatabase().getMongoDatabase().getCollection(MongoCollection.KICK_HISTORIES).find(Filters.eq("_id", uniqueId)).first((document, throwable) -> {
             if (document == null) {
@@ -40,5 +46,9 @@ public class HistoryManager {
                         throwable.printStackTrace(System.out);
                     }
                 });
+    }
+
+    public ArrayList<String> getKickHistoryClearCommandProcess() {
+        return kickHistoryClearCommandProcess;
     }
 }
