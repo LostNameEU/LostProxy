@@ -33,10 +33,10 @@ public class Property {
      */
     public void setDefaultProps() {
         //create the file if not exists
-        File dir = new File("cfg");
+        File dir = new File("LostProxy");
         if (!dir.exists()) {
             dir.mkdirs();
-            try (OutputStream output = new FileOutputStream("LostProxy/db.properties")) {
+            try (OutputStream output = new FileOutputStream("LostProxy/cfg.properties")) {
 
                 Properties prop = new Properties();
 
