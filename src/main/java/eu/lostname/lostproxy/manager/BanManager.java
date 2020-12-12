@@ -2,6 +2,7 @@ package eu.lostname.lostproxy.manager;
 
 import com.mongodb.async.SingleResultCallback;
 import com.mongodb.client.model.Filters;
+import com.mongodb.client.result.DeleteResult;
 import eu.lostname.lostproxy.LostProxy;
 import eu.lostname.lostproxy.interfaces.bkms.IBan;
 import eu.lostname.lostproxy.utils.MongoCollection;
@@ -32,5 +33,21 @@ public class BanManager {
      */
     public void insertBan(IBan iBan, SingleResultCallback<Void> voidSingleResultCallback) {
         LostProxy.getInstance().getDatabase().getMongoDatabase().getCollection(MongoCollection.ACTIVE_BANS).insertOne(LostProxy.getInstance().getGson().fromJson(LostProxy.getInstance().getGson().toJson(iBan), Document.class), voidSingleResultCallback);
+    }
+
+    /**
+     * @param iBan                             the ban which has to be deleted
+     * @param deleteResultSingleResultCallback returns the callback from the database
+     */
+    public void deleteBan(IBan iBan, SingleResultCallback<DeleteResult> deleteResultSingleResultCallback) {
+        LostProxy.getInstance().getDatabase().getMongoDatabase().getCollection(MongoCollection.ACTIVE_BANS).deleteOne(Filters.eq("_id", iBan.getUniqueId()), deleteResultSingleResultCallback);
+    }
+
+    /**
+     * @param uniqueId                         the uuid of the ban which has to be deleted
+     * @param deleteResultSingleResultCallback returns the callback from the database
+     */
+    public void deleteBan(String uniqueId, SingleResultCallback<DeleteResult> deleteResultSingleResultCallback) {
+        LostProxy.getInstance().getDatabase().getMongoDatabase().getCollection(MongoCollection.ACTIVE_BANS).deleteOne(Filters.eq("_id", uniqueId), deleteResultSingleResultCallback);
     }
 }
