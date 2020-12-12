@@ -3,7 +3,6 @@ package eu.lostname.lostproxy.manager;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.ReplaceOptions;
 import eu.lostname.lostproxy.LostProxy;
-import eu.lostname.lostproxy.interfaces.historyandentries.ban.IBanEntry;
 import eu.lostname.lostproxy.interfaces.historyandentries.ban.IBanHistory;
 import eu.lostname.lostproxy.interfaces.historyandentries.kick.IKickEntry;
 import eu.lostname.lostproxy.interfaces.historyandentries.kick.IKickHistory;
@@ -50,10 +49,10 @@ public class HistoryManager {
                 });
     }
 
-    public void getBanHistory(String uniqueId, Consumer<IKickHistory> consumer) {
+    public void getBanHistory(String uniqueId, Consumer<IBanHistory> consumer) {
         LostProxy.getInstance().getDatabase().getMongoDatabase().getCollection(MongoCollection.BAN_HISTORIES).find(Filters.eq("_id", uniqueId)).first((document, throwable) -> {
             if (document == null) {
-                IBanHistory iBanHistory = new IBanHistory(uniqueId, new ArrayList<IBanEntry>());
+                IBanHistory iBanHistory = new IBanHistory(uniqueId, new ArrayList<>());
                 document = LostProxy.getInstance().getGson().fromJson(LostProxy.getInstance().getGson().toJson(iBanHistory), Document.class);
 
                 LostProxy.getInstance().getDatabase().getMongoDatabase().getCollection(MongoCollection.BAN_HISTORIES).insertOne(document, (unused, throwable1) -> {
@@ -61,7 +60,7 @@ public class HistoryManager {
                 });
             }
 
-            consumer.accept(LostProxy.getInstance().getGson().fromJson(document.toJson(), IKickHistory.class));
+            consumer.accept(LostProxy.getInstance().getGson().fromJson(document.toJson(), IBanHistory.class));
         });
     }
 
