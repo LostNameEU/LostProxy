@@ -47,6 +47,12 @@ public class Property {
                 prop.setProperty("db.password", "root");
                 prop.setProperty("db.database", "root");
 
+                prop.setProperty("ts.username", "serveradmin");
+                prop.setProperty("ts.password", "password");
+                prop.setProperty("ts.hostname", "localhost");
+                prop.setProperty("ts.queryPort", "10011");
+                prop.setProperty("ts.virtualServerPort", "9987");
+
                 // save properties to project folder
                 prop.store(output, null);
             } catch (IOException e) {
