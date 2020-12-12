@@ -19,7 +19,7 @@ public class PostLoginListener implements Listener {
                 if (aBoolean) {
                     player.sendMessage(new MessageBuilder(Prefix.NOTIFICATIONS + "§a✔").build());
                 } else {
-                    player.sendMessage(new MessageBuilder(Prefix.BKMS + "Beim Hinzufügen des §eSpielers §7zur §eListe §7ist ein §4Fehler §7aufgetreten§8. §7Bitte kontaktiere sofort das Referat §4DEV/01§8!").build());
+                    player.sendMessage(new MessageBuilder(Prefix.NOTIFICATIONS + "§7Es ist ein §4Fehler §7aufgetreten§8. §7Bitte wende dich an den zuständigen §eSachbearbeiter§8.").build());
                 }
             });
         }
