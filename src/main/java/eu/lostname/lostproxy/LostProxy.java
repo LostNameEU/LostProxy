@@ -10,6 +10,7 @@ import eu.lostname.lostproxy.listener.PlayerDisconnectListener;
 import eu.lostname.lostproxy.listener.PostLoginListener;
 import eu.lostname.lostproxy.manager.*;
 import eu.lostname.lostproxy.utils.CloudServices;
+import eu.lostname.lostproxy.utils.Property;
 import net.md_5.bungee.api.plugin.Plugin;
 
 public class LostProxy extends Plugin {
@@ -24,6 +25,8 @@ public class LostProxy extends Plugin {
     private HistoryManager historyManager;
     private TeamManager teamManager;
 
+    private Property property;
+
     public static LostProxy getInstance() {
         return instance;
     }
@@ -31,7 +34,7 @@ public class LostProxy extends Plugin {
     @Override
     public void onEnable() {
         this.gson = new Gson();
-        this.database = new LostProxyDatabase("LostProxy", "BIi7>$_GRP2;Y%+jB%1t_F/@>Y.KT):c%Q\"F3=}-O/,-D|!TeTMY<>86+n3D:1tH=fD2/?%qNylX!y=&:kaT\\g\"}xJl%6#YuGCJ", "LostProxy");
+        this.database = new LostProxyDatabase(property.get("db", "db.username"), property.get("db", "db.password"), property.get("db", "db.database"));
         this.linkageManager = new LinkageManager(gson);
         this.playerManager = new PlayerManager();
         this.historyManager = new HistoryManager();
@@ -56,6 +59,9 @@ public class LostProxy extends Plugin {
     @Override
     public void onLoad() {
         instance = this;
+
+        property = new Property();
+        property.setDefaultProps();
 
         CloudServices.PERMISSION_MANAGEMENT = CloudNetDriver.getInstance().getPermissionManagement();
         CloudServices.PLAYER_MANAGER = CloudNetDriver.getInstance().getServicesRegistry().getFirstService(IPlayerManager.class);
@@ -106,5 +112,9 @@ public class LostProxy extends Plugin {
 
     public TeamManager getTeamManager() {
         return teamManager;
+    }
+
+    public Property getProperty() {
+        return property;
     }
 }
