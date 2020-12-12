@@ -38,17 +38,14 @@ public class KickCommand extends Command {
 
                     LostProxy.getInstance().getPlayerManager().getIPlayerAsync(target.getUniqueId(), targetIPlayer -> {
                         if (commandSender.hasPermission("lostproxy.command.kick." + targetIPlayer.getiPermissionGroup().getName().toLowerCase())) {
-                            StringBuilder reason = new StringBuilder();
-                            for (int i = 1; i < strings.length; i++) {
-                                reason.append(strings[i]).append(" ");
-                            }
+                            String reason = LostProxy.getInstance().formatArrayToString(1, strings);
 
                             finalTarget.disconnect(new MessageBuilder("§6§o■§r §8┃ §c§lLostName §8● §7the new version of us §8┃ §6§o■§r \n" +
                                     "\n" +
                                     "§7Deine bestehende Verbindung zum Netzwerk wurde §egetrennt§8." +
                                     "\n" +
                                     "\n" +
-                                    "§7Grund §8➡ §e" + reason.toString() +
+                                    "§7Grund §8➡ §e" + reason +
                                     "\n" +
                                     "\n" +
                                     "§7Bei weiteren Fragen besuche unser §eForum§8!" +
@@ -60,10 +57,10 @@ public class KickCommand extends Command {
 
                             String uniqueId = finalTarget.getUniqueId().toString();
                             LostProxy.getInstance().getHistoryManager().getKickHistory(uniqueId, iKickHistory -> {
-                                iKickHistory.addEntry(new IKickEntry(uniqueId, (commandSender instanceof ProxiedPlayer ? ((ProxiedPlayer) commandSender).getUniqueId().toString() : "console"), reason.toString(), System.currentTimeMillis()));
+                                iKickHistory.addEntry(new IKickEntry(uniqueId, (commandSender instanceof ProxiedPlayer ? ((ProxiedPlayer) commandSender).getUniqueId().toString() : "console"), reason, System.currentTimeMillis()));
                                 LostProxy.getInstance().getHistoryManager().saveKickHistory(uniqueId, iKickHistory, aBoolean -> {
                                     if (aBoolean) {
-                                        commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Du hast " + targetIPlayer.getPrefix() + targetIPlayer.getPlayerName() + " §7wegen §e" + reason.toString() + "§7gekickt§8.").build());
+                                        commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Du hast " + targetIPlayer.getPrefix() + targetIPlayer.getPlayerName() + " §7wegen §e" + reason + "§7gekickt§8.").build());
                                     } else {
                                         commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Beim Speichern der §eHistory §7ist ein §4Fehler §7aufgetreten§8. §7Bitte kontaktiere sofort das Referat §4DEV/01§8!").build());
                                     }
@@ -74,14 +71,14 @@ public class KickCommand extends Command {
                                 LostProxy.getInstance().getPlayerManager().getIPlayerAsync(((ProxiedPlayer) commandSender).getUniqueId(), invoker -> LostProxy.getInstance().getTeamManager().getNotificationOn().forEach(all -> {
                                     all.sendMessage(new MessageBuilder(Prefix.BKMS + invoker.getPrefix() + commandSender.getName() + " §8➼ " + targetIPlayer.getPrefix() + finalTarget.getName()).build());
                                     all.sendMessage(new MessageBuilder("§8┃ §7Typ §8» §cKick").build());
-                                    all.sendMessage(new MessageBuilder("§8┃ §7Grund §8» §e" + reason.toString()).build());
+                                    all.sendMessage(new MessageBuilder("§8┃ §7Grund §8» §e" + reason).build());
                                     all.sendMessage(new MessageBuilder("§8§m--------------------§r").build());
                                 }));
                             } else {
                                 LostProxy.getInstance().getTeamManager().getNotificationOn().forEach(all -> {
                                     all.sendMessage(new MessageBuilder(Prefix.BKMS + "§4" + commandSender.getName() + " §8➼ " + targetIPlayer.getPrefix() + finalTarget.getName()).build());
                                     all.sendMessage(new MessageBuilder("§8┃ §7Typ §8» §cKick").build());
-                                    all.sendMessage(new MessageBuilder("§8┃ §7Grund §8» §e" + reason.toString()).build());
+                                    all.sendMessage(new MessageBuilder("§8┃ §7Grund §8» §e" + reason).build());
                                     all.sendMessage(new MessageBuilder("§8§m--------------------§r").build());
                                 });
                             }

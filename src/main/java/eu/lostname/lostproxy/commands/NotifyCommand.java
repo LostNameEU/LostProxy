@@ -23,7 +23,7 @@ public class NotifyCommand extends Command {
                     if (aBoolean) {
                         player.sendMessage(new MessageBuilder(Prefix.NOTIFICATIONS + "§c✖").build());
                     } else {
-                        player.sendMessage(new MessageBuilder(Prefix.NOTIFICATIONS + "§7Es ist ein §4Fehler §7aufgetreten§8. §7Bitte wende dich an den zuständigen §eSachbearbeiter§8.").build());
+                        player.sendMessage(new MessageBuilder(Prefix.NOTIFICATIONS + "Beim §eVerarbeiten §7dieser Anfrage §7ist ein §4Fehler §7aufgetreten§8. §7Bitte kontaktiere sofort das Referat §4DEV/01§8!").build());
                     }
                 });
             } else {
@@ -31,7 +31,7 @@ public class NotifyCommand extends Command {
                     if (aBoolean) {
                         player.sendMessage(new MessageBuilder(Prefix.NOTIFICATIONS + "§a✔").build());
                     } else {
-                        player.sendMessage(new MessageBuilder(Prefix.NOTIFICATIONS + "§7Es ist ein §4Fehler §7aufgetreten§8. §7Bitte wende dich an den zuständigen §eSachbearbeiter§8.").build());
+                        player.sendMessage(new MessageBuilder(Prefix.NOTIFICATIONS + "Beim §eVerarbeiten §7dieser Anfrage §7ist ein §4Fehler §7aufgetreten§8. §7Bitte kontaktiere sofort das Referat §4DEV/01§8!").build());
                     }
                 });
             }
