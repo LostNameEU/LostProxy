@@ -62,8 +62,11 @@ public class KickCommand extends Command {
                             LostProxy.getInstance().getHistoryManager().getKickHistory(uniqueId, iKickHistory -> {
                                 iKickHistory.addEntry(new IKickEntry(uniqueId, (commandSender instanceof ProxiedPlayer ? ((ProxiedPlayer) commandSender).getUniqueId().toString() : "console"), reason.toString(), System.currentTimeMillis()));
                                 LostProxy.getInstance().getHistoryManager().saveKickHistory(uniqueId, iKickHistory, aBoolean -> {
-                                    if (aBoolean)
+                                    if (aBoolean) {
                                         commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Du hast " + targetIPlayer.getPrefix() + targetIPlayer.getPlayerName() + " §7wegen §e" + reason.toString() + "§7gekickt§8.").build());
+                                    } else {
+                                        commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Beim Speichern der §eHistory §7ist ein §4Fehler §7aufgetreten§8. §7Bitte kontaktiere sofort das Referat §4DEV/01§8!").build());
+                                    }
                                 });
                             });
 
