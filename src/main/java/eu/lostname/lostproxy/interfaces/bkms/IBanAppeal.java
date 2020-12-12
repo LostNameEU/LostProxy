@@ -12,7 +12,7 @@ public class IBanAppeal {
         this.timestamp = timestamp;
     }
 
-    public String get_id() {
+    public String getUniqueId() {
         return _id;
     }
 
