@@ -22,6 +22,8 @@ public class TCCommand extends Command {
                 player.sendMessage(new MessageBuilder(Prefix.TMS + "Benutzung von §a/tc§8:").build());
                 player.sendMessage(new MessageBuilder("§8┃ §a/tc [Nachricht] §8» §7Schreibe in den TeamChat").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/tc ").build());
                 player.sendMessage(new MessageBuilder("§8§m--------------------§r").build());
+            } else {
+
             }
         } else {
             commandSender.sendMessage(new MessageBuilder(Prefix.TMS + "Du kannst diesen Befehl §cnicht §7als Konsole ausführen§8.").build());
