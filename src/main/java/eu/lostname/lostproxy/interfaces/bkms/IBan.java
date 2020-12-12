@@ -3,6 +3,7 @@ package eu.lostname.lostproxy.interfaces.bkms;
 public class IBan {
 
     private final String _id;
+    private String playerName;
     private final long timestamp;
     private final long duration;
     private String invoker;
@@ -10,8 +11,9 @@ public class IBan {
     private long end;
     private IBanAppeal banAppeal;
 
-    public IBan(String _id, String invoker, String reason, long timestamp, long duration, long end, IBanAppeal banAppeal) {
+    public IBan(String _id, String playerName, String invoker, String reason, long timestamp, long duration, long end, IBanAppeal banAppeal) {
         this._id = _id;
+        this.playerName = playerName;
         this.invoker = invoker;
         this.reason = reason;
         this.timestamp = timestamp;
@@ -22,6 +24,14 @@ public class IBan {
 
     public String getUniqueId() {
         return _id;
+    }
+
+    public String getPlayerName() {
+        return playerName;
+    }
+
+    public void setPlayerName(String playerName) {
+        this.playerName = playerName;
     }
 
     public String getInvoker() {
