@@ -8,6 +8,7 @@ import eu.lostname.lostproxy.commands.*;
 import eu.lostname.lostproxy.databases.LostProxyDatabase;
 import eu.lostname.lostproxy.listener.PlayerDisconnectListener;
 import eu.lostname.lostproxy.listener.PostLoginListener;
+import eu.lostname.lostproxy.listener.PreLoginListener;
 import eu.lostname.lostproxy.manager.*;
 import eu.lostname.lostproxy.utils.CloudServices;
 import eu.lostname.lostproxy.utils.Property;
@@ -54,6 +55,7 @@ public class LostProxy extends Plugin {
 
         getProxy().getPluginManager().registerListener(this, new PostLoginListener());
         getProxy().getPluginManager().registerListener(this, new PlayerDisconnectListener());
+        getProxy().getPluginManager().registerListener(this, new PreLoginListener());
 
         CloudServices.SYNCPROXY_MANAGEMENT = CloudNetDriver.getInstance().getServicesRegistry().getFirstService(AbstractSyncProxyManagement.class);
     }
