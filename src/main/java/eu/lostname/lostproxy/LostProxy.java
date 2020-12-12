@@ -24,6 +24,7 @@ public class LostProxy extends Plugin {
     private TeamSpeakManager teamSpeakManager;
     private HistoryManager historyManager;
     private TeamManager teamManager;
+    private BanManager banManager;
 
     private Property property;
 
@@ -40,6 +41,7 @@ public class LostProxy extends Plugin {
         this.historyManager = new HistoryManager();
         this.teamSpeakManager = new TeamSpeakManager("serveradmin", "windo10", "91.218.66.173", 10011);
         this.teamManager = new TeamManager();
+        this.banManager = new BanManager();
 
         getProxy().getPluginManager().registerCommand(this, new TSCommand("ts", "lostproxy.command.ts"));
         getProxy().getPluginManager().registerCommand(this, new PingCommand("ping", "lostproxy.command.ping"));
@@ -84,6 +86,10 @@ public class LostProxy extends Plugin {
                 msg.append(strings[i]).append(" ");
         }
         return msg.toString();
+    }
+
+    public BanManager getBanManager() {
+        return banManager;
     }
 
     public TeamSpeakManager getTeamSpeakManager() {
