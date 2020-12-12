@@ -24,7 +24,7 @@ public class PlayerDisconnectListener implements Listener {
                 if (aBoolean)
                     LostProxy.getInstance().getPlayerManager().getIPlayerAsync(player.getUniqueId(), iPlayer -> {
                         LostProxy.getInstance().getTeamManager().getLoggedIn().forEach(all -> {
-                            all.sendMessage(new MessageBuilder(Prefix.TEAM + iPlayer.getPrefix() + iPlayer.getPlayerName() + " §7hat das Netzwerk §cverlassen§8.").build());
+                            all.sendMessage(new MessageBuilder(Prefix.TMS + iPlayer.getPrefix() + iPlayer.getPlayerName() + " §7hat das Netzwerk §cverlassen§8.").build());
                         });
                     });
             });

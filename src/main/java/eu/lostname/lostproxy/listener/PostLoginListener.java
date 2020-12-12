@@ -27,11 +27,11 @@ public class PostLoginListener implements Listener {
         if (player.hasPermission("lostproxy.command.team") && player.hasPermission("lostproxy.command.team.login")) {
             LostProxy.getInstance().getTeamManager().login(player, aBoolean -> {
                 if (aBoolean) {
-                    player.sendMessage(new MessageBuilder(Prefix.TEAM + "§a✔").build());
+                    player.sendMessage(new MessageBuilder(Prefix.TMS + "§a✔").build());
 
                     LostProxy.getInstance().getPlayerManager().getIPlayerAsync(player.getUniqueId(), iPlayer -> {
                         LostProxy.getInstance().getTeamManager().getLoggedIn().forEach(all -> {
-                            all.sendMessage(new MessageBuilder(Prefix.TEAM + iPlayer.getPrefix() + iPlayer.getPlayerName() + " §7hat das Netzwerk §abetreten§8.").build());
+                            all.sendMessage(new MessageBuilder(Prefix.TMS + iPlayer.getPrefix() + iPlayer.getPlayerName() + " §7hat das Netzwerk §abetreten§8.").build());
                         });
                     });
                 } else {
