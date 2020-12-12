@@ -44,6 +44,7 @@ public class LostProxy extends Plugin {
         getProxy().getPluginManager().registerCommand(this, new NotifyCommand("notify", "lostproxy.command.notify", "benachrichtigung"));
         getProxy().getPluginManager().registerCommand(this, new KickHistoryClearCommand("kickhistoryclear", "lostproxy.command.kickhistoryclear", "khc", "khclear"));
         getProxy().getPluginManager().registerCommand(this, new KickInfoCommand("kickinfo", "lostproxy.command.kickinfo", "ki"));
+        getProxy().getPluginManager().registerCommand(this, new TCCommand("tc", "lostproxy.command.tc", "teamchat"));
         getProxy().getPluginManager().registerCommand(this, new TeamCommand("team", "lostproxy.command.team"));
 
         getProxy().getPluginManager().registerListener(this, new PostLoginListener());
