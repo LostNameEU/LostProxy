@@ -8,6 +8,8 @@ import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
 
+import java.util.Random;
+
 public class TCCommand extends Command {
 
     public TCCommand(String name, String permission, String... aliases) {
@@ -30,7 +32,7 @@ public class TCCommand extends Command {
                         msg.append(strings[i]).append(" ");
                     }
 
-
+                    LostProxy.getInstance().getPlayerManager().getIPlayerAsync(player.getUniqueId(), iPlayer -> LostProxy.getInstance().getTeamManager().getLoggedIn().forEach(all -> all.sendMessage(new MessageBuilder(Prefix.TMS + iPlayer.getPrefix() + player.getName() + " §8» §" + new Random().nextInt(9) + msg.toString()).build())));
                 } else {
                     player.sendMessage(new MessageBuilder(Prefix.TMS + "Du bist §cnicht §7eingeloggt§8.").build());
                 }
