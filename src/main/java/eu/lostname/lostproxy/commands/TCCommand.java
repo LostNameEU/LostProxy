@@ -27,12 +27,9 @@ public class TCCommand extends Command {
                 player.sendMessage(new MessageBuilder("§8§m--------------------§r").build());
             } else {
                 if (LostProxy.getInstance().getTeamManager().isLoggedIn(player)) {
-                    StringBuilder msg = new StringBuilder();
-                    for (String string : strings) {
-                        msg.append(string).append(" ");
-                    }
+                    String msg = LostProxy.getInstance().formatArrayToString(0, strings);
 
-                    LostProxy.getInstance().getPlayerManager().getIPlayerAsync(player.getUniqueId(), iPlayer -> LostProxy.getInstance().getTeamManager().getLoggedIn().forEach(all -> all.sendMessage(new MessageBuilder(Prefix.TMS + iPlayer.getPrefix() + player.getName() + " §8» §" + new Random().nextInt(9) + msg.toString()).build())));
+                    LostProxy.getInstance().getPlayerManager().getIPlayerAsync(player.getUniqueId(), iPlayer -> LostProxy.getInstance().getTeamManager().getLoggedIn().forEach(all -> all.sendMessage(new MessageBuilder(Prefix.TMS + iPlayer.getPrefix() + player.getName() + " §8» §" + new Random().nextInt(9) + msg).build())));
                 } else {
                     player.sendMessage(new MessageBuilder(Prefix.TMS + "Du bist §cnicht §7eingeloggt§8.").build());
                 }

@@ -69,6 +69,17 @@ public class LostProxy extends Plugin {
         getTeamSpeakManager().getTs3Query().exit();
     }
 
+    public String formatArrayToString(int startIndex, String[] strings) {
+        StringBuilder msg = new StringBuilder();
+        for (int i = startIndex; i < strings.length; i++) {
+            if (i == (strings.length - 1)) {
+                msg.append(strings[i]);
+            } else
+                msg.append(strings[i]).append(" ");
+        }
+        return msg.toString();
+    }
+
     public TeamSpeakManager getTeamSpeakManager() {
         return teamSpeakManager;
     }
