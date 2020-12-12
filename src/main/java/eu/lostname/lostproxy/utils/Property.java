@@ -52,6 +52,7 @@ public class Property {
                 prop.setProperty("ts.hostname", "localhost");
                 prop.setProperty("ts.queryPort", "10011");
                 prop.setProperty("ts.virtualServerPort", "9987");
+                prop.setProperty("ts.nickname", "LostProxy - TeamSpeakManager");
 
                 // save properties to project folder
                 prop.store(output, null);
