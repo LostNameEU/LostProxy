@@ -1,5 +1,6 @@
 package eu.lostname.lostproxy.commands;
 
+import eu.lostname.lostproxy.LostProxy;
 import eu.lostname.lostproxy.builder.MessageBuilder;
 import eu.lostname.lostproxy.utils.Prefix;
 import net.md_5.bungee.api.CommandSender;
@@ -23,7 +24,11 @@ public class TCCommand extends Command {
                 player.sendMessage(new MessageBuilder("§8┃ §a/tc [Nachricht] §8» §7Schreibe in den TeamChat").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/tc ").build());
                 player.sendMessage(new MessageBuilder("§8§m--------------------§r").build());
             } else {
+                if (LostProxy.getInstance().getTeamManager().isLoggedIn(player)) {
 
+                } else {
+                    player.sendMessage(new MessageBuilder(Prefix.TMS + "Du bist §cnicht §7eingeloggt§8.").build());
+                }
             }
         } else {
             commandSender.sendMessage(new MessageBuilder(Prefix.TMS + "Du kannst diesen Befehl §cnicht §7als Konsole ausführen§8.").build());
