@@ -45,8 +45,8 @@ public class Property {
                 prop.setProperty("db.host", "localhost");
                 prop.setProperty("db.username", "root");
                 prop.setProperty("db.password", "root");
-                prop.setProperty("db.authDB", "admin");
-                prop.setProperty("db.useDB", "root");
+                prop.setProperty("db.authenticationDB", "admin");
+                prop.setProperty("db.database", "root");
 
                 // save properties to project folder
                 prop.store(output, null);
