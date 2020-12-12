@@ -10,6 +10,7 @@ import eu.lostname.lostproxy.listener.PlayerDisconnectListener;
 import eu.lostname.lostproxy.listener.PostLoginListener;
 import eu.lostname.lostproxy.manager.*;
 import eu.lostname.lostproxy.utils.CloudServices;
+import eu.lostname.lostproxy.utils.Property;
 import net.md_5.bungee.api.plugin.Plugin;
 
 public class LostProxy extends Plugin {
@@ -23,6 +24,8 @@ public class LostProxy extends Plugin {
     private TeamSpeakManager teamSpeakManager;
     private HistoryManager historyManager;
     private TeamManager teamManager;
+
+    private Property property;
 
     public static LostProxy getInstance() {
         return instance;
@@ -56,6 +59,9 @@ public class LostProxy extends Plugin {
     @Override
     public void onLoad() {
         instance = this;
+
+        property = new Property();
+        property.setDefaultProps();
 
         CloudServices.PERMISSION_MANAGEMENT = CloudNetDriver.getInstance().getPermissionManagement();
         CloudServices.PLAYER_MANAGER = CloudNetDriver.getInstance().getServicesRegistry().getFirstService(IPlayerManager.class);
@@ -106,5 +112,9 @@ public class LostProxy extends Plugin {
 
     public TeamManager getTeamManager() {
         return teamManager;
+    }
+
+    public Property getProperty() {
+        return property;
     }
 }
