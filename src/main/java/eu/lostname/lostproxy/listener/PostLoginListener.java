@@ -28,6 +28,12 @@ public class PostLoginListener implements Listener {
             LostProxy.getInstance().getTeamManager().login(player, aBoolean -> {
                 if (aBoolean) {
                     player.sendMessage(new MessageBuilder(Prefix.TEAM + "§a✔").build());
+
+                    LostProxy.getInstance().getPlayerManager().getIPlayerAsync(player.getUniqueId(), iPlayer -> {
+                        LostProxy.getInstance().getTeamManager().getLoggedIn().forEach(all -> {
+                            all.sendMessage(new MessageBuilder(Prefix.TEAM + iPlayer.getPrefix() + iPlayer.getPlayerName() + " §7hat das Netzwerk §abetreten§8.").build());
+                        });
+                    });
                 } else {
                     player.sendMessage(new MessageBuilder(Prefix.BKMS + "§7Es ist ein §4Fehler §7aufgetreten§8. §7Bitte kontaktiere sofort das Referat §4DEV/01§8!").build());
                 }
