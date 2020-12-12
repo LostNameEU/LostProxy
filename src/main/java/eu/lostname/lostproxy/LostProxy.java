@@ -34,7 +34,7 @@ public class LostProxy extends Plugin {
     @Override
     public void onEnable() {
         this.gson = new Gson();
-        this.database = new LostProxyDatabase("LostProxy", "BIi7>$_GRP2;Y%+jB%1t_F/@>Y.KT):c%Q\"F3=}-O/,-D|!TeTMY<>86+n3D:1tH=fD2/?%qNylX!y=&:kaT\\g\"}xJl%6#YuGCJ", "LostProxy");
+        this.database = new LostProxyDatabase(property.get("db", "db.username"), property.get("db", "db.password"), property.get("db", "db.database"));
         this.linkageManager = new LinkageManager(gson);
         this.playerManager = new PlayerManager();
         this.historyManager = new HistoryManager();
