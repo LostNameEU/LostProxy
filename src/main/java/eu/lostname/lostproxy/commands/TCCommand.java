@@ -28,8 +28,8 @@ public class TCCommand extends Command {
             } else {
                 if (LostProxy.getInstance().getTeamManager().isLoggedIn(player)) {
                     StringBuilder msg = new StringBuilder();
-                    for (int i = 0; i < strings.length; i++) {
-                        msg.append(strings[i]).append(" ");
+                    for (String string : strings) {
+                        msg.append(string).append(" ");
                     }
 
                     LostProxy.getInstance().getPlayerManager().getIPlayerAsync(player.getUniqueId(), iPlayer -> LostProxy.getInstance().getTeamManager().getLoggedIn().forEach(all -> all.sendMessage(new MessageBuilder(Prefix.TMS + iPlayer.getPrefix() + player.getName() + " §8» §" + new Random().nextInt(9) + msg.toString()).build())));
