@@ -26,11 +26,11 @@ public class TeamSpeakManager {
     private final TS3Query ts3Query;
     private TS3ApiAsync api;
 
-    public TeamSpeakManager(String username, String password, String hostname, int queryPort) {
+    public TeamSpeakManager() {
         this.ts3Config = new TS3Config();
         ts3Config.setFloodRate(TS3Query.FloodRate.UNLIMITED);
-        ts3Config.setHost(hostname);
-        ts3Config.setQueryPort(queryPort);
+        ts3Config.setHost(LostProxy.getInstance().getProperty().get("cfg", "ts.hostname"));
+        ts3Config.setQueryPort(Integer.parseInt(LostProxy.getInstance().getProperty().get("cfg", "ts.queryPort")));
         ts3Config.setEnableCommunicationsLogging(true);
 
         this.ts3Query = new TS3Query(ts3Config);
@@ -39,9 +39,9 @@ public class TeamSpeakManager {
         if (ts3Query.isConnected()) {
             api = ts3Query.getAsyncApi();
 
-            api.login(username, password);
-            api.selectVirtualServerByPort(9987);
-            api.setNickname("LostProxy - TeamSpeakManager");
+            api.login(LostProxy.getInstance().getProperty().get("cfg", "ts.username"), LostProxy.getInstance().getProperty().get("cfg", "ts.password"));
+            api.selectVirtualServerByPort(Integer.parseInt(LostProxy.getInstance().getProperty().get("cfg", "ts.virtualServerPort")));
+            api.setNickname(LostProxy.getInstance().getProperty().get("cfg", "ts.nickname"));
             api.registerAllEvents();
             api.addTS3Listeners(new TeamSpeakListeners());
         }

@@ -34,11 +34,11 @@ public class LostProxy extends Plugin {
     @Override
     public void onEnable() {
         this.gson = new Gson();
-        this.database = new LostProxyDatabase(property.get("db", "db.username"), property.get("db", "db.password"), property.get("db", "db.database"));
+        this.database = new LostProxyDatabase(property.get("cfg", "db.username"), property.get("cfg", "db.password"), property.get("cfg", "db.database"));
         this.linkageManager = new LinkageManager(gson);
         this.playerManager = new PlayerManager();
         this.historyManager = new HistoryManager();
-        this.teamSpeakManager = new TeamSpeakManager("serveradmin", "windo10", "91.218.66.173", 10011);
+        this.teamSpeakManager = new TeamSpeakManager();
         this.teamManager = new TeamManager();
 
         getProxy().getPluginManager().registerCommand(this, new TSCommand("ts", "lostproxy.command.ts"));
