@@ -2,7 +2,7 @@ package eu.lostname.lostproxy.listener;
 
 import eu.lostname.lostproxy.LostProxy;
 import eu.lostname.lostproxy.builder.MessageBuilder;
-import eu.lostname.lostproxy.interfaces.historyandentries.ban.IBanEntry;
+import eu.lostname.lostproxy.interfaces.historyandentries.ban.IUnbanEntry;
 import eu.lostname.lostproxy.utils.Prefix;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.PostLoginEvent;
@@ -20,7 +20,7 @@ public class PostLoginListener implements Listener {
                 LostProxy.getInstance().getBanManager().deleteBan(iBan, (deleteResult, throwable) -> {
                     if (deleteResult.wasAcknowledged()) {
                         LostProxy.getInstance().getHistoryManager().getBanHistory(player.getUniqueId().toString(), iBanHistory -> {
-                            iBanHistory.addEntry(new IBanEntry(player.getUniqueId().toString(), "BKM-System", "BAN_EXPIRED_ON_JOIN", System.currentTimeMillis(), 0, 0, true));
+                            iBanHistory.addEntry(new IUnbanEntry(player.getUniqueId().toString(), "BKM-System", System.currentTimeMillis(), "BAN_EXPIRED_ON_JOIN"));
                             LostProxy.getInstance().getHistoryManager().saveBanHistory(iBanHistory, aBoolean -> {
                                 if (aBoolean) {
                                     LostProxy.getInstance().getTeamManager().getNotificationOn().forEach(all -> LostProxy.getInstance().getPlayerManager().getIPlayerAsync(player.getUniqueId(), iPlayer -> {

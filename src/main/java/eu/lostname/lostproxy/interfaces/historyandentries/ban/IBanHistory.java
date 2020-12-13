@@ -6,18 +6,18 @@ import java.util.ArrayList;
 
 public class IBanHistory extends IHistory {
 
-    private final ArrayList<IBanEntry> history;
+    private final ArrayList<IBanSpecificEntry> history;
 
-    public IBanHistory(String uniqueId, ArrayList<IBanEntry> history) {
+    public IBanHistory(String uniqueId, ArrayList<IBanSpecificEntry> history) {
         super(uniqueId);
         this.history = history;
     }
 
-    public ArrayList<IBanEntry> getHistory() {
+    public ArrayList<IBanSpecificEntry> getHistory() {
         return history;
     }
 
-    public void addEntry(IBanEntry iBanEntry) {
-        history.add(iBanEntry);
+    public void addEntry(IBanSpecificEntry iBanSpecificEntry) {
+        history.add(iBanSpecificEntry);
     }
 }

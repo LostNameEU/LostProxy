@@ -1,22 +1,20 @@
 package eu.lostname.lostproxy.interfaces.historyandentries.ban;
 
-import eu.lostname.lostproxy.interfaces.historyandentries.IEntry;
+public class IBanEntry extends IBanSpecificEntry {
 
-public class IBanEntry extends IEntry {
-
+    private final String reason;
     private final long duration;
     private final long end;
-    private final boolean unban;
 
-    public IBanEntry(String _id, String invokerId, String reason, long timestamp, long duration, long end, boolean unban) {
-        super(_id, invokerId, reason, timestamp);
+    public IBanEntry(String _id, String invokerId, long timestamp, IBanEntryType iBanEntryType, String reason, long duration, long end) {
+        super(_id, invokerId, timestamp, iBanEntryType);
+        this.reason = reason;
         this.duration = duration;
         this.end = end;
-        this.unban = unban;
     }
 
-    public boolean isUnban() {
-        return unban;
+    public String getReason() {
+        return reason;
     }
 
     public long getDuration() {
