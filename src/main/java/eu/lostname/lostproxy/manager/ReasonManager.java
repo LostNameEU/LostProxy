@@ -20,14 +20,14 @@ public class ReasonManager {
         this.gson = gson;
         this.database = database;
         this.registedBanReasons = new ArrayList<>();
+
+        loadBanReasons();
     }
 
     public void loadBanReasons() {
         registedBanReasons.clear();
 
-        database.getMongoDatabase().getCollection(MongoCollection.BAN_REASONS).find().forEach(document -> this.registedBanReasons.add(gson.fromJson(document.toJson(), IBanReason.class)), (unused, throwable) -> {
-            throwable.printStackTrace();
-        });
+        database.getMongoDatabase().getCollection(MongoCollection.BAN_REASONS).find().forEach(document -> this.registedBanReasons.add(gson.fromJson(document.toJson(), IBanReason.class)), (unused, throwable) -> throwable.printStackTrace());
     }
 
     public void saveBanReason(IBanReason iBanReason, SingleResultCallback<Void> voidSingleResultCallback) {
