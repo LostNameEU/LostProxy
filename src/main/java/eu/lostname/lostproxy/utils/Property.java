@@ -33,10 +33,10 @@ public class Property {
      */
     public void setDefaultProps() {
         //create the file if not exists
-        File dir = new File("cfg");
+        File dir = new File("LostProxy");
         if (!dir.exists()) {
             dir.mkdirs();
-            try (OutputStream output = new FileOutputStream("LostProxy/db.properties")) {
+            try (OutputStream output = new FileOutputStream("LostProxy/cfg.properties")) {
 
                 Properties prop = new Properties();
 
@@ -46,6 +46,13 @@ public class Property {
                 prop.setProperty("db.username", "root");
                 prop.setProperty("db.password", "root");
                 prop.setProperty("db.database", "root");
+
+                prop.setProperty("ts.username", "serveradmin");
+                prop.setProperty("ts.password", "password");
+                prop.setProperty("ts.hostname", "localhost");
+                prop.setProperty("ts.queryPort", "10011");
+                prop.setProperty("ts.virtualServerPort", "9987");
+                prop.setProperty("ts.nickname", "LostProxy - TeamSpeakManager");
 
                 // save properties to project folder
                 prop.store(output, null);
