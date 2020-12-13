@@ -28,4 +28,5 @@ permission group | PlayerDisconnectListener.java | / | / | / | lostproxy.command
 when player left the network | ↑ | / | / | / | lostproxy.command.team <br\> lostproxy.command.team.logout | To logout
 the player when he lefts the network and notify other team members that this player left the network |
 BanReasonsCommand.java | /banreasons | /banreasons |/br| lostproxy.command.banreasons | To edit all registered
-banreasons and to add new to the database.
+banreasons and to add new to the database. | ↑ | ↑ | /banreasons `list` | ↑ | lostproxy.command.banreasons.list | To get
+listed all registered banreasons
