@@ -1,6 +1,8 @@
 package eu.lostname.lostproxy.interfaces;
 
 
+import eu.lostname.lostproxy.enums.EReasonType;
+
 public class IReason {
 
     private int _id;
