@@ -49,7 +49,7 @@ public class KickHistoryClearCommand extends Command {
                                     LostProxy.getInstance().getHistoryManager().getKickHistoryClearCommandProcess().remove(commandSender.getName());
                                     if (iKickHistory.getHistory().size() > 0) {
                                         iKickHistory.getHistory().clear();
-                                        LostProxy.getInstance().getHistoryManager().saveKickHistory(targetUUID.toString(), iKickHistory, aBoolean -> {
+                                        LostProxy.getInstance().getHistoryManager().saveKickHistory(iKickHistory, aBoolean -> {
                                             if (aBoolean) {
                                                 commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Du hast §aerfolgreich §7die §eKick-History §7von " + targetiPlayer.getPrefix() + targetiPlayer.getPlayerName() + " §cgelöscht§8.").build());
                                             } else {

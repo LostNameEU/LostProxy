@@ -58,7 +58,7 @@ public class KickCommand extends Command {
                             String uniqueId = finalTarget.getUniqueId().toString();
                             LostProxy.getInstance().getHistoryManager().getKickHistory(uniqueId, iKickHistory -> {
                                 iKickHistory.addEntry(new IKickEntry(uniqueId, (commandSender instanceof ProxiedPlayer ? ((ProxiedPlayer) commandSender).getUniqueId().toString() : "console"), reason, System.currentTimeMillis()));
-                                LostProxy.getInstance().getHistoryManager().saveKickHistory(uniqueId, iKickHistory, aBoolean -> {
+                                LostProxy.getInstance().getHistoryManager().saveKickHistory(iKickHistory, aBoolean -> {
                                     if (aBoolean) {
                                         commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Du hast " + targetIPlayer.getPrefix() + targetIPlayer.getPlayerName() + " §7wegen §e" + reason + "§7gekickt§8.").build());
                                     } else {

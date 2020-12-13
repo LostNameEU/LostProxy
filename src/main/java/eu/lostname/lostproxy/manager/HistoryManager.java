@@ -35,8 +35,8 @@ public class HistoryManager {
         });
     }
 
-    public void saveKickHistory(String uniqueId, IKickHistory iKickHistory, Consumer<Boolean> consumer) {
-        LostProxy.getInstance().getDatabase().getMongoDatabase().getCollection(MongoCollection.KICK_HISTORIES).replaceOne(Filters.eq("_id", uniqueId),
+    public void saveKickHistory(IKickHistory iKickHistory, Consumer<Boolean> consumer) {
+        LostProxy.getInstance().getDatabase().getMongoDatabase().getCollection(MongoCollection.KICK_HISTORIES).replaceOne(Filters.eq("_id", iKickHistory.getUniqueId()),
                 LostProxy.getInstance().getGson().fromJson(LostProxy.getInstance().getGson().toJson(iKickHistory), Document.class),
                 new ReplaceOptions().upsert(true),
                 (updateResult, throwable) -> {
@@ -64,8 +64,8 @@ public class HistoryManager {
         });
     }
 
-    public void saveBanHistory(String uniqueId, IBanHistory iBanHistory, Consumer<Boolean> consumer) {
-        LostProxy.getInstance().getDatabase().getMongoDatabase().getCollection(MongoCollection.BAN_HISTORIES).replaceOne(Filters.eq("_id", uniqueId),
+    public void saveBanHistory(IBanHistory iBanHistory, Consumer<Boolean> consumer) {
+        LostProxy.getInstance().getDatabase().getMongoDatabase().getCollection(MongoCollection.BAN_HISTORIES).replaceOne(Filters.eq("_id", iBanHistory.getUniqueId()),
                 LostProxy.getInstance().getGson().fromJson(LostProxy.getInstance().getGson().toJson(iBanHistory), Document.class),
                 new ReplaceOptions().upsert(true),
                 (updateResult, throwable) -> {
