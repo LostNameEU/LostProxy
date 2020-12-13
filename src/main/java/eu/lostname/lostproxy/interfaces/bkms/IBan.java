@@ -9,9 +9,10 @@ public class IBan {
     private String invoker;
     private String reason;
     private long end;
+    private final boolean verified;
     private IBanAppeal banAppeal;
 
-    public IBan(String _id, String playerName, String invoker, String reason, long timestamp, long duration, long end, IBanAppeal banAppeal) {
+    public IBan(String _id, String playerName, String invoker, String reason, long timestamp, long duration, long end, boolean verified, IBanAppeal banAppeal) {
         this._id = _id;
         this.playerName = playerName;
         this.invoker = invoker;
@@ -19,6 +20,7 @@ public class IBan {
         this.timestamp = timestamp;
         this.duration = duration;
         this.end = end;
+        this.verified = verified;
         this.banAppeal = banAppeal;
     }
 
@@ -64,6 +66,10 @@ public class IBan {
 
     public void setEnd(long end) {
         this.end = end;
+    }
+
+    public boolean isVerified() {
+        return verified;
     }
 
     public boolean hasBanAppeal() {
