@@ -1,4 +1,4 @@
-package eu.lostname.lostproxy.interfaces;
+package eu.lostname.lostproxy.enums;
 
 public enum EReasonType {
 
