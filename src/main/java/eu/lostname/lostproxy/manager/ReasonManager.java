@@ -30,8 +30,11 @@ public class ReasonManager {
     }
 
     public void loadBanReasons() {
-        registedBanReasons.clear();
+        database.getMongoDatabase().getCollection(MongoCollection.BAN_REASONS).find().forEach(document -> this.registedBanReasons.add(gson.fromJson(document.toJson(), IBanReason.class)), (unused, throwable) -> throwable.printStackTrace());
+    }
 
+    public void reloadBanReasons() {
+        registedBanReasons.clear();
         database.getMongoDatabase().getCollection(MongoCollection.BAN_REASONS).find().forEach(document -> this.registedBanReasons.add(gson.fromJson(document.toJson(), IBanReason.class)), (unused, throwable) -> throwable.printStackTrace());
     }
 
