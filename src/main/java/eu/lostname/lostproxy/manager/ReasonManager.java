@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.mongodb.async.SingleResultCallback;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.result.DeleteResult;
+import com.mongodb.client.result.UpdateResult;
 import eu.lostname.lostproxy.databases.LostProxyDatabase;
 import eu.lostname.lostproxy.interfaces.bkms.IBanReason;
 import eu.lostname.lostproxy.utils.MongoCollection;
@@ -38,8 +39,8 @@ public class ReasonManager {
         database.getMongoDatabase().getCollection(MongoCollection.BAN_REASONS).find().forEach(document -> this.registedBanReasons.add(gson.fromJson(document.toJson(), IBanReason.class)), (unused, throwable) -> throwable.printStackTrace());
     }
 
-    public void saveBanReason(IBanReason iBanReason, SingleResultCallback<Void> voidSingleResultCallback) {
-        database.getMongoDatabase().getCollection(MongoCollection.BAN_REASONS).insertOne(gson.fromJson(gson.toJson(iBanReason), Document.class), voidSingleResultCallback);
+    public void saveBanReason(IBanReason iBanReason, SingleResultCallback<UpdateResult> voidSingleResultCallback) {
+        database.getMongoDatabase().getCollection(MongoCollection.BAN_REASONS).replaceOne(Filters.eq("_id", iBanReason.getId()), gson.fromJson(gson.toJson(iBanReason), Document.class), voidSingleResultCallback);
     }
 
     public void deleteBanReason(IBanReason iBanReason, SingleResultCallback<DeleteResult> deleteResultSingleResultCallback) {
