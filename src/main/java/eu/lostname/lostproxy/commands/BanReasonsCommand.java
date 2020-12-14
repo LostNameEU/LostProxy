@@ -241,6 +241,8 @@ public class BanReasonsCommand extends Command {
             } else {
                 commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Bitte beachte die §eBenutzung §7dieses Kommandos§8.").build());
             }
+        } else {
+            commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Bitte beachte die §eBenutzung §7dieses Kommandos§8.").build());
         }
     }
 }
