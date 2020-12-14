@@ -16,10 +16,13 @@ public class ReasonManager {
 
     private final ArrayList<IBanReason> registedBanReasons;
 
+    private final ArrayList<String> banReasonCommandProcess;
+
     public ReasonManager(Gson gson, LostProxyDatabase database) {
         this.gson = gson;
         this.database = database;
         this.registedBanReasons = new ArrayList<>();
+        this.banReasonCommandProcess = new ArrayList<>();
 
         loadBanReasons();
     }
@@ -40,5 +43,9 @@ public class ReasonManager {
 
     public ArrayList<IBanReason> getRegistedBanReasons() {
         return registedBanReasons;
+    }
+
+    public ArrayList<String> getBanReasonCommandProcess() {
+        return banReasonCommandProcess;
     }
 }
