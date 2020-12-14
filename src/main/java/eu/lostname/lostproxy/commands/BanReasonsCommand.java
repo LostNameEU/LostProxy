@@ -92,7 +92,6 @@ public class BanReasonsCommand extends Command {
                                     LostProxy.getInstance().getReasonManager().deleteBanReason(iBanReason, (deleteResult, throwable) -> {
                                         if (deleteResult.wasAcknowledged()) {
                                             LostProxy.getInstance().getReasonManager().reloadBanReasons();
-
                                             commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Der Banngrund §e" + iBanReason.getName() + " §8(§e" + iBanReason.getId() + "§8) §7wurde erfolgreich §cgelöscht§8.").build());
                                         }
                                     });
