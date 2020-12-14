@@ -34,6 +34,10 @@ public class ReasonManager {
         database.getMongoDatabase().getCollection(MongoCollection.BAN_REASONS).insertOne(gson.fromJson(gson.toJson(iBanReason), Document.class), voidSingleResultCallback);
     }
 
+    public IBanReason getBanReasonByID(int id) {
+        return registedBanReasons.stream().filter(one -> one.getId() == id).findFirst().orElse(null);
+    }
+
     public ArrayList<IBanReason> getRegistedBanReasons() {
         return registedBanReasons;
     }
