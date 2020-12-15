@@ -56,6 +56,7 @@ public class LostProxy extends Plugin {
         getProxy().getPluginManager().registerCommand(this, new TeamCommand("team", "lostproxy.command.team"));
         getProxy().getPluginManager().registerCommand(this, new BanReasonsCommand("banreasons", "lostproxy.command.banreasons", "br"));
         getProxy().getPluginManager().registerCommand(this, new UnbanCommand("unban", "lostproxy.command.unban", "ub"));
+        getProxy().getPluginManager().registerCommand(this, new BanInfoCommand("baninfo", "lostproxy.command.baninfo", "bi"));
 
         getProxy().getPluginManager().registerListener(this, new PostLoginListener());
         getProxy().getPluginManager().registerListener(this, new PlayerDisconnectListener());
