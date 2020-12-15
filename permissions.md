@@ -1,4 +1,3 @@
-
 # Übersicht aller Permissions in LostNameEU/LostProxy
 
 | Datei | Command | Usage | Alias | Permission | Beschreibung |    
@@ -36,4 +35,5 @@ lostproxy.command.banreasons.info | To get info about one registered banreason |
 set `id,name,time,timeunit,permission` `value` | ↑ | lostproxy.command.banreasons.set | To edit one registered banreason
 | UnbanCommand.java | /unban | /unban `Spielername` | /ub | lostproxy.commmand.unban | To unban a banned player |
 BanInfoCommand.java | /baninfo | /baninfo `Spielername` | /bi | lostproxy.command.baninfo | To check a players
-banhistory
+banhistory | | BanHistoryClearCommand.java | /banhistoryclear | /banhistoryclear `Spielername` | /bhclear <br\> /bhc |
+lostproxy.command.banhistoryclear | To use /banhistoryclear |
