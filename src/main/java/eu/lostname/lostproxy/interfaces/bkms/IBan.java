@@ -1,8 +1,10 @@
 package eu.lostname.lostproxy.interfaces.bkms;
 
+import java.util.UUID;
+
 public class IBan {
 
-    private final String _id;
+    private final UUID _id;
     private String playerName;
     private final long timestamp;
     private final long duration;
@@ -12,7 +14,7 @@ public class IBan {
     private final boolean verified;
     private IBanAppeal banAppeal;
 
-    public IBan(String _id, String playerName, String invoker, String reason, long timestamp, long duration, long end, boolean verified, IBanAppeal banAppeal) {
+    public IBan(UUID _id, String playerName, String invoker, String reason, long timestamp, long duration, long end, boolean verified, IBanAppeal banAppeal) {
         this._id = _id;
         this.playerName = playerName;
         this.invoker = invoker;
@@ -24,7 +26,7 @@ public class IBan {
         this.banAppeal = banAppeal;
     }
 
-    public String getUniqueId() {
+    public UUID getUniqueId() {
         return _id;
     }
 

@@ -10,6 +10,7 @@ import eu.lostname.lostproxy.utils.MongoCollection;
 import org.bson.Document;
 
 import java.util.ArrayList;
+import java.util.UUID;
 import java.util.function.Consumer;
 
 public class HistoryManager {
@@ -20,7 +21,7 @@ public class HistoryManager {
         this.kickHistoryClearCommandProcess = new ArrayList<>();
     }
 
-    public void getKickHistory(String uniqueId, Consumer<IKickHistory> consumer) {
+    public void getKickHistory(UUID uniqueId, Consumer<IKickHistory> consumer) {
         LostProxy.getInstance().getDatabase().getMongoDatabase().getCollection(MongoCollection.KICK_HISTORIES).find(Filters.eq("_id", uniqueId)).first((document, throwable) -> {
             if (document == null) {
                 IKickHistory iKickHistory = new IKickHistory(uniqueId, new ArrayList<IKickEntry>());
@@ -49,7 +50,7 @@ public class HistoryManager {
                 });
     }
 
-    public void getBanHistory(String uniqueId, Consumer<IBanHistory> consumer) {
+    public void getBanHistory(UUID uniqueId, Consumer<IBanHistory> consumer) {
         LostProxy.getInstance().getDatabase().getMongoDatabase().getCollection(MongoCollection.BAN_HISTORIES).find(Filters.eq("_id", uniqueId)).first((document, throwable) -> {
             if (document == null) {
                 IBanHistory iBanHistory = new IBanHistory(uniqueId, new ArrayList<>());
