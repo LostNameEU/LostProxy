@@ -33,3 +33,4 @@ listed all registered banreasons | ↑ | ↑ | /banreasons add `name` `Zeit` `Ze
 lostproxy.command.banreasons.add | Add a new banreason | ↑ | ↑ | /banreasons `ID` | ↑ |
 lostproxy.command.banreasons.info | To get info about one registered banreason | ↑ | ↑ | /banreasons `ID`
 set `id,name,time,timeunit,permission` `value` | ↑ | lostproxy.command.banreasons.set | To edit one registered banreason
+| UnbanCommand.java | /unban | /unban `Spielername` | /ub | lostproxy.commmand.unban | To unban a banned player
