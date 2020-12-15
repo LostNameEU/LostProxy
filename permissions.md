@@ -1,3 +1,4 @@
+
 # Übersicht aller Permissions in LostNameEU/LostProxy
 
 | Datei | Command | Usage | Alias | Permission | Beschreibung |    
@@ -38,4 +39,5 @@ BanInfoCommand.java | /baninfo | /baninfo `Spielername` | /bi | lostproxy.comman
 banhistory | | BanHistoryClearCommand.java | /banhistoryclear | /banhistoryclear `Spielername` | /bhclear <br\> /bhc |
 lostproxy.command.banhistoryclear | To use /banhistoryclear | | BanCommand.java | /ban | /ban `Spielername` | /b |
 lostproxy.command.ban | To show the invokers all available ban reasons | ↑ | ↑ | /ban `Spielername` `ID` | ↑ | ↑ | To
-ban a player directly with a given ban reason
+ban a player directly with a given ban reason | ↑ | ↑ | ↑ | ↑ | lostproxy.command.ban.group.`Gruppenname` | To ban
+players with the permission group `Gruppenname` |
