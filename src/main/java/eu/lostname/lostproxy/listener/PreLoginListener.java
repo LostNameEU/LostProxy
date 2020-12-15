@@ -15,9 +15,7 @@ public class PreLoginListener implements Listener {
     @SuppressWarnings("deprecation")
     @EventHandler
     public void onPreLogin(PreLoginEvent event) {
-        String uniqueId = event.getConnection().getUniqueId().toString();
-
-        LostProxy.getInstance().getBanManager().getBan(uniqueId, iBan -> {
+        LostProxy.getInstance().getBanManager().getBan(event.getConnection().getUniqueId(), iBan -> {
             if (iBan != null) {
                 if (iBan.getEnd() == -1) {
                     event.setCancelled(true);
