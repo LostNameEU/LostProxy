@@ -82,6 +82,20 @@ public class TeamManager {
         });
     }
 
+    /**
+     * @param invokerDisplay the name of the invoker and some color codes
+     * @param targetDisplay  the name of the target and some color codes
+     * @param reason         the reason the player got unbanned
+     */
+    public void sendUnbanNotify(String invokerDisplay, String targetDisplay, String reason) {
+        notificationOn.forEach(all -> {
+            all.sendMessage(new MessageBuilder(Prefix.BKMS + invokerDisplay + " §8➼ " + targetDisplay).build());
+            all.sendMessage(new MessageBuilder("§8┃ §7Typ §8» §aUnban").build());
+            all.sendMessage(new MessageBuilder("§8┃ §7Grund §8» §e" + reason).build());
+            all.sendMessage(new MessageBuilder("§8§m--------------------§r").build());
+        });
+    }
+
     public ArrayList<ProxiedPlayer> getNotificationOn() {
         return notificationOn;
     }
