@@ -40,4 +40,6 @@ banhistory | | BanHistoryClearCommand.java | /banhistoryclear | /banhistoryclear
 lostproxy.command.banhistoryclear | To use /banhistoryclear | | BanCommand.java | /ban | /ban `Spielername` | /b |
 lostproxy.command.ban | To show the invokers all available ban reasons | ↑ | ↑ | /ban `Spielername` `ID` | ↑ | ↑ | To
 ban a player directly with a given ban reason | ↑ | ↑ | ↑ | ↑ | lostproxy.command.ban.group.`Gruppenname` | To ban
-players with the permission group `Gruppenname` |
+players with the permission group `Gruppenname`
+| EACommand.java | /ea | /ea `Spielername` | / | lostproxy.command.ea | To shorten a player's ban to a length of three
+days
