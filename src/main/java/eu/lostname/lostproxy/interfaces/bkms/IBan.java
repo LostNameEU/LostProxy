@@ -14,14 +14,14 @@ public class IBan {
     private final boolean verified;
     private IBanAppeal banAppeal;
 
-    public IBan(UUID _id, String playerName, String invoker, String reason, long timestamp, long duration, long end, boolean verified, IBanAppeal banAppeal) {
+    public IBan(UUID _id, String playerName, String invoker, String reason, long timestamp, long duration, boolean verified, IBanAppeal banAppeal) {
         this._id = _id;
         this.playerName = playerName;
         this.invoker = invoker;
         this.reason = reason;
         this.timestamp = timestamp;
         this.duration = duration;
-        this.end = end;
+        this.end = (duration == -1 ? -1 : timestamp + duration);
         this.verified = verified;
         this.banAppeal = banAppeal;
     }
