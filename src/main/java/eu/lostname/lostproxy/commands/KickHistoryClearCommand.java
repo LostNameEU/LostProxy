@@ -23,7 +23,7 @@ public class KickHistoryClearCommand extends Command {
             LostProxy.getInstance().getPlayerManager().getUUIDofPlayername(strings[0], targetUUID -> {
                 if (targetUUID != null) {
                     LostProxy.getInstance().getPlayerManager().getIPlayerAsync(targetUUID, targetiPlayer -> {
-                        LostProxy.getInstance().getHistoryManager().getKickHistory(targetUUID.toString(), iKickHistory -> {
+                        LostProxy.getInstance().getHistoryManager().getKickHistory(targetUUID, iKickHistory -> {
                             if (iKickHistory.getHistory().size() > 0) {
                                 commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Möchtest du wirklich die §eKick-History §7von " + targetiPlayer.getPrefix() + targetiPlayer.getPlayerName() + " §clöschen§8?").build());
                                 commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "§7[§a§lKlick§7]").addClickEvent(ClickEvent.Action.RUN_COMMAND, "/khclear " + strings[0] + " confirmed").build());
@@ -45,7 +45,7 @@ public class KickHistoryClearCommand extends Command {
                     LostProxy.getInstance().getPlayerManager().getUUIDofPlayername(strings[0], targetUUID -> {
                         if (targetUUID != null) {
                             LostProxy.getInstance().getPlayerManager().getIPlayerAsync(targetUUID, targetiPlayer -> {
-                                LostProxy.getInstance().getHistoryManager().getKickHistory(targetUUID.toString(), iKickHistory -> {
+                                LostProxy.getInstance().getHistoryManager().getKickHistory(targetUUID, iKickHistory -> {
                                     LostProxy.getInstance().getHistoryManager().getKickHistoryClearCommandProcess().remove(commandSender.getName());
                                     if (iKickHistory.getHistory().size() > 0) {
                                         iKickHistory.getHistory().clear();

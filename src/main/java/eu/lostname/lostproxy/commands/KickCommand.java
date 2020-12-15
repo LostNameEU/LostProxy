@@ -39,10 +39,9 @@ public class KickCommand extends Command {
                     LostProxy.getInstance().getPlayerManager().getIPlayerAsync(target.getUniqueId(), targetIPlayer -> {
                         if (commandSender.hasPermission("lostproxy.command.kick." + targetIPlayer.getiPermissionGroup().getName().toLowerCase())) {
                             String reason = LostProxy.getInstance().formatArrayToString(1, strings);
-                            String uniqueId = finalTarget.getUniqueId().toString();
 
-                            LostProxy.getInstance().getHistoryManager().getKickHistory(uniqueId, iKickHistory -> {
-                                iKickHistory.addEntry(new IKickEntry(uniqueId, (commandSender instanceof ProxiedPlayer ? ((ProxiedPlayer) commandSender).getUniqueId().toString() : "console"), reason, System.currentTimeMillis()));
+                            LostProxy.getInstance().getHistoryManager().getKickHistory(finalTarget.getUniqueId(), iKickHistory -> {
+                                iKickHistory.addEntry(new IKickEntry(finalTarget.getUniqueId(), (commandSender instanceof ProxiedPlayer ? ((ProxiedPlayer) commandSender).getUniqueId().toString() : "console"), reason, System.currentTimeMillis()));
                                 LostProxy.getInstance().getHistoryManager().saveKickHistory(iKickHistory, aBoolean -> {
                                     if (aBoolean) {
                                         finalTarget.disconnect(new MessageBuilder("§6§o■§r §8┃ §c§lLostName §8● §7the new version of us §8┃ §6§o■§r \n" +

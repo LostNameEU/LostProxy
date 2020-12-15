@@ -28,7 +28,7 @@ public class KickInfoCommand extends Command {
         } else if (strings.length == 1) {
             LostProxy.getInstance().getPlayerManager().getUUIDofPlayername(strings[0], targetUUID -> {
                 if (targetUUID != null) {
-                    LostProxy.getInstance().getHistoryManager().getKickHistory(targetUUID.toString(), iKickHistory -> LostProxy.getInstance().getPlayerManager().getIPlayerAsync(targetUUID, iPlayer -> {
+                    LostProxy.getInstance().getHistoryManager().getKickHistory(targetUUID, iKickHistory -> LostProxy.getInstance().getPlayerManager().getIPlayerAsync(targetUUID, iPlayer -> {
                         if (iKickHistory.getHistory().size() > 0) {
                             commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Kicks von " + iPlayer.getPrefix() + iPlayer.getPlayerName() + "§8:").build());
                             commandSender.sendMessage(new MessageBuilder("§8┃ §7Anzahl §8» §c" + iKickHistory.getHistory().size()).build());
