@@ -1,5 +1,7 @@
 package eu.lostname.lostproxy.manager;
 
+import eu.lostname.lostproxy.builder.MessageBuilder;
+import eu.lostname.lostproxy.utils.Prefix;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 import java.util.ArrayList;
@@ -63,6 +65,21 @@ public class TeamManager {
      */
     public boolean isLoggedIn(ProxiedPlayer proxiedPlayer) {
         return getLoggedIn().contains(proxiedPlayer);
+    }
+
+
+    /**
+     * @param invokerDisplay the name of the invoker and some color codes
+     * @param targetDisplay  the name of the target and some color codes
+     * @param reason         the reason the player got kicked
+     */
+    public void sendKickNotify(String invokerDisplay, String targetDisplay, String reason) {
+        notificationOn.forEach(all -> {
+            all.sendMessage(new MessageBuilder(Prefix.BKMS + invokerDisplay + " §8➼ " + targetDisplay).build());
+            all.sendMessage(new MessageBuilder("§8┃ §7Typ §8» §cKick").build());
+            all.sendMessage(new MessageBuilder("§8┃ §7Grund §8» §e" + reason).build());
+            all.sendMessage(new MessageBuilder("§8§m--------------------§r").build());
+        });
     }
 
     public ArrayList<ProxiedPlayer> getNotificationOn() {
