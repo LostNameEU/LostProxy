@@ -21,7 +21,7 @@ public class IBanReason extends IReason {
 
     @SuppressWarnings("deprecation")
     public String displayBanDuration() {
-        Time time = new Time(timeUnit.toMillis(time));
+        Time time = new Time(timeUnit.toMillis(this.time));
         String estimatedTime = "";
 
         if (time.getDay() == 1) {
