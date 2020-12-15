@@ -7,7 +7,6 @@ import net.md_5.bungee.api.event.PreLoginEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
 
-import java.sql.Time;
 import java.text.SimpleDateFormat;
 
 public class PreLoginListener implements Listener {
@@ -35,32 +34,8 @@ public class PreLoginListener implements Listener {
                             "§8§m--------------------------------------§r").build());
                 } else if (iBan.getEnd() > System.currentTimeMillis()) {
                     ProxyServer.getInstance().getScheduler().runAsync(LostProxy.getInstance(), () -> {
-                        Time time = new Time(iBan.getEnd() - System.currentTimeMillis());
-                        String estimatedTime = "";
 
-                        if (time.getDay() == 1) {
-                            estimatedTime = "ein §7Tag§8, ";
-                        } else if (time.getDay() > 1) {
-                            estimatedTime = time.getDay() + " §7Tage§8, ";
-                        }
-
-                        if (time.getHours() == 1) {
-                            estimatedTime = "§ceine §7Stunde§8, ";
-                        } else if (time.getHours() > 1) {
-                            estimatedTime = "§c" + time.getHours() + " §7Stunden§8, ";
-                        }
-
-                        if (time.getMinutes() == 1) {
-                            estimatedTime = "§ceine §7Minute und ";
-                        } else if (time.getMinutes() > 1) {
-                            estimatedTime = "§c" + time.getMinutes() + " §7Minuten und ";
-                        }
-
-                        if (time.getSeconds() == 1) {
-                            estimatedTime = "§ceine §7Sekunde";
-                        } else if (time.getSeconds() > 1) {
-                            estimatedTime = "§c" + time.getSeconds() + " §7Sekunden";
-                        }
+                        String remainingTime = LostProxy.getInstance().getBanManager().calculateRemainingTime(iBan.getEnd());
 
                         event.setCancelled(true);
                         event.setCancelReason(new MessageBuilder("§6§o■§r §8┃ §c§lLostName §8● §7the new version of us §8┃ §6§o■§r \n" +
@@ -70,7 +45,7 @@ public class PreLoginListener implements Listener {
                                 "\n" +
                                 "§7Grund §8➡ §e" + iBan.getReason() +
                                 "\n" +
-                                "§7Verbleibende Zeit §8➡ §c" + estimatedTime +
+                                "§7Verbleibende Zeit §8➡ §c" + remainingTime +
                                 "\n" +
                                 "§7Läuft ab am §8➡ §c" + new SimpleDateFormat("dd.MM.yyyy").format(iBan.getEnd()) + " §7um §c" + new SimpleDateFormat("HH:mm:ss").format(iBan.getEnd()) + " §7Uhr" +
                                 "\n" +

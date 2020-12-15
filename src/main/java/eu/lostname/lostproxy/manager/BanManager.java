@@ -8,6 +8,7 @@ import eu.lostname.lostproxy.interfaces.bkms.IBan;
 import eu.lostname.lostproxy.utils.MongoCollection;
 import org.bson.Document;
 
+import java.sql.Time;
 import java.util.UUID;
 import java.util.function.Consumer;
 
@@ -50,5 +51,42 @@ public class BanManager {
      */
     public void deleteBan(UUID uniqueId, SingleResultCallback<DeleteResult> deleteResultSingleResultCallback) {
         LostProxy.getInstance().getDatabase().getMongoDatabase().getCollection(MongoCollection.ACTIVE_BANS).deleteOne(Filters.eq("_id", uniqueId), deleteResultSingleResultCallback);
+    }
+
+    /**
+     * @param end the end time
+     * @return a string with the display
+     */
+
+    @SuppressWarnings("deprecation")
+    public String calculateRemainingTime(long end) {
+        Time time = new Time(end - System.currentTimeMillis());
+        String estimatedTime = "";
+
+        if (time.getDay() == 1) {
+            estimatedTime = "ein §7Tag§8, ";
+        } else if (time.getDay() > 1) {
+            estimatedTime = time.getDay() + " §7Tage§8, ";
+        }
+
+        if (time.getHours() == 1) {
+            estimatedTime = "§ceine §7Stunde§8, ";
+        } else if (time.getHours() > 1) {
+            estimatedTime = "§c" + time.getHours() + " §7Stunden§8, ";
+        }
+
+        if (time.getMinutes() == 1) {
+            estimatedTime = "§ceine §7Minute und ";
+        } else if (time.getMinutes() > 1) {
+            estimatedTime = "§c" + time.getMinutes() + " §7Minuten und ";
+        }
+
+        if (time.getSeconds() == 1) {
+            estimatedTime = "§ceine §7Sekunde";
+        } else if (time.getSeconds() > 1) {
+            estimatedTime = "§c" + time.getSeconds() + " §7Sekunden";
+        }
+
+        return estimatedTime;
     }
 }
