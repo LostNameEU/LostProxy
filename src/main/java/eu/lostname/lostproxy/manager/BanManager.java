@@ -8,6 +8,7 @@ import eu.lostname.lostproxy.interfaces.bkms.IBan;
 import eu.lostname.lostproxy.utils.MongoCollection;
 import org.bson.Document;
 
+import java.util.UUID;
 import java.util.function.Consumer;
 
 public class BanManager {
@@ -17,7 +18,7 @@ public class BanManager {
      * @param uniqueId the uniqueId of the player who has to be checked
      * @param consumer returns the iban when ban is active
      */
-    public void getBan(String uniqueId, Consumer<IBan> consumer) {
+    public void getBan(UUID uniqueId, Consumer<IBan> consumer) {
         LostProxy.getInstance().getDatabase().getMongoDatabase().getCollection(MongoCollection.ACTIVE_BANS).find(Filters.eq("_id", uniqueId)).first((document, throwable) -> {
             if (document != null) {
                 consumer.accept(LostProxy.getInstance().getGson().fromJson(document.toJson(), IBan.class));
@@ -47,7 +48,7 @@ public class BanManager {
      * @param uniqueId                         the uuid of the ban which has to be deleted
      * @param deleteResultSingleResultCallback returns the callback from the database
      */
-    public void deleteBan(String uniqueId, SingleResultCallback<DeleteResult> deleteResultSingleResultCallback) {
+    public void deleteBan(UUID uniqueId, SingleResultCallback<DeleteResult> deleteResultSingleResultCallback) {
         LostProxy.getInstance().getDatabase().getMongoDatabase().getCollection(MongoCollection.ACTIVE_BANS).deleteOne(Filters.eq("_id", uniqueId), deleteResultSingleResultCallback);
     }
 }
