@@ -2,7 +2,9 @@ package eu.lostname.lostproxy.manager;
 
 import com.mongodb.async.SingleResultCallback;
 import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.ReplaceOptions;
 import com.mongodb.client.result.DeleteResult;
+import com.mongodb.client.result.UpdateResult;
 import eu.lostname.lostproxy.LostProxy;
 import eu.lostname.lostproxy.interfaces.bkms.IBan;
 import eu.lostname.lostproxy.utils.MongoCollection;
@@ -29,6 +31,10 @@ public class BanManager {
         });
     }
 
+    public void saveBan(IBan iBan, SingleResultCallback<UpdateResult> updateResultSingleResultCallback) {
+        LostProxy.getInstance().getDatabase().getMongoDatabase().getCollection(MongoCollection.ACTIVE_BANS).replaceOne(Filters.eq("_id", iBan.getUniqueId()), LostProxy.getInstance().getGson().fromJson(LostProxy.getInstance().getGson().toJson(iBan), Document.class), new ReplaceOptions().upsert(true), updateResultSingleResultCallback);
+    }
+
     /**
      * @param iBan                     that is gonna be inserted into the database
      * @param voidSingleResultCallback returns the callback from the database
@@ -43,14 +49,6 @@ public class BanManager {
      */
     public void deleteBan(IBan iBan, SingleResultCallback<DeleteResult> deleteResultSingleResultCallback) {
         LostProxy.getInstance().getDatabase().getMongoDatabase().getCollection(MongoCollection.ACTIVE_BANS).deleteOne(Filters.eq("_id", iBan.getUniqueId()), deleteResultSingleResultCallback);
-    }
-
-    /**
-     * @param uniqueId                         the uuid of the ban which has to be deleted
-     * @param deleteResultSingleResultCallback returns the callback from the database
-     */
-    public void deleteBan(UUID uniqueId, SingleResultCallback<DeleteResult> deleteResultSingleResultCallback) {
-        LostProxy.getInstance().getDatabase().getMongoDatabase().getCollection(MongoCollection.ACTIVE_BANS).deleteOne(Filters.eq("_id", uniqueId), deleteResultSingleResultCallback);
     }
 
     /**
