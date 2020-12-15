@@ -19,6 +19,9 @@ public class IBanReason extends IReason {
         this.permission = permission;
     }
 
+    /**
+     * @return a display from the ban duration
+     */
     @SuppressWarnings("deprecation")
     public String displayBanDuration() {
         Time time = new Time(timeUnit.toMillis(this.time));
