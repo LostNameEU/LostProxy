@@ -3,6 +3,7 @@ package eu.lostname.lostproxy.interfaces.bkms;
 import eu.lostname.lostproxy.enums.EReasonType;
 import eu.lostname.lostproxy.interfaces.IReason;
 
+import java.sql.Time;
 import java.util.concurrent.TimeUnit;
 
 public class IBanReason extends IReason {
@@ -16,6 +17,38 @@ public class IBanReason extends IReason {
         this.time = time;
         this.timeUnit = timeUnit;
         this.permission = permission;
+    }
+
+    @SuppressWarnings("deprecation")
+    public String displayBanDuration() {
+        Time time = new Time(timeUnit.toMillis(time));
+        String estimatedTime = "";
+
+        if (time.getDay() == 1) {
+            estimatedTime = "ein §7Tag§8, ";
+        } else if (time.getDay() > 1) {
+            estimatedTime = time.getDay() + " §7Tage§8, ";
+        }
+
+        if (time.getHours() == 1) {
+            estimatedTime = "§ceine §7Stunde§8, ";
+        } else if (time.getHours() > 1) {
+            estimatedTime = "§c" + time.getHours() + " §7Stunden§8, ";
+        }
+
+        if (time.getMinutes() == 1) {
+            estimatedTime = "§ceine §7Minute und ";
+        } else if (time.getMinutes() > 1) {
+            estimatedTime = "§c" + time.getMinutes() + " §7Minuten und ";
+        }
+
+        if (time.getSeconds() == 1) {
+            estimatedTime = "§ceine §7Sekunde";
+        } else if (time.getSeconds() > 1) {
+            estimatedTime = "§c" + time.getSeconds() + " §7Sekunden";
+        }
+
+        return estimatedTime;
     }
 
     public long getTime() {
