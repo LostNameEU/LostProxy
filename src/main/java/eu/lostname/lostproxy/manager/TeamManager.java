@@ -112,6 +112,18 @@ public class TeamManager {
         });
     }
 
+    /**
+     * @param invokerDisplay the name of the invoker and some color codes
+     * @param targetDisplay  the name of the target and some color codes
+     */
+    public void sendEANotify(String invokerDisplay, String targetDisplay) {
+        notificationOn.forEach(all -> {
+            all.sendMessage(new MessageBuilder(Prefix.BKMS + invokerDisplay + " §8➼ " + targetDisplay).build());
+            all.sendMessage(new MessageBuilder("§8┃ §7Typ §8» §dEA").build());
+            all.sendMessage(new MessageBuilder("§8§m--------------------§r").build());
+        });
+    }
+
     public ArrayList<ProxiedPlayer> getNotificationOn() {
         return notificationOn;
     }
