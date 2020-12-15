@@ -16,9 +16,11 @@ import java.util.function.Consumer;
 public class HistoryManager {
 
     private final ArrayList<String> kickHistoryClearCommandProcess;
+    private final ArrayList<String> banHistoryClearCommandProcess;
 
     public HistoryManager() {
         this.kickHistoryClearCommandProcess = new ArrayList<>();
+        this.banHistoryClearCommandProcess = new ArrayList<>();
     }
 
     public void getKickHistory(UUID uniqueId, Consumer<IKickHistory> consumer) {
@@ -81,5 +83,9 @@ public class HistoryManager {
 
     public ArrayList<String> getKickHistoryClearCommandProcess() {
         return kickHistoryClearCommandProcess;
+    }
+
+    public ArrayList<String> getBanHistoryClearCommandProcess() {
+        return banHistoryClearCommandProcess;
     }
 }
