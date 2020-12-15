@@ -1,6 +1,7 @@
 package eu.lostname.lostproxy.manager;
 
 import eu.lostname.lostproxy.builder.MessageBuilder;
+import eu.lostname.lostproxy.interfaces.bkms.IBanReason;
 import eu.lostname.lostproxy.utils.Prefix;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
@@ -92,6 +93,21 @@ public class TeamManager {
             all.sendMessage(new MessageBuilder(Prefix.BKMS + invokerDisplay + " §8➼ " + targetDisplay).build());
             all.sendMessage(new MessageBuilder("§8┃ §7Typ §8» §aUnban").build());
             all.sendMessage(new MessageBuilder("§8┃ §7Grund §8» §e" + reason).build());
+            all.sendMessage(new MessageBuilder("§8§m--------------------§r").build());
+        });
+    }
+
+    /**
+     * @param invokerDisplay the name of the invoker and some color codes
+     * @param targetDisplay  the name of the target and some color codes
+     * @param iBanReason     the ban reason the player got banned with
+     */
+    public void sendBanNotify(String invokerDisplay, String targetDisplay, IBanReason iBanReason) {
+        notificationOn.forEach(all -> {
+            all.sendMessage(new MessageBuilder(Prefix.BKMS + invokerDisplay + " §8➼ " + targetDisplay).build());
+            all.sendMessage(new MessageBuilder("§8┃ §7Typ §8» §4Ban").build());
+            all.sendMessage(new MessageBuilder("§8┃ §7Grund §8» §e" + iBanReason.getName()).build());
+            all.sendMessage(new MessageBuilder("§8┃ §7Dauer §8» §e" + (iBanReason.getTime() == -1 ? "Permanent" : iBanReason.getTime() + " " + iBanReason.getTimeUnit().toString())).build());
             all.sendMessage(new MessageBuilder("§8§m--------------------§r").build());
         });
     }
