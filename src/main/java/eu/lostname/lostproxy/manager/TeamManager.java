@@ -19,6 +19,8 @@ public class TeamManager {
     }
 
     /**
+     * Adds the given player to the ArrayList: notificationOn
+     *
      * @param player   the player who gets the notifications enabled
      * @param consumer a consumer which includes the feedback whether the adding to the list worked
      * @since 08.12.2020
@@ -28,6 +30,7 @@ public class TeamManager {
     }
 
     /**
+     * Removes the given player from the ArrayList: notificationOn
      * @param player   the player who gets the notifications disabled
      * @param consumer a consumer which includes the feedback whether the removing from the list worked
      * @since 08.12.2020
@@ -37,6 +40,7 @@ public class TeamManager {
     }
 
     /**
+     * Returns a boolean which says whether the player is in the ArrayList: notificationOn or not
      * @param proxiedPlayer the player who has to be checked
      * @return whether the proxiedPlayer is in the notificationOn list
      */
@@ -45,6 +49,7 @@ public class TeamManager {
     }
 
     /**
+     * Adds the given player to the ArrayList: loggedIn
      * @param proxiedPlayer the player who has to be logged in
      * @param consumer      a consumer which includes the feedback whether the adding to the list worked
      */
@@ -53,6 +58,7 @@ public class TeamManager {
     }
 
     /**
+     * Removes the given player from the ArrayList: loggedIn
      * @param proxiedPlayer the player who has to be logged out
      * @param consumer      a consumer which includes the feedback whether the removing from the list worked
      */
@@ -61,6 +67,7 @@ public class TeamManager {
     }
 
     /**
+     * REturns a boolean which says whether the player is in the ArrayList: loggedIn
      * @param proxiedPlayer the player who has to be checked
      * @return whether the proxiedPlayer is logged in
      */
@@ -70,6 +77,7 @@ public class TeamManager {
 
 
     /**
+     * Sends a message to all players in the ArrayList: notificationOn which describes that a player has been kicked
      * @param invokerDisplay the name of the invoker and some color codes
      * @param targetDisplay  the name of the target and some color codes
      * @param reason         the reason the player got kicked
@@ -84,6 +92,7 @@ public class TeamManager {
     }
 
     /**
+     * Sends a message to all players in the ArrayList: notificationOn which describes that a player has been unbanned
      * @param invokerDisplay the name of the invoker and some color codes
      * @param targetDisplay  the name of the target and some color codes
      * @param reason         the reason the player got unbanned
@@ -98,6 +107,7 @@ public class TeamManager {
     }
 
     /**
+     * Sends a message to all players in the ArrayList: notificationOn which describes that a player has been banned
      * @param invokerDisplay the name of the invoker and some color codes
      * @param targetDisplay  the name of the target and some color codes
      * @param iBanReason     the ban reason the player got banned with
@@ -113,6 +123,7 @@ public class TeamManager {
     }
 
     /**
+     * Sends a message to all players in the ArrayList: notificationOn which describes that a player has been eaed
      * @param invokerDisplay the name of the invoker and some color codes
      * @param targetDisplay  the name of the target and some color codes
      */

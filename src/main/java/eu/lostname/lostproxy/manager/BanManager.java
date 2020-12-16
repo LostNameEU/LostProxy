@@ -18,6 +18,8 @@ public class BanManager {
 
 
     /**
+     * Returns a ban when the given player is banned
+     *
      * @param uniqueId the uniqueId of the player who has to be checked
      * @param consumer returns the iban when ban is active
      */
@@ -31,11 +33,19 @@ public class BanManager {
         });
     }
 
+    /**
+     * Saves the given ban in the database
+     *
+     * @param iBan                             the ban which has to be saved
+     * @param updateResultSingleResultCallback returns a UpdateResult of the insert
+     */
     public void saveBan(IBan iBan, SingleResultCallback<UpdateResult> updateResultSingleResultCallback) {
         LostProxy.getInstance().getDatabase().getMongoDatabase().getCollection(MongoCollection.ACTIVE_BANS).replaceOne(Filters.eq("_id", iBan.getUniqueId()), LostProxy.getInstance().getGson().fromJson(LostProxy.getInstance().getGson().toJson(iBan), Document.class), new ReplaceOptions().upsert(true), updateResultSingleResultCallback);
     }
 
     /**
+     * Inserts the given ban in the database
+     *
      * @param iBan                     that is gonna be inserted into the database
      * @param voidSingleResultCallback returns the callback from the database
      */
@@ -44,6 +54,7 @@ public class BanManager {
     }
 
     /**
+     * Deletes the given ban in the database
      * @param iBan                             the ban which has to be deleted
      * @param deleteResultSingleResultCallback returns the callback from the database
      */
@@ -52,6 +63,7 @@ public class BanManager {
     }
 
     /**
+     * Returns a string which displays the remaining time to a given end
      * @param end the end time
      * @return a string with the display
      */
