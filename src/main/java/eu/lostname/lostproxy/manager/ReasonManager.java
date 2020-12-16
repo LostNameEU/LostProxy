@@ -3,6 +3,7 @@ package eu.lostname.lostproxy.manager;
 import com.google.gson.Gson;
 import com.mongodb.async.SingleResultCallback;
 import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.Sorts;
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
 import eu.lostname.lostproxy.databases.LostProxyDatabase;
@@ -31,12 +32,12 @@ public class ReasonManager {
     }
 
     public void loadBanReasons() {
-        database.getMongoDatabase().getCollection(MongoCollection.BAN_REASONS).find().forEach(document -> this.registedBanReasons.add(gson.fromJson(document.toJson(), IBanReason.class)), (unused, throwable) -> throwable.printStackTrace());
+        database.getMongoDatabase().getCollection(MongoCollection.BAN_REASONS).find().sort(Sorts.ascending("_id")).forEach(document -> this.registedBanReasons.add(gson.fromJson(document.toJson(), IBanReason.class)), (unused, throwable) -> throwable.printStackTrace());
     }
 
     public void reloadBanReasons() {
         registedBanReasons.clear();
-        database.getMongoDatabase().getCollection(MongoCollection.BAN_REASONS).find().forEach(document -> this.registedBanReasons.add(gson.fromJson(document.toJson(), IBanReason.class)), (unused, throwable) -> throwable.printStackTrace());
+        database.getMongoDatabase().getCollection(MongoCollection.BAN_REASONS).find().sort(Sorts.ascending("_id")).forEach(document -> this.registedBanReasons.add(gson.fromJson(document.toJson(), IBanReason.class)), (unused, throwable) -> throwable.printStackTrace());
     }
 
     public void saveBanReason(IBanReason iBanReason, SingleResultCallback<UpdateResult> voidSingleResultCallback) {
