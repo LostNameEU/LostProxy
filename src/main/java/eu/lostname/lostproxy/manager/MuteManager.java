@@ -6,7 +6,6 @@ import com.mongodb.client.model.ReplaceOptions;
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
 import eu.lostname.lostproxy.LostProxy;
-import eu.lostname.lostproxy.interfaces.bkms.IBan;
 import eu.lostname.lostproxy.utils.MongoCollection;
 import org.bson.Document;
 
@@ -18,15 +17,15 @@ public class MuteManager {
 
 
     /**
-     * Returns a ban when the given player is banned
+     * Returns a mute when the given player is muted
      *
      * @param uniqueId the uniqueId of the player who has to be checked
-     * @param consumer returns the iban when ban is active
+     * @param consumer returns the imute when ban is active
      */
-    public void getBan(UUID uniqueId, Consumer<IBan> consumer) {
-        LostProxy.getInstance().getDatabase().getMongoDatabase().getCollection(MongoCollection.ACTIVE_BANS).find(Filters.eq("_id", uniqueId)).first((document, throwable) -> {
+    public void getMute(UUID uniqueId, Consumer<IMute> consumer) {
+        LostProxy.getInstance().getDatabase().getMongoDatabase().getCollection(MongoCollection.ACTIVE_MUTES).find(Filters.eq("_id", uniqueId)).first((document, throwable) -> {
             if (document != null) {
-                consumer.accept(LostProxy.getInstance().getGson().fromJson(document.toJson(), IBan.class));
+                consumer.accept(LostProxy.getInstance().getGson().fromJson(document.toJson(), IMute.class));
             } else {
                 consumer.accept(null);
             }
@@ -34,33 +33,33 @@ public class MuteManager {
     }
 
     /**
-     * Saves the given ban in the database
+     * Saves the given mute in the database
      *
-     * @param iBan                             the ban which has to be saved
+     * @param iMute                            the mute which has to be saved
      * @param updateResultSingleResultCallback returns a UpdateResult of the insert
      */
-    public void saveBan(IBan iBan, SingleResultCallback<UpdateResult> updateResultSingleResultCallback) {
-        LostProxy.getInstance().getDatabase().getMongoDatabase().getCollection(MongoCollection.ACTIVE_BANS).replaceOne(Filters.eq("_id", iBan.getUniqueId()), LostProxy.getInstance().getGson().fromJson(LostProxy.getInstance().getGson().toJson(iBan), Document.class), new ReplaceOptions().upsert(true), updateResultSingleResultCallback);
+    public void saveMute(IMute iMute, SingleResultCallback<UpdateResult> updateResultSingleResultCallback) {
+        LostProxy.getInstance().getDatabase().getMongoDatabase().getCollection(MongoCollection.ACTIVE_MUTES).replaceOne(Filters.eq("_id", iMute.getUniqueId()), LostProxy.getInstance().getGson().fromJson(LostProxy.getInstance().getGson().toJson(iMute), Document.class), new ReplaceOptions().upsert(true), updateResultSingleResultCallback);
     }
 
     /**
-     * Inserts the given ban in the database
+     * Inserts the given mute in the database
      *
-     * @param iBan                     that is gonna be inserted into the database
+     * @param iMute                     that is gonna be inserted into the database
      * @param voidSingleResultCallback returns the callback from the database
      */
-    public void insertBan(IBan iBan, SingleResultCallback<Void> voidSingleResultCallback) {
-        LostProxy.getInstance().getDatabase().getMongoDatabase().getCollection(MongoCollection.ACTIVE_BANS).insertOne(LostProxy.getInstance().getGson().fromJson(LostProxy.getInstance().getGson().toJson(iBan), Document.class), voidSingleResultCallback);
+    public void insertMute(IMute iMute, SingleResultCallback<Void> voidSingleResultCallback) {
+        LostProxy.getInstance().getDatabase().getMongoDatabase().getCollection(MongoCollection.ACTIVE_MUTES).insertOne(LostProxy.getInstance().getGson().fromJson(LostProxy.getInstance().getGson().toJson(iMute), Document.class), voidSingleResultCallback);
     }
 
     /**
-     * Deletes the given ban in the database
+     * Deletes the given mute in the database
      *
-     * @param iBan                             the ban which has to be deleted
+     * @param iMute                             the mute which has to be deleted
      * @param deleteResultSingleResultCallback returns the callback from the database
      */
-    public void deleteBan(IBan iBan, SingleResultCallback<DeleteResult> deleteResultSingleResultCallback) {
-        LostProxy.getInstance().getDatabase().getMongoDatabase().getCollection(MongoCollection.ACTIVE_BANS).deleteOne(Filters.eq("_id", iBan.getUniqueId()), deleteResultSingleResultCallback);
+    public void deleteMute(IMute iMute, SingleResultCallback<DeleteResult> deleteResultSingleResultCallback) {
+        LostProxy.getInstance().getDatabase().getMongoDatabase().getCollection(MongoCollection.ACTIVE_MUTES).deleteOne(Filters.eq("_id", iMute.getUniqueId()), deleteResultSingleResultCallback);
     }
 
     /**
