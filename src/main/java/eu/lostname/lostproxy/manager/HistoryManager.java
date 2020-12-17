@@ -17,10 +17,12 @@ public class HistoryManager {
 
     private final ArrayList<String> kickHistoryClearCommandProcess;
     private final ArrayList<String> banHistoryClearCommandProcess;
+    private final ArrayList<String> muteHistoryClearCommandProcess;
 
     public HistoryManager() {
         this.kickHistoryClearCommandProcess = new ArrayList<>();
         this.banHistoryClearCommandProcess = new ArrayList<>();
+        this.muteHistoryClearCommandProcess = new ArrayList<>();
     }
 
     public void getKickHistory(UUID uniqueId, Consumer<IKickHistory> consumer) {
@@ -81,11 +83,44 @@ public class HistoryManager {
                 });
     }
 
+    public void getMuteHistory(UUID uniqueId, Consumer<IMuteHistory> consumer) {
+        LostProxy.getInstance().getDatabase().getMongoDatabase().getCollection(MongoCollection.MUTE_HISTORIES).find(Filters.eq("_id", uniqueId)).first((document, throwable) -> {
+            if (document == null) {
+                IMuteHistory iMuteHistory = new IMuteHistory(uniqueId, new ArrayList<>());
+                document = LostProxy.getInstance().getGson().fromJson(LostProxy.getInstance().getGson().toJson(iMuteHistory), Document.class);
+
+                LostProxy.getInstance().getDatabase().getMongoDatabase().getCollection(MongoCollection.MUTE_HISTORIES).insertOne(document, (unused, throwable1) -> {
+                    throwable1.printStackTrace(System.out);
+                });
+            }
+
+            consumer.accept(LostProxy.getInstance().getGson().fromJson(document.toJson(), IMuteHistory.class));
+        });
+    }
+
+    public void saveMuteHistory(IMuteHistory iMuteHistory, Consumer<Boolean> consumer) {
+        LostProxy.getInstance().getDatabase().getMongoDatabase().getCollection(MongoCollection.MUTE_HISTORIES).replaceOne(Filters.eq("_id", iMuteHistory.getUniqueId()),
+                LostProxy.getInstance().getGson().fromJson(LostProxy.getInstance().getGson().toJson(iMuteHistory), Document.class),
+                new ReplaceOptions().upsert(true),
+                (updateResult, throwable) -> {
+                    if (updateResult.wasAcknowledged()) {
+                        consumer.accept(true);
+                    } else {
+                        consumer.accept(false);
+                        throwable.printStackTrace(System.out);
+                    }
+                });
+    }
+
     public ArrayList<String> getKickHistoryClearCommandProcess() {
         return kickHistoryClearCommandProcess;
     }
 
     public ArrayList<String> getBanHistoryClearCommandProcess() {
         return banHistoryClearCommandProcess;
+    }
+
+    public ArrayList<String> getMuteHistoryClearCommandProcess() {
+        return muteHistoryClearCommandProcess;
     }
 }
