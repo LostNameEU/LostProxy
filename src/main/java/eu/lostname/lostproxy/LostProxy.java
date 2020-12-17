@@ -26,6 +26,7 @@ public class LostProxy extends Plugin {
     private HistoryManager historyManager;
     private TeamManager teamManager;
     private BanManager banManager;
+    private MuteManager muteManager;
     private ReasonManager reasonManager;
 
     private Property property;
@@ -44,6 +45,7 @@ public class LostProxy extends Plugin {
         this.teamSpeakManager = new TeamSpeakManager();
         this.teamManager = new TeamManager();
         this.banManager = new BanManager();
+        this.muteManager = new MuteManager();
         this.reasonManager = new ReasonManager(gson, database);
 
         getProxy().getPluginManager().registerCommand(this, new TSCommand("ts", "lostproxy.command.ts"));
@@ -60,6 +62,7 @@ public class LostProxy extends Plugin {
         getProxy().getPluginManager().registerCommand(this, new BanHistoryClearCommand("banhistoryclear", "lostproxy.command.banhistoryclear", "bhc", "bhclear"));
         getProxy().getPluginManager().registerCommand(this, new BanCommand("ban", "lostproxy.command.ban", "b"));
         getProxy().getPluginManager().registerCommand(this, new EACommand("ea", "lostproxy.command.ea"));
+        getProxy().getPluginManager().registerCommand(this, new UnmuteCommand("unmute", "lostproxy.command.unmute"));
 
         getProxy().getPluginManager().registerListener(this, new PostLoginListener());
         getProxy().getPluginManager().registerListener(this, new PlayerDisconnectListener());
@@ -136,5 +139,9 @@ public class LostProxy extends Plugin {
 
     public ReasonManager getReasonManager() {
         return reasonManager;
+    }
+
+    public MuteManager getMuteManager() {
+        return muteManager;
     }
 }

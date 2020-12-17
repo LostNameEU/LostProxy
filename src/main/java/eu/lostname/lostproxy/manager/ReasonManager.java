@@ -20,7 +20,7 @@ public class ReasonManager {
     private final LostProxyDatabase database;
 
     private final ArrayList<IBanReason> registedBanReasons;
-    private final ArrayList<IBanReason> registedMuteReasons;
+    private final ArrayList<IMuteReason> registedMuteReasons;
 
     private final ArrayList<String> banReasonCommandProcess;
     private final ArrayList<String> muteReasonCommandProcess;
@@ -41,7 +41,7 @@ public class ReasonManager {
         database.getMongoDatabase().getCollection(MongoCollection.BAN_REASONS).find().sort(Sorts.ascending("_id")).forEach(document -> this.registedBanReasons.add(gson.fromJson(document.toJson(), IBanReason.class)), (unused, throwable) -> throwable.printStackTrace());
     }
 
-    public void loadBanReasons() {
+    public void loadMuteReasons() {
         database.getMongoDatabase().getCollection(MongoCollection.MUTE_REASONS).find().sort(Sorts.ascending("_id")).forEach(document -> this.registedMuteReasons.add(gson.fromJson(document.toJson(), IMuteReason.class)), (unused, throwable) -> throwable.printStackTrace());
     }
 
@@ -83,7 +83,7 @@ public class ReasonManager {
         return registedBanReasons;
     }
 
-    public ArrayList<IBanReason> getRegistedMuteReasons() {
+    public ArrayList<IMuteReason> getRegistedMuteReasons() {
         return registedMuteReasons;
     }
 
