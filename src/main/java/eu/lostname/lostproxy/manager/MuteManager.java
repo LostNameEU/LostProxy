@@ -6,6 +6,7 @@ import com.mongodb.client.model.ReplaceOptions;
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
 import eu.lostname.lostproxy.LostProxy;
+import eu.lostname.lostproxy.interfaces.bkms.IMute;
 import eu.lostname.lostproxy.utils.MongoCollection;
 import org.bson.Document;
 

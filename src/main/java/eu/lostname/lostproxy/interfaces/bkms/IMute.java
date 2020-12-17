@@ -72,8 +72,4 @@ public class IMute {
         return verified;
     }
 
-    public boolean hasBanAppeal() {
-        return banAppeal != null;
-    }
-
 }
