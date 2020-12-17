@@ -1,7 +1,6 @@
 package eu.lostname.lostproxy.interfaces.historyandentries.mute;
 
 import eu.lostname.lostproxy.enums.EMuteEntryType;
-import eu.lostname.lostproxy.interfaces.historyandentries.ban.IMuteSpecificEntry;
 
 import java.util.UUID;
 
