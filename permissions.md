@@ -1,4 +1,3 @@
-
 # Übersicht aller Permissions in LostNameEU/LostProxy
 
 | Datei | Command | Usage | Alias | Permission | Beschreibung |    
@@ -42,4 +41,11 @@ lostproxy.command.ban | To show the invokers all available ban reasons | ↑ | �
 ban a player directly with a given ban reason | ↑ | ↑ | ↑ | ↑ | lostproxy.command.ban.group.`Gruppenname` | To ban
 players with the permission group `Gruppenname`
 | EACommand.java | /ea | /ea `Spielername` | / | lostproxy.command.ea | To shorten a player's ban to a length of three
-days
+days | UnmuteCommand.java | /unmute | /unmute `Spielername` | / | lostroxy.command.unmute | To unmute a player |
+MuteCommand.java | /mute | /mute `Spielername` | / | lostproxy.command.mute | To mute a player | MuteReasonsCommand.java
+| /mutereasons | /mutereasons | /mr | lostproxy.command.mutereasons | To edit all registered mutereasons and to add new
+to the database. | ↑ | ↑ | /mutereasons `list` | ↑ | lostproxy.command.mutereasons.list | To get listed all registered
+mutereasons | ↑ | ↑ | /mutereasons add `name` `Zeit` `Zeiteinheit` `Permission` | ↑ | lostproxy.command.mutereasons.add
+| Add a new mutereason | ↑ | ↑ | /mutereasons `ID` | ↑ | lostproxy.command.banreasons.info | To get info about one
+registered mutereason | ↑ | ↑ | /mutereasons `ID` set `id,name,time,timeunit,permission` `value` | ↑ |
+lostproxy.command.mutereasons.set | To edit one registered mutereason
