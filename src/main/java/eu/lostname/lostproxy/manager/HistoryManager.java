@@ -4,6 +4,7 @@ import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.ReplaceOptions;
 import eu.lostname.lostproxy.LostProxy;
 import eu.lostname.lostproxy.interfaces.historyandentries.ban.IBanHistory;
+import eu.lostname.lostproxy.interfaces.historyandentries.ban.IMuteHistory;
 import eu.lostname.lostproxy.interfaces.historyandentries.kick.IKickEntry;
 import eu.lostname.lostproxy.interfaces.historyandentries.kick.IKickHistory;
 import eu.lostname.lostproxy.utils.MongoCollection;

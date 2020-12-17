@@ -8,6 +8,7 @@ import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
 import eu.lostname.lostproxy.databases.LostProxyDatabase;
 import eu.lostname.lostproxy.interfaces.bkms.IBanReason;
+import eu.lostname.lostproxy.interfaces.bkms.IMuteReason;
 import eu.lostname.lostproxy.utils.MongoCollection;
 import org.bson.Document;
 
