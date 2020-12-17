@@ -63,6 +63,10 @@ public class LostProxy extends Plugin {
         getProxy().getPluginManager().registerCommand(this, new BanCommand("ban", "lostproxy.command.ban", "b"));
         getProxy().getPluginManager().registerCommand(this, new EACommand("ea", "lostproxy.command.ea"));
         getProxy().getPluginManager().registerCommand(this, new UnmuteCommand("unmute", "lostproxy.command.unmute"));
+        getProxy().getPluginManager().registerCommand(this, new MuteCommand("mute", "lostproxy.command.mute"));
+        getProxy().getPluginManager().registerCommand(this, new MuteReasonsCommand("mutereasons", "lostproxy.command.mutereasons"));
+        getProxy().getPluginManager().registerCommand(this, new MuteInfoCommand("muteinfo", "lostproxy.command.muteinfo"));
+        getProxy().getPluginManager().registerCommand(this, new MuteHistoryClearCommand("mutehistoryclear", "lostproxy.command.mutehistoryclear"));
 
         getProxy().getPluginManager().registerListener(this, new PostLoginListener());
         getProxy().getPluginManager().registerListener(this, new PlayerDisconnectListener());
