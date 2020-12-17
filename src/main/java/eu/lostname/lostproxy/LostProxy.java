@@ -6,6 +6,7 @@ import de.dytanic.cloudnet.ext.bridge.player.IPlayerManager;
 import de.dytanic.cloudnet.ext.syncproxy.AbstractSyncProxyManagement;
 import eu.lostname.lostproxy.commands.*;
 import eu.lostname.lostproxy.databases.LostProxyDatabase;
+import eu.lostname.lostproxy.listener.ChatListener;
 import eu.lostname.lostproxy.listener.PlayerDisconnectListener;
 import eu.lostname.lostproxy.listener.PostLoginListener;
 import eu.lostname.lostproxy.listener.PreLoginListener;
@@ -71,6 +72,7 @@ public class LostProxy extends Plugin {
         getProxy().getPluginManager().registerListener(this, new PostLoginListener());
         getProxy().getPluginManager().registerListener(this, new PlayerDisconnectListener());
         getProxy().getPluginManager().registerListener(this, new PreLoginListener());
+        getProxy().getPluginManager().registerListener(this, new ChatListener());
 
         CloudServices.SYNCPROXY_MANAGEMENT = CloudNetDriver.getInstance().getServicesRegistry().getFirstService(AbstractSyncProxyManagement.class);
     }
