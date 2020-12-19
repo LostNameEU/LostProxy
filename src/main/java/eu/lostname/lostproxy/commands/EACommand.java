@@ -18,11 +18,11 @@ public class EACommand extends Command {
 
     @Override
     public void execute(CommandSender commandSender, String[] strings) {
-        if (strings.length == 0) {
+        if (strings.length != 1) {
             commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Benutzung von §c/ea§8:").build());
             commandSender.sendMessage(new MessageBuilder("§8┃ §c/ea <Spieler> §8» §7Verkürze den Ban des angegebenen Spielers").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/ea ").build());
             commandSender.sendMessage(new MessageBuilder("§8§m--------------------§r").build());
-        } else if (strings.length == 1) {
+        } else {
             LostProxy.getInstance().getPlayerManager().getUUIDofPlayername(strings[0], uuid -> {
                 if (uuid != null) {
                     LostProxy.getInstance().getPlayerManager().getIPlayerAsync(uuid, iPlayer -> LostProxy.getInstance().getBanManager().getBan(uuid, iBan -> {
@@ -68,8 +68,6 @@ public class EACommand extends Command {
                     commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Der angegebene Spieler wurde §cnicht §7gefunden§8.").build());
                 }
             });
-        } else {
-            commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Bitte beachte die §eBenutzung §7dieses Kommandos§8.").build());
         }
     }
 }
