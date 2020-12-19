@@ -37,7 +37,7 @@ public class ReasonManager {
 
     public void reloadBanReasons() {
         registedBanReasons.clear();
-        database.getMongoDatabase().getCollection(MongoCollection.BAN_REASONS).find().sort(Sorts.ascending("_id")).forEach(document -> this.registedBanReasons.add(gson.fromJson(document.toJson(), IBanReason.class)), (unused, throwable) -> throwable.printStackTrace());
+        loadBanReasons();
     }
 
     public void saveBanReason(IBanReason iBanReason, SingleResultCallback<UpdateResult> voidSingleResultCallback) {
