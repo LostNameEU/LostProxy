@@ -25,11 +25,11 @@ public class BanInfoCommand extends Command {
 
     @Override
     public void execute(CommandSender commandSender, String[] strings) {
-        if (strings.length == 0) {
+        if (strings.length != 1) {
             commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Benutzung von §c/baninfo§8:").build());
             commandSender.sendMessage(new MessageBuilder("§8┃ §c/baninfo <Spieler> §8» §7Listet die gesamte Bannhistory des angegebenen Spielers an").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/baninfo ").build());
             commandSender.sendMessage(new MessageBuilder("§8§m--------------------§r").build());
-        } else if (strings.length == 1) {
+        } else {
             LostProxy.getInstance().getPlayerManager().getUUIDofPlayername(strings[0], targetUUID -> {
                 if (targetUUID != null) {
                     LostProxy.getInstance().getHistoryManager().getBanHistory(targetUUID, iBanHistory -> LostProxy.getInstance().getPlayerManager().getIPlayerAsync(targetUUID, targetIPlayer -> {
@@ -90,8 +90,6 @@ public class BanInfoCommand extends Command {
                     commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Zu dem angegebenen Spielernamen konnte §ckeine §7UUID gefunden werden§8.").build());
                 }
             });
-        } else {
-            commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Bitte beachte die §eBenutzung §7dieses Kommandos§8.").build());
         }
     }
 
