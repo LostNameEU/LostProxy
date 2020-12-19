@@ -21,7 +21,7 @@ public class BanReasonsCommand extends Command {
 
     @Override
     public void execute(CommandSender commandSender, String[] strings) {
-        if (strings.length == 0) {
+        if (strings.length == 0 || strings.length == 5 || strings.length >= 7) {
             commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Benutzung von §c/banreasons§8:").build());
             commandSender.sendMessage(new MessageBuilder("§8┃ §c/banreasons list §8» §7Liste dir alle Bangruende auf").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/banreasons list").build());
             commandSender.sendMessage(new MessageBuilder("§8┃ §c/banreasons add <ID> <Name> <Zeit> <Zeiteinheit> <Permission> §8» §7Liste dir alle Bangruende auf").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/banreasons add NAME ZEIT ZEITEINHEIT PERMISSION").build());
@@ -206,7 +206,7 @@ public class BanReasonsCommand extends Command {
             } catch (NumberFormatException numberFormatException) {
                 commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Bitte beachte die §eBenutzung §7dieses Kommandos§8.").build());
             }
-        } else if (strings.length == 6) {
+        } else {
             if (strings[0].equalsIgnoreCase("add")) {
                 try {
                     int id = Integer.parseInt(strings[1]);
@@ -241,8 +241,6 @@ public class BanReasonsCommand extends Command {
             } else {
                 commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Bitte beachte die §eBenutzung §7dieses Kommandos§8.").build());
             }
-        } else {
-            commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Bitte beachte die §eBenutzung §7dieses Kommandos§8.").build());
         }
     }
 }
