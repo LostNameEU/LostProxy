@@ -10,6 +10,7 @@ import eu.lostname.lostproxy.utils.Prefix;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
 
@@ -45,7 +46,12 @@ public class BanCommand extends Command {
                                             iBanReasons.sort(Comparator.comparingInt(IReason::getId));
 
                                             commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Verfügbare Banngründe§8:").build());
-                                            iBanReasons.forEach(iBanReason -> commandSender.sendMessage(new MessageBuilder("§8┃ §e" + iBanReason.getId() + " §8» §c" + iBanReason.getName() + " §8» ").addExtra(new MessageBuilder("§7[§a§lKlick§7]").addClickEvent(ClickEvent.Action.RUN_COMMAND, "/ban " + targetIPlayer.getPlayerName() + " " + iBanReason.getId()).build()).build()));
+                                            iBanReasons.forEach(iBanReason -> {
+                                                TextComponent tc1 = new MessageBuilder("§8┃ §e" + iBanReason.getId() + " §8» §c" + iBanReason.getName() + " §8» ").build();
+                                                TextComponent tc2 = new MessageBuilder("§7[§a§lKlick§7]").addClickEvent(ClickEvent.Action.RUN_COMMAND, "/ban " + targetIPlayer.getPlayerName() + " " + iBanReason.getId()).build();
+                                                tc1.addExtra(tc2);
+                                                commandSender.sendMessage(tc1);
+                                            });
                                             commandSender.sendMessage(new MessageBuilder("§8§m--------------------§r").build());
                                         } else {
                                             commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Zurzeit sind §ckeinerlei §7Banngründe für dich verfügbar§8.").build());
