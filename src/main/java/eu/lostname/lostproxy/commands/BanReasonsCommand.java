@@ -45,7 +45,7 @@ public class BanReasonsCommand extends Command {
                         commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Informationen zum angegebenen Banngrund§8:").build());
                         commandSender.sendMessage(new MessageBuilder("§8┃ §7Name §8» §c" + iBanReason.getName()).build());
                         commandSender.sendMessage(new MessageBuilder("§8┃ §7ID §8» §c" + iBanReason.getId()).build());
-                        commandSender.sendMessage(new MessageBuilder("§8┃ §7Bannzeit §8» §c" + iBanReason.getTime() + iBanReason.getTimeUnit().toString()).build());
+                        commandSender.sendMessage(new MessageBuilder("§8┃ §7Bannzeit §8» §c" + iBanReason.getTime() + " " + iBanReason.getTimeUnit().toString()).build());
                         commandSender.sendMessage(new MessageBuilder("§8┃ §7Berechtigung §8» §c" + iBanReason.getPermission()).build());
                         commandSender.sendMessage(new MessageBuilder("§8§m--------------------§r").build());
 
@@ -214,10 +214,10 @@ public class BanReasonsCommand extends Command {
                     if (LostProxy.getInstance().getReasonManager().getBanReasonByID(id) == null) {
                         String name = strings[2];
                         int time = Integer.parseInt(strings[3]);
-                        TimeUnit timeUnit = Arrays.stream(TimeUnit.values()).filter(one -> one.toString().equalsIgnoreCase(strings[3])).findFirst().orElse(null);
+                        TimeUnit timeUnit = Arrays.stream(TimeUnit.values()).filter(one -> one.name().equalsIgnoreCase(strings[4])).findFirst().orElse(null);
 
                         if (timeUnit != null) {
-                            String permission = strings[4];
+                            String permission = strings[5];
                             IBanReason iBanReason = new IBanReason(id, name, time, timeUnit, permission);
 
                             LostProxy.getInstance().getReasonManager().saveBanReason(iBanReason, (updateResult, throwable) -> {
