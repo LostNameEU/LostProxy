@@ -91,14 +91,9 @@ public class MuteReasonsCommand extends Command {
                             if (LostProxy.getInstance().getReasonManager().getMuteReasonCommandProcess().contains(commandSender.getName())) {
                                 if (strings[2].equalsIgnoreCase("confirmed")) {
                                     LostProxy.getInstance().getReasonManager().getMuteReasonCommandProcess().remove(commandSender.getName());
-                                    LostProxy.getInstance().getReasonManager().deleteMuteReason(iMuteReason, (deleteResult, throwable) -> {
-                                        if (deleteResult.wasAcknowledged()) {
-                                            LostProxy.getInstance().getReasonManager().reloadMuteReasons();
-                                            commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Der Mutegrund §e" + iMuteReason.getName() + " §8(§e" + iMuteReason.getId() + "§8) §7wurde erfolgreich §cgelöscht§8.").build());
-                                        } else {
-                                            commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Beim Löschen des §eMutegrunds §7ist ein §4Fehler §7aufgetreten§8. §7Bitte kontaktiere sofort das Referat §4DEV/01§8!").build());
-                                        }
-                                    });
+                                    LostProxy.getInstance().getReasonManager().deleteMuteReason(iMuteReason);
+                                    LostProxy.getInstance().getReasonManager().reloadMuteReasons();
+                                    commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Der Mutegrund §e" + iMuteReason.getName() + " §8(§e" + iMuteReason.getId() + "§8) §7wurde erfolgreich §cgelöscht§8.").build());
                                 } else {
                                     commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Bitte beachte die §eBenutzung §7dieses Kommandos§8.").build());
                                 }
@@ -129,38 +124,23 @@ public class MuteReasonsCommand extends Command {
                                     int newId = Integer.parseInt(strings[3]);
                                     iMuteReason.setId(newId);
 
-                                    LostProxy.getInstance().getReasonManager().saveMuteReason(iMuteReason, (updateResult, throwable) -> {
-                                        if (updateResult.wasAcknowledged()) {
-                                            LostProxy.getInstance().getReasonManager().reloadMuteReasons();
-                                            commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Die neue ID des Mutegrunds §e" + iMuteReason.getName() + " §7lautet nun §a" + newId + "§8.").build());
-                                        } else {
-                                            commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Beim Aktualisieren des §eMutegrunds §7ist ein §4Fehler §7aufgetreten§8. §7Bitte kontaktiere sofort das Referat §4DEV/01§8!").build());
-                                        }
-                                    });
+                                    LostProxy.getInstance().getReasonManager().saveMuteReason(iMuteReason);
+                                    LostProxy.getInstance().getReasonManager().reloadMuteReasons();
+                                    commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Die neue ID des Mutegrunds §e" + iMuteReason.getName() + " §7lautet nun §a" + newId + "§8.").build());
                                     break;
                                 case "name":
                                     iMuteReason.setName(strings[3].replaceAll("_", " "));
 
-                                    LostProxy.getInstance().getReasonManager().saveMuteReason(iMuteReason, (updateResult, throwable) -> {
-                                        if (updateResult.wasAcknowledged()) {
-                                            LostProxy.getInstance().getReasonManager().reloadMuteReasons();
-                                            commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Der neue Name des Mutegrunds §e" + iMuteReason.getName() + " §8(§e" + iMuteReason.getId() + "§8) §7lautet nun §a" + iMuteReason.getName() + "§8.").build());
-                                        } else {
-                                            commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Beim Aktualisieren des §eMutegrunds §7ist ein §4Fehler §7aufgetreten§8. §7Bitte kontaktiere sofort das Referat §4DEV/01§8!").build());
-                                        }
-                                    });
+                                    LostProxy.getInstance().getReasonManager().saveMuteReason(iMuteReason);
+                                    LostProxy.getInstance().getReasonManager().reloadMuteReasons();
+                                    commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Der neue Name des Mutegrunds §e" + iMuteReason.getName() + " §8(§e" + iMuteReason.getId() + "§8) §7lautet nun §a" + iMuteReason.getName() + "§8.").build());
                                     break;
                                 case "time":
                                     iMuteReason.setTime(Long.parseLong(strings[3]));
 
-                                    LostProxy.getInstance().getReasonManager().saveMuteReason(iMuteReason, (updateResult, throwable) -> {
-                                        if (updateResult.wasAcknowledged()) {
-                                            LostProxy.getInstance().getReasonManager().reloadMuteReasons();
-                                            commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Der neue Zeitwert des Mutegrunds §e" + iMuteReason.getName() + " §8(§e" + iMuteReason.getId() + "§8) §7ist nun §a" + iMuteReason.getTime() + "§8.").build());
-                                        } else {
-                                            commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Beim Aktualisieren des §eMutegrunds §7ist ein §4Fehler §7aufgetreten§8. §7Bitte kontaktiere sofort das Referat §4DEV/01§8!").build());
-                                        }
-                                    });
+                                    LostProxy.getInstance().getReasonManager().saveMuteReason(iMuteReason);
+                                    LostProxy.getInstance().getReasonManager().reloadMuteReasons();
+                                    commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Der neue Zeitwert des Mutegrunds §e" + iMuteReason.getName() + " §8(§e" + iMuteReason.getId() + "§8) §7ist nun §a" + iMuteReason.getTime() + "§8.").build());
                                     break;
                                 case "timeunit":
                                     TimeUnit timeUnit = Arrays.stream(TimeUnit.values()).filter(one -> one.toString().equalsIgnoreCase(strings[3])).findFirst().orElse(null);
@@ -169,26 +149,16 @@ public class MuteReasonsCommand extends Command {
                                         return;
                                     }
 
-                                    LostProxy.getInstance().getReasonManager().saveMuteReason(iMuteReason, (updateResult, throwable) -> {
-                                        if (updateResult.wasAcknowledged()) {
-                                            LostProxy.getInstance().getReasonManager().reloadMuteReasons();
-                                            commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Die neue Zeiteinheit des Mutegrunds §e" + iMuteReason.getName() + " §8(§e" + iMuteReason.getId() + "§8) §7ist nun §a" + iMuteReason.getTimeUnit().toString() + "§8.").build());
-                                        } else {
-                                            commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Beim Aktualisieren des §eMutegrunds §7ist ein §4Fehler §7aufgetreten§8. §7Bitte kontaktiere sofort das Referat §4DEV/01§8!").build());
-                                        }
-                                    });
+                                    LostProxy.getInstance().getReasonManager().saveMuteReason(iMuteReason);
+                                    LostProxy.getInstance().getReasonManager().reloadMuteReasons();
+                                    commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Die neue Zeiteinheit des Mutegrunds §e" + iMuteReason.getName() + " §8(§e" + iMuteReason.getId() + "§8) §7ist nun §a" + iMuteReason.getTimeUnit().toString() + "§8.").build());
                                     break;
                                 case "permission":
                                     iMuteReason.setPermission(strings[3]);
 
-                                    LostProxy.getInstance().getReasonManager().saveMuteReason(iMuteReason, (updateResult, throwable) -> {
-                                        if (updateResult.wasAcknowledged()) {
-                                            LostProxy.getInstance().getReasonManager().reloadMuteReasons();
-                                            commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Die neue Permission des Mutegrunds §e" + iMuteReason.getName() + " §8(§e" + iMuteReason.getId() + "§8) §7ist nun §a" + iMuteReason.getPermission() + "§8.").build());
-                                        } else {
-                                            commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Beim Aktualisieren des §eMutegrunds §7ist ein §4Fehler §7aufgetreten§8. §7Bitte kontaktiere sofort das Referat §4DEV/01§8!").build());
-                                        }
-                                    });
+                                    LostProxy.getInstance().getReasonManager().saveMuteReason(iMuteReason);
+                                    LostProxy.getInstance().getReasonManager().reloadMuteReasons();
+                                    commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Die neue Permission des Mutegrunds §e" + iMuteReason.getName() + " §8(§e" + iMuteReason.getId() + "§8) §7ist nun §a" + iMuteReason.getPermission() + "§8.").build());
                                     break;
                                 default:
                                     commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Bitte beachte die §eBenutzung §7dieses Kommandos§8.").build());
@@ -220,15 +190,9 @@ public class MuteReasonsCommand extends Command {
                             String permission = strings[4];
                             IMuteReason iMuteReason = new IMuteReason(id, name, time, timeUnit, permission);
 
-                            LostProxy.getInstance().getReasonManager().saveMuteReason(iMuteReason, (updateResult, throwable) -> {
-                                if (updateResult.wasAcknowledged()) {
-                                    LostProxy.getInstance().getReasonManager().reloadMuteReasons();
-
-                                    commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Du hast §aerfolgreich §7den Mutegrund §e" + name + " §7mit der ID §e" + id + " §7erstellt§8.").build());
-                                } else {
-                                    commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Beim Hinzufügen des §eMutegrunds §7ist ein §4Fehler §7aufgetreten§8. §7Bitte kontaktiere sofort das Referat §4DEV/01§8!").build());
-                                }
-                            });
+                            LostProxy.getInstance().getReasonManager().saveMuteReason(iMuteReason);
+                            LostProxy.getInstance().getReasonManager().reloadMuteReasons();
+                            commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Du hast §aerfolgreich §7den Mutegrund §e" + name + " §7mit der ID §e" + id + " §7erstellt§8.").build());
                         } else {
                             commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Die angegebene §eZeiteinheit §7wurde §cnicht §7gefunden§8.").build());
                         }

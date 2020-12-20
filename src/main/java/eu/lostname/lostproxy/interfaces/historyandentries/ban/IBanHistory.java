@@ -7,18 +7,18 @@ import java.util.UUID;
 
 public class IBanHistory extends IHistory {
 
-    private final ArrayList<IBanSpecificEntry> history;
+    private final ArrayList<IBanEntry> history;
 
-    public IBanHistory(UUID uniqueId, ArrayList<IBanSpecificEntry> history) {
+    public IBanHistory(UUID uniqueId, ArrayList<IBanEntry> history) {
         super(uniqueId);
         this.history = history;
     }
 
-    public ArrayList<IBanSpecificEntry> getHistory() {
+    public ArrayList<IBanEntry> getHistory() {
         return history;
     }
 
-    public void addEntry(IBanSpecificEntry iBanSpecificEntry) {
-        history.add(iBanSpecificEntry);
+    public void addEntry(IBanEntry iBanEntry) {
+        history.add(iBanEntry);
     }
 }

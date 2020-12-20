@@ -2,7 +2,9 @@ package eu.lostname.lostproxy.commands;
 
 import eu.lostname.lostproxy.LostProxy;
 import eu.lostname.lostproxy.builder.MessageBuilder;
+import eu.lostname.lostproxy.interfaces.IPlayerSync;
 import eu.lostname.lostproxy.interfaces.historyandentries.kick.IKickEntry;
+import eu.lostname.lostproxy.interfaces.historyandentries.kick.IKickHistory;
 import eu.lostname.lostproxy.utils.Prefix;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.ProxyServer;
@@ -36,45 +38,38 @@ public class KickCommand extends Command {
                 if (!commandSender.getName().equalsIgnoreCase(target.getName())) {
                     ProxiedPlayer finalTarget = target;
 
-                    LostProxy.getInstance().getPlayerManager().getIPlayerAsync(target.getUniqueId(), targetIPlayer -> {
-                        if (commandSender.hasPermission("lostproxy.command.kick." + targetIPlayer.getiPermissionGroup().getName().toLowerCase())) {
-                            String reason = LostProxy.getInstance().formatArrayToString(1, strings);
+                    IPlayerSync targetIPlayer = new IPlayerSync(target.getUniqueId());
+                    if (commandSender.hasPermission("lostproxy.command.kick." + targetIPlayer.getIPermissionGroup().getName().toLowerCase())) {
+                        String reason = LostProxy.getInstance().formatArrayToString(1, strings);
 
-                            LostProxy.getInstance().getHistoryManager().getKickHistory(finalTarget.getUniqueId(), iKickHistory -> {
-                                iKickHistory.addEntry(new IKickEntry(finalTarget.getUniqueId(), (commandSender instanceof ProxiedPlayer ? ((ProxiedPlayer) commandSender).getUniqueId().toString() : "console"), reason, System.currentTimeMillis()));
-                                LostProxy.getInstance().getHistoryManager().saveKickHistory(iKickHistory, aBoolean -> {
-                                    if (aBoolean) {
-                                        finalTarget.disconnect(new MessageBuilder("§6§o■§r §8┃ §c§lLostName §8● §7the new version of us §8┃ §6§o■§r \n" +
-                                                "\n" +
-                                                "§7Deine bestehende Verbindung zum Netzwerk wurde §egetrennt§8." +
-                                                "\n" +
-                                                "\n" +
-                                                "§7Grund §8➡ §e" + reason +
-                                                "\n" +
-                                                "\n" +
-                                                "§7Bei weiteren Fragen besuche unser §eForum§8!" +
-                                                "\n" +
-                                                " §8» §cforum§8.§clostname§8.§ceu §8«" +
-                                                "\n" +
-                                                "\n" +
-                                                "§8§m--------------------------------------§r").build());
+                        IKickHistory iKickHistory = LostProxy.getInstance().getHistoryManager().getKickHistory(finalTarget.getUniqueId());
+                        iKickHistory.addEntry(new IKickEntry(finalTarget.getUniqueId(), (commandSender instanceof ProxiedPlayer ? ((ProxiedPlayer) commandSender).getUniqueId().toString() : "console"), reason, System.currentTimeMillis()));
+                        LostProxy.getInstance().getHistoryManager().saveKickHistory(iKickHistory);
+                        finalTarget.disconnect(new MessageBuilder("§6§o■§r §8┃ §c§lLostName §8● §7the new version of us §8┃ §6§o■§r \n" +
+                                "\n" +
+                                "§7Deine bestehende Verbindung zum Netzwerk wurde §egetrennt§8." +
+                                "\n" +
+                                "\n" +
+                                "§7Grund §8➡ §e" + reason +
+                                "\n" +
+                                "\n" +
+                                "§7Bei weiteren Fragen besuche unser §eForum§8!" +
+                                "\n" +
+                                " §8» §cforum§8.§clostname§8.§ceu §8«" +
+                                "\n" +
+                                "\n" +
+                                "§8§m--------------------------------------§r").build());
 
 
-                                        if (commandSender instanceof ProxiedPlayer) {
-                                            LostProxy.getInstance().getPlayerManager().getIPlayerAsync(((ProxiedPlayer) commandSender).getUniqueId(), iPlayer -> LostProxy.getInstance().getTeamManager().sendKickNotify(iPlayer.getPrefix() + commandSender.getName(), targetIPlayer.getPrefix() + targetIPlayer.getPlayerName(), reason));
-                                        } else {
-                                            LostProxy.getInstance().getTeamManager().sendKickNotify("§4Konsole", targetIPlayer.getPrefix() + targetIPlayer.getPlayerName(), reason);
-                                        }
-                                        commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Du hast " + targetIPlayer.getPrefix() + targetIPlayer.getPlayerName() + " §7wegen §e" + reason + "§7gekickt§8.").build());
-                                    } else {
-                                        commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Beim Speichern der §eHistory §7ist ein §4Fehler §7aufgetreten§8. §7Bitte kontaktiere sofort das Referat §4DEV/01§8!").build());
-                                    }
-                                });
-                            });
+                        if (commandSender instanceof ProxiedPlayer) {
+                            LostProxy.getInstance().getPlayerManager().getIPlayerAsync(((ProxiedPlayer) commandSender).getUniqueId(), iPlayer -> LostProxy.getInstance().getTeamManager().sendKickNotify(iPlayer.getPrefix() + commandSender.getName(), targetIPlayer.getPrefix() + targetIPlayer.getPlayerName(), reason));
                         } else {
+                            LostProxy.getInstance().getTeamManager().sendKickNotify("§4Konsole", targetIPlayer.getPrefix() + targetIPlayer.getPlayerName(), reason);
+                        }
+                        commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Du hast " + targetIPlayer.getPrefix() + targetIPlayer.getPlayerName() + " §7wegen §e" + reason + "§7gekickt§8.").build());
+                    } else {
                             commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Du hast §ckeine §7Rechte§8, §7um " + targetIPlayer.getPrefix() + targetIPlayer.getPlayerName() + " §7zu §ekicken§8.").build());
                         }
-                    });
                 } else {
                     commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Du darfst dich §cnicht §7selber §ekicken§8.").build());
                 }

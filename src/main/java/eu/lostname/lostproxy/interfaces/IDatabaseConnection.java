@@ -1,12 +1,9 @@
 package eu.lostname.lostproxy.interfaces;
 
 
-import com.mongodb.ConnectionString;
-import com.mongodb.MongoClientSettings;
-import com.mongodb.MongoCredential;
-import com.mongodb.async.client.MongoClient;
-import com.mongodb.async.client.MongoClients;
-import com.mongodb.async.client.MongoDatabase;
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
+import com.mongodb.client.MongoDatabase;
 
 public class IDatabaseConnection {
 
@@ -14,8 +11,7 @@ public class IDatabaseConnection {
     private final MongoDatabase mongoDatabase;
 
     public IDatabaseConnection(String host, String port, String username, String password, String database) {
-        MongoClientSettings mongoClientSettings = MongoClientSettings.builder().credential(MongoCredential.createCredential(username, database, password.toCharArray())).applicationName("LostProxy").applyConnectionString(new ConnectionString("mongodb://" + host + ":" + port)).build();
-        mongoClient = MongoClients.create(mongoClientSettings);
+        mongoClient = MongoClients.create("mongodb://" + username + ":" + password + "@" + host + ":" + port + "/?authSource=" + database);
         mongoDatabase = mongoClient.getDatabase(database);
     }
 

@@ -19,21 +19,17 @@ public class NotifyCommand extends Command {
             ProxiedPlayer player = (ProxiedPlayer) commandSender;
 
             if (LostProxy.getInstance().getTeamManager().hasNotificationsEnabled(player)) {
-                LostProxy.getInstance().getTeamManager().disableNotifications(player, aBoolean -> {
-                    if (aBoolean) {
-                        player.sendMessage(new MessageBuilder(Prefix.NOTIFICATIONS + "§c✖").build());
-                    } else {
-                        player.sendMessage(new MessageBuilder(Prefix.NOTIFICATIONS + "Beim §eVerarbeiten §7dieser Anfrage §7ist ein §4Fehler §7aufgetreten§8. §7Bitte kontaktiere sofort das Referat §4DEV/01§8!").build());
-                    }
-                });
+                if (LostProxy.getInstance().getTeamManager().disableNotifications(player)) {
+                    player.sendMessage(new MessageBuilder(Prefix.NOTIFICATIONS + "§c✖").build());
+                } else {
+                    player.sendMessage(new MessageBuilder(Prefix.NOTIFICATIONS + "Beim §eVerarbeiten §7dieser Anfrage §7ist ein §4Fehler §7aufgetreten§8. §7Bitte kontaktiere sofort das Referat §4DEV/01§8!").build());
+                }
             } else {
-                LostProxy.getInstance().getTeamManager().enableNotifications(player, aBoolean -> {
-                    if (aBoolean) {
-                        player.sendMessage(new MessageBuilder(Prefix.NOTIFICATIONS + "§a✔").build());
-                    } else {
-                        player.sendMessage(new MessageBuilder(Prefix.NOTIFICATIONS + "Beim §eVerarbeiten §7dieser Anfrage §7ist ein §4Fehler §7aufgetreten§8. §7Bitte kontaktiere sofort das Referat §4DEV/01§8!").build());
-                    }
-                });
+                if (LostProxy.getInstance().getTeamManager().enableNotifications(player)) {
+                    player.sendMessage(new MessageBuilder(Prefix.NOTIFICATIONS + "§a✔").build());
+                } else {
+                    player.sendMessage(new MessageBuilder(Prefix.NOTIFICATIONS + "Beim §eVerarbeiten §7dieser Anfrage §7ist ein §4Fehler §7aufgetreten§8. §7Bitte kontaktiere sofort das Referat §4DEV/01§8!").build());
+                }
             }
         } else {
             commandSender.sendMessage(new MessageBuilder(Prefix.NOTIFICATIONS + "Du kannst diesen Befehl §cnicht §7als Konsole ausführen§8.").build());
