@@ -69,6 +69,7 @@ public class BanInfoCommand extends Command {
                                     IPlayerSync iPlayer = new IPlayerSync(UUID.fromString(iBanEntry.getInvokerId()));
                                     commandSender.sendMessage(new MessageBuilder("§8┃ §aUnban §8» §e" + date + " §7@ §e" + time + " §8» " + iPlayer.getPrefix() + iPlayer.getPlayerName() + " §8» §e" + iBanEntry.getReason()).build());
                                 }
+                                break;
                         }
 
                                 currentEntry.set(currentEntry.get() + 1);

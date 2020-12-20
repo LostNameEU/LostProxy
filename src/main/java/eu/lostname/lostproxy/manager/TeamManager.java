@@ -145,7 +145,7 @@ public class TeamManager {
     public void sendMuteNotify(String invokerDisplay, String targetDisplay, IMuteReason iMuteReason) {
         notificationOn.forEach(all -> {
             all.sendMessage(new MessageBuilder(Prefix.BKMS + invokerDisplay + " §8➼ " + targetDisplay).build());
-            all.sendMessage(new MessageBuilder("§8┃ §7Typ §8» §4Ban").build());
+            all.sendMessage(new MessageBuilder("§8┃ §7Typ §8» §cMute").build());
             all.sendMessage(new MessageBuilder("§8┃ §7Grund §8» §e" + iMuteReason.getName()).build());
             all.sendMessage(new MessageBuilder("§8┃ §7Dauer §8» §e" + (iMuteReason.getTime() == -1 ? "Permanent" : iMuteReason.getTime() + " " + iMuteReason.getTimeUnit().toString())).build());
             all.sendMessage(new MessageBuilder("§8§m--------------------§r").build());

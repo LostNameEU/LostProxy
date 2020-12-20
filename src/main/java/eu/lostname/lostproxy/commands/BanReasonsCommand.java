@@ -45,7 +45,7 @@ public class BanReasonsCommand extends Command {
                         commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Informationen zum angegebenen Banngrund§8:").build());
                         commandSender.sendMessage(new MessageBuilder("§8┃ §7Name §8» §c" + iBanReason.getName()).build());
                         commandSender.sendMessage(new MessageBuilder("§8┃ §7ID §8» §c" + iBanReason.getId()).build());
-                        commandSender.sendMessage(new MessageBuilder("§8┃ §7Bannzeit §8» §c" + iBanReason.getTime() + " " + iBanReason.getTimeUnit().toString()).build());
+                        commandSender.sendMessage(new MessageBuilder("§8┃ §7Bannzeit §8» §c" + (iBanReason.getTime() == -1 ? "permanent" : iBanReason.getTime() + " " + iBanReason.getTimeUnit().toString())).build());
                         commandSender.sendMessage(new MessageBuilder("§8┃ §7Berechtigung §8» §c" + iBanReason.getPermission()).build());
                         commandSender.sendMessage(new MessageBuilder("§8§m--------------------§r").build());
 
@@ -157,6 +157,8 @@ public class BanReasonsCommand extends Command {
                                     iBanReason.setPermission(strings[3]);
 
                                     LostProxy.getInstance().getReasonManager().saveBanReason(iBanReason);
+                                    LostProxy.getInstance().getReasonManager().reloadBanReasons();
+                                    commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Die neue Berechtigung für den Banngrund §e" + iBanReason.getName() + " §8(§e" + iBanReason.getId() + "§8) §7ist nun §a" + iBanReason.getPermission() + "§8.").build());
                                     break;
                                 default:
                                     commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Bitte beachte die §eBenutzung §7dieses Kommandos§8.").build());

@@ -58,7 +58,7 @@ public class ReasonManager {
     }
 
     public void saveMuteReason(IMuteReason iMuteReason) {
-        database.getMongoDatabase().getCollection(MongoCollection.MUTE_REASONS).replaceOne(Filters.eq("_id", iMuteReason.getId()), gson.fromJson(gson.toJson(iMuteReason), Document.class));
+        database.getMongoDatabase().getCollection(MongoCollection.MUTE_REASONS).replaceOne(Filters.eq("_id", iMuteReason.getId()), gson.fromJson(gson.toJson(iMuteReason), Document.class), new ReplaceOptions().upsert(true));
     }
 
     public void deleteBanReason(IBanReason iBanReason) {

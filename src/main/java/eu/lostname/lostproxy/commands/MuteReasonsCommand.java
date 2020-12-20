@@ -21,7 +21,7 @@ public class MuteReasonsCommand extends Command {
 
     @Override
     public void execute(CommandSender commandSender, String[] strings) {
-        if (strings.length == 0) {
+        if (strings.length == 0 || strings.length == 5 || strings.length >= 7) {
             commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Benutzung von §c/mutereasons§8:").build());
             commandSender.sendMessage(new MessageBuilder("§8┃ §c/mutereasons list §8» §7Liste dir alle Mutegruende auf").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/mutereasons list").build());
             commandSender.sendMessage(new MessageBuilder("§8┃ §c/mutereasons add <ID> <Name> <Zeit> <Zeiteinheit> <Permission> §8» §7Liste dir alle Mutegruende auf").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/mutereasons add NAME ZEIT ZEITEINHEIT PERMISSION").build());
@@ -33,7 +33,7 @@ public class MuteReasonsCommand extends Command {
             if ("list".equals(strings[0])) {
                 if (commandSender.hasPermission("lostproxy.command.mutereasons.list")) {
                     commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Folgende Mutegründe sind registriert§8:").build());
-                    LostProxy.getInstance().getReasonManager().getRegistedMuteReasons().stream().sorted(Comparator.comparingInt(IReason::getId)).forEach(iMuteReasons -> commandSender.sendMessage(new MessageBuilder("§8┃ §e" + iMuteReasons.getId() + " §8» §e" + iMuteReasons.getName()).addClickEvent(ClickEvent.Action.RUN_COMMAND, "/mutereasons " + iMuteReasons.getId()).addHoverEvent(HoverEvent.Action.SHOW_TEXT, "§8» §7Klicke diese Nachricht§8, §7um genaue Informationen zu diesem Mutegrund zu erhalten§8.").build()));
+                    LostProxy.getInstance().getReasonManager().getRegistedMuteReasons().stream().sorted(Comparator.comparingInt(IReason::getId)).forEach(iMuteReason -> commandSender.sendMessage(new MessageBuilder("§8┃ §e" + iMuteReason.getId() + " §8» §e" + iMuteReason.getName()).addClickEvent(ClickEvent.Action.RUN_COMMAND, "/mutereasons " + iMuteReason.getId()).addHoverEvent(HoverEvent.Action.SHOW_TEXT, "§8» §7Klicke diese Nachricht§8, §7um genaue Informationen zu diesem Mutegrund zu erhalten§8.").build()));
                 } else {
                     commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Du hast §cnicht §7die erforderlichen Rechte§8, §7um dieses Kommando auszuführen§8.").build());
                 }
@@ -45,7 +45,7 @@ public class MuteReasonsCommand extends Command {
                         commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Informationen zum angegebenen Mutegrund§8:").build());
                         commandSender.sendMessage(new MessageBuilder("§8┃ §7Name §8» §c" + iMuteReason.getName()).build());
                         commandSender.sendMessage(new MessageBuilder("§8┃ §7ID §8» §c" + iMuteReason.getId()).build());
-                        commandSender.sendMessage(new MessageBuilder("§8┃ §7Mutezeit §8» §c" + iMuteReason.getTime() + iMuteReason.getTimeUnit().toString()).build());
+                        commandSender.sendMessage(new MessageBuilder("§8┃ §7Mutezeit §8» §c" + (iMuteReason.getTime() == -1 ? "permanent" : iMuteReason.getTime() + " " + iMuteReason.getTimeUnit().toString())).build());
                         commandSender.sendMessage(new MessageBuilder("§8┃ §7Berechtigung §8» §c" + iMuteReason.getPermission()).build());
                         commandSender.sendMessage(new MessageBuilder("§8§m--------------------§r").build());
 
@@ -64,7 +64,7 @@ public class MuteReasonsCommand extends Command {
                     if (strings[1].equalsIgnoreCase("delete")) {
                         if (commandSender.hasPermission("lostproxy.command.mutereasons.delete")) {
                             commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Soll der Mutegrund §e" + iMuteReason.getName() + " §8(§e" + iMuteReason.getId() + "§8) §7tatsächlich gelöscht werden§8.").build());
-                            commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "§7[§a§lKlick§7]").addClickEvent(ClickEvent.Action.RUN_COMMAND, "/banreasons " + iMuteReason.getId() + " delete confirmed").build());
+                            commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "§7[§a§lKlick§7]").addClickEvent(ClickEvent.Action.RUN_COMMAND, "/mutereasons " + iMuteReason.getId() + " delete confirmed").build());
 
                             if (!LostProxy.getInstance().getReasonManager().getMuteReasonCommandProcess().contains(commandSender.getName())) {
                                 LostProxy.getInstance().getReasonManager().getMuteReasonCommandProcess().add(commandSender.getName());
@@ -158,7 +158,7 @@ public class MuteReasonsCommand extends Command {
 
                                     LostProxy.getInstance().getReasonManager().saveMuteReason(iMuteReason);
                                     LostProxy.getInstance().getReasonManager().reloadMuteReasons();
-                                    commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Die neue Permission des Mutegrunds §e" + iMuteReason.getName() + " §8(§e" + iMuteReason.getId() + "§8) §7ist nun §a" + iMuteReason.getPermission() + "§8.").build());
+                                    commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Die neue Berechtigung für den Mutegrund §e" + iMuteReason.getName() + " §8(§e" + iMuteReason.getId() + "§8) §7ist nun §a" + iMuteReason.getPermission() + "§8.").build());
                                     break;
                                 default:
                                     commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Bitte beachte die §eBenutzung §7dieses Kommandos§8.").build());
@@ -171,12 +171,12 @@ public class MuteReasonsCommand extends Command {
                         commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Bitte beachte die §eBenutzung §7dieses Kommandos§8.").build());
                     }
                 } else {
-                    commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Der angegebene Banngrund wurde §cnicht §7gefunden§8.").build());
+                    commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Der angegebene Mutegrund wurde §cnicht §7gefunden§8.").build());
                 }
             } catch (NumberFormatException numberFormatException) {
                 commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Bitte beachte die §eBenutzung §7dieses Kommandos§8.").build());
             }
-        } else if (strings.length == 6) {
+        } else {
             if (strings[0].equalsIgnoreCase("add")) {
                 try {
                     int id = Integer.parseInt(strings[1]);
@@ -184,10 +184,10 @@ public class MuteReasonsCommand extends Command {
                     if (LostProxy.getInstance().getReasonManager().getMuteReasonByID(id) == null) {
                         String name = strings[2];
                         int time = Integer.parseInt(strings[3]);
-                        TimeUnit timeUnit = Arrays.stream(TimeUnit.values()).filter(one -> one.toString().equalsIgnoreCase(strings[3])).findFirst().orElse(null);
+                        TimeUnit timeUnit = Arrays.stream(TimeUnit.values()).filter(one -> one.name().equalsIgnoreCase(strings[4])).findFirst().orElse(null);
 
                         if (timeUnit != null) {
-                            String permission = strings[4];
+                            String permission = strings[5];
                             IMuteReason iMuteReason = new IMuteReason(id, name, time, timeUnit, permission);
 
                             LostProxy.getInstance().getReasonManager().saveMuteReason(iMuteReason);
@@ -205,8 +205,6 @@ public class MuteReasonsCommand extends Command {
             } else {
                 commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Bitte beachte die §eBenutzung §7dieses Kommandos§8.").build());
             }
-        } else {
-            commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Bitte beachte die §eBenutzung §7dieses Kommandos§8.").build());
         }
     }
 }
