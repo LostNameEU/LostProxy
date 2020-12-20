@@ -2,6 +2,7 @@ package eu.lostname.lostproxy.manager;
 
 import eu.lostname.lostproxy.builder.MessageBuilder;
 import eu.lostname.lostproxy.interfaces.bkms.IBanReason;
+import eu.lostname.lostproxy.interfaces.bkms.IMuteReason;
 import eu.lostname.lostproxy.utils.Prefix;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
@@ -107,7 +108,24 @@ public class TeamManager {
     }
 
     /**
+     * Sends a message to all players in the ArrayList: notificationOn which describes that a player has been unmutet
+     *
+     * @param invokerDisplay the name of the invoker and some color codes
+     * @param targetDisplay  the name of the target and some color codes
+     * @param reason         the reason the player got unmutet
+     */
+    public void sendUnmuteNotify(String invokerDisplay, String targetDisplay, String reason) {
+        notificationOn.forEach(all -> {
+            all.sendMessage(new MessageBuilder(Prefix.BKMS + invokerDisplay + " §8➼ " + targetDisplay).build());
+            all.sendMessage(new MessageBuilder("§8┃ §7Typ §8» §aUnmute").build());
+            all.sendMessage(new MessageBuilder("§8┃ §7Grund §8» §e" + reason).build());
+            all.sendMessage(new MessageBuilder("§8§m--------------------§r").build());
+        });
+    }
+
+    /**
      * Sends a message to all players in the ArrayList: notificationOn which describes that a player has been banned
+     *
      * @param invokerDisplay the name of the invoker and some color codes
      * @param targetDisplay  the name of the target and some color codes
      * @param iBanReason     the ban reason the player got banned with
@@ -123,7 +141,25 @@ public class TeamManager {
     }
 
     /**
+     * Sends a message to all players in the ArrayList: notificationOn which describes that a player has been muted
+     *
+     * @param invokerDisplay the name of the invoker and some color codes
+     * @param targetDisplay  the name of the target and some color codes
+     * @param iMuteReason    the mute reason the player got muted with
+     */
+    public void sendMuteNotify(String invokerDisplay, String targetDisplay, IMuteReason iMuteReason) {
+        notificationOn.forEach(all -> {
+            all.sendMessage(new MessageBuilder(Prefix.BKMS + invokerDisplay + " §8➼ " + targetDisplay).build());
+            all.sendMessage(new MessageBuilder("§8┃ §7Typ §8» §4Ban").build());
+            all.sendMessage(new MessageBuilder("§8┃ §7Grund §8» §e" + iMuteReason.getName()).build());
+            all.sendMessage(new MessageBuilder("§8┃ §7Dauer §8» §e" + (iMuteReason.getTime() == -1 ? "Permanent" : iMuteReason.getTime() + " " + iMuteReason.getTimeUnit().toString())).build());
+            all.sendMessage(new MessageBuilder("§8§m--------------------§r").build());
+        });
+    }
+
+    /**
      * Sends a message to all players in the ArrayList: notificationOn which describes that a player has been eaed
+     *
      * @param invokerDisplay the name of the invoker and some color codes
      * @param targetDisplay  the name of the target and some color codes
      */

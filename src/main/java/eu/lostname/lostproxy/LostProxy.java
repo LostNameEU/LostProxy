@@ -6,6 +6,7 @@ import de.dytanic.cloudnet.ext.bridge.player.IPlayerManager;
 import de.dytanic.cloudnet.ext.syncproxy.AbstractSyncProxyManagement;
 import eu.lostname.lostproxy.commands.*;
 import eu.lostname.lostproxy.databases.LostProxyDatabase;
+import eu.lostname.lostproxy.listener.ChatListener;
 import eu.lostname.lostproxy.listener.PlayerDisconnectListener;
 import eu.lostname.lostproxy.listener.PostLoginListener;
 import eu.lostname.lostproxy.listener.PreLoginListener;
@@ -26,6 +27,7 @@ public class LostProxy extends Plugin {
     private HistoryManager historyManager;
     private TeamManager teamManager;
     private BanManager banManager;
+    private MuteManager muteManager;
     private ReasonManager reasonManager;
 
     private Property property;
@@ -37,13 +39,14 @@ public class LostProxy extends Plugin {
     @Override
     public void onEnable() {
         this.gson = new Gson();
-        this.database = new LostProxyDatabase(property.get("cfg", "db.username"), property.get("cfg", "db.password"), property.get("cfg", "db.database"));
+        this.database = new LostProxyDatabase(property.get("cfg", "db.host"), property.get("cfg", "db.port"), property.get("cfg", "db.username"), property.get("cfg", "db.password"), property.get("cfg", "db.database"));
         this.linkageManager = new LinkageManager(gson);
         this.playerManager = new PlayerManager();
         this.historyManager = new HistoryManager();
         this.teamSpeakManager = new TeamSpeakManager();
         this.teamManager = new TeamManager();
         this.banManager = new BanManager();
+        this.muteManager = new MuteManager();
         this.reasonManager = new ReasonManager(gson, database);
 
         getProxy().getPluginManager().registerCommand(this, new TSCommand("ts", "lostproxy.command.ts"));
@@ -60,10 +63,16 @@ public class LostProxy extends Plugin {
         getProxy().getPluginManager().registerCommand(this, new BanHistoryClearCommand("banhistoryclear", "lostproxy.command.banhistoryclear", "bhc", "bhclear"));
         getProxy().getPluginManager().registerCommand(this, new BanCommand("ban", "lostproxy.command.ban", "b"));
         getProxy().getPluginManager().registerCommand(this, new EACommand("ea", "lostproxy.command.ea"));
+        getProxy().getPluginManager().registerCommand(this, new UnmuteCommand("unmute", "lostproxy.command.unmute"));
+        getProxy().getPluginManager().registerCommand(this, new MuteCommand("mute", "lostproxy.command.mute"));
+        getProxy().getPluginManager().registerCommand(this, new MuteReasonsCommand("mutereasons", "lostproxy.command.mutereasons"));
+        getProxy().getPluginManager().registerCommand(this, new MuteInfoCommand("muteinfo", "lostproxy.command.muteinfo"));
+        getProxy().getPluginManager().registerCommand(this, new MuteHistoryClearCommand("mutehistoryclear", "lostproxy.command.mutehistoryclear"));
 
         getProxy().getPluginManager().registerListener(this, new PostLoginListener());
         getProxy().getPluginManager().registerListener(this, new PlayerDisconnectListener());
         getProxy().getPluginManager().registerListener(this, new PreLoginListener());
+        getProxy().getPluginManager().registerListener(this, new ChatListener());
 
         CloudServices.SYNCPROXY_MANAGEMENT = CloudNetDriver.getInstance().getServicesRegistry().getFirstService(AbstractSyncProxyManagement.class);
     }
@@ -136,5 +145,9 @@ public class LostProxy extends Plugin {
 
     public ReasonManager getReasonManager() {
         return reasonManager;
+    }
+
+    public MuteManager getMuteManager() {
+        return muteManager;
     }
 }

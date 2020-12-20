@@ -15,12 +15,12 @@ public class PostLoginListener implements Listener {
     public void onPostLogin(PostLoginEvent event) {
         ProxiedPlayer player = event.getPlayer();
 
-        LostProxy.getInstance().getBanManager().getBan(player.getUniqueId().toString(), iBan -> {
+        LostProxy.getInstance().getBanManager().getBan(player.getUniqueId(), iBan -> {
             if (iBan != null && iBan.getEnd() < System.currentTimeMillis()) {
                 LostProxy.getInstance().getBanManager().deleteBan(iBan, (deleteResult, throwable) -> {
                     if (deleteResult.wasAcknowledged()) {
-                        LostProxy.getInstance().getHistoryManager().getBanHistory(player.getUniqueId().toString(), iBanHistory -> {
-                            iBanHistory.addEntry(new IUnbanEntry(player.getUniqueId().toString(), "BKM-System", System.currentTimeMillis(), "BAN_EXPIRED_ON_JOIN"));
+                        LostProxy.getInstance().getHistoryManager().getBanHistory(player.getUniqueId(), iBanHistory -> {
+                            iBanHistory.addEntry(new IUnbanEntry(player.getUniqueId(), "BKM-System", System.currentTimeMillis(), "BAN_EXPIRED_ON_JOIN"));
                             LostProxy.getInstance().getHistoryManager().saveBanHistory(iBanHistory, aBoolean -> {
                                 if (aBoolean) {
                                     LostProxy.getInstance().getTeamManager().getNotificationOn().forEach(all -> LostProxy.getInstance().getPlayerManager().getIPlayerAsync(player.getUniqueId(), iPlayer -> {
