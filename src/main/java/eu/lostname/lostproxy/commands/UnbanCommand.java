@@ -17,11 +17,11 @@ public class UnbanCommand extends Command {
 
     @Override
     public void execute(CommandSender commandSender, String[] strings) {
-        if (strings.length == 0) {
+        if (strings.length <= 1) {
             commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Benutzung von §c/unban§8:").build());
             commandSender.sendMessage(new MessageBuilder("§8┃ §c/unban <Spieler> [Grund] §8» §7Entbannt einen gebannten Spieler").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/unban ").build());
             commandSender.sendMessage(new MessageBuilder("§8§m--------------------§r").build());
-        } else if (strings.length >= 2) {
+        } else {
             LostProxy.getInstance().getPlayerManager().getUUIDofPlayername(strings[0], uuid -> {
                 if (uuid != null) {
                     LostProxy.getInstance().getPlayerManager().getIPlayerAsync(uuid, targetIPlayer -> LostProxy.getInstance().getBanManager().getBan(uuid, iBan -> {
@@ -54,8 +54,6 @@ public class UnbanCommand extends Command {
                     commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Der angegebene Spieler wurde §cnicht §7gefunden§8.").build());
                 }
             });
-        } else {
-            commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Bitte beachte die §eBenutzung §7dieses Kommandos§8.").build());
         }
     }
 }

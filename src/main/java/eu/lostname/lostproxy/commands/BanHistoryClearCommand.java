@@ -15,7 +15,7 @@ public class BanHistoryClearCommand extends Command {
 
     @Override
     public void execute(CommandSender commandSender, String[] strings) {
-        if (strings.length == 0) {
+        if (strings.length == 0 || strings.length >= 3) {
             commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Benutzung von §c/bhclear§8:").build());
             commandSender.sendMessage(new MessageBuilder("§8┃ §c/bhclear <Spieler> §8» §7Leert die Ban-History des angegebenen Spielers").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/bhclear ").build());
             commandSender.sendMessage(new MessageBuilder("§8§m--------------------§r").build());
@@ -37,7 +37,7 @@ public class BanHistoryClearCommand extends Command {
                     commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Der angegebene Spieler konnte §cnicht §7gefunden werden§8.").build());
                 }
             });
-        } else if (strings.length == 2) {
+        } else {
             if (strings[1].equalsIgnoreCase("confirmed")) {
                 if (LostProxy.getInstance().getHistoryManager().getBanHistoryClearCommandProcess().contains(commandSender.getName())) {
                     LostProxy.getInstance().getPlayerManager().getUUIDofPlayername(strings[0], targetUUID -> {
@@ -67,8 +67,6 @@ public class BanHistoryClearCommand extends Command {
             } else {
                 commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Bitte beachte die §eBenutzung §7dieses Kommandos§8.").build());
             }
-        } else {
-            commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Bitte beachte die §eBenutzung §7dieses Kommandos§8.").build());
         }
     }
 }
