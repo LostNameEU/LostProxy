@@ -10,7 +10,6 @@ import eu.lostname.lostproxy.interfaces.bkms.IBan;
 import eu.lostname.lostproxy.utils.MongoCollection;
 import org.bson.Document;
 
-import java.sql.Time;
 import java.util.UUID;
 import java.util.function.Consumer;
 
@@ -70,31 +69,53 @@ public class BanManager {
 
     @SuppressWarnings("deprecation")
     public String calculateRemainingTime(long end) {
-        Time time = new Time(end - System.currentTimeMillis());
+        long millis = end - System.currentTimeMillis();
+        int seconds = 0, minutes = 0, hours = 0, days = 0;
+
+        while (millis >= 1000) {
+            millis -= 1000;
+            seconds++;
+        }
+
+        while (seconds >= 60) {
+            seconds -= 60;
+            minutes++;
+        }
+
+        while (minutes >= 60) {
+            minutes -= 60;
+            hours++;
+        }
+
+        while (hours >= 24) {
+            hours -= 24;
+            days++;
+        }
+
         String estimatedTime = "";
 
-        if (time.getDay() == 1) {
+        if (days == 1) {
             estimatedTime = "ein §7Tag§8, ";
-        } else if (time.getDay() > 1) {
-            estimatedTime = time.getDay() + " §7Tage§8, ";
+        } else if (days > 1) {
+            estimatedTime = days + " §7Tage§8, ";
         }
 
-        if (time.getHours() == 1) {
+        if (hours == 1) {
             estimatedTime = "§ceine §7Stunde§8, ";
-        } else if (time.getHours() > 1) {
-            estimatedTime = "§c" + time.getHours() + " §7Stunden§8, ";
+        } else if (hours > 1) {
+            estimatedTime = "§c" + hours + " §7Stunden§8, ";
         }
 
-        if (time.getMinutes() == 1) {
+        if (minutes == 1) {
             estimatedTime = "§ceine §7Minute und ";
-        } else if (time.getMinutes() > 1) {
-            estimatedTime = "§c" + time.getMinutes() + " §7Minuten und ";
+        } else if (minutes > 1) {
+            estimatedTime = "§c" + minutes + " §7Minuten und ";
         }
 
-        if (time.getSeconds() == 1) {
+        if (seconds == 1) {
             estimatedTime = "§ceine §7Sekunde";
-        } else if (time.getSeconds() > 1) {
-            estimatedTime = "§c" + time.getSeconds() + " §7Sekunden";
+        } else if (seconds > 1) {
+            estimatedTime = "§c" + seconds + " §7Sekunden";
         }
 
         return estimatedTime;
