@@ -8,6 +8,7 @@ import eu.lostname.lostproxy.commands.*;
 import eu.lostname.lostproxy.databases.LostProxyDatabase;
 import eu.lostname.lostproxy.listener.PlayerDisconnectListener;
 import eu.lostname.lostproxy.listener.PostLoginListener;
+import eu.lostname.lostproxy.listener.PreLoginListener;
 import eu.lostname.lostproxy.manager.*;
 import eu.lostname.lostproxy.utils.CloudServices;
 import eu.lostname.lostproxy.utils.Property;
@@ -24,6 +25,8 @@ public class LostProxy extends Plugin {
     private TeamSpeakManager teamSpeakManager;
     private HistoryManager historyManager;
     private TeamManager teamManager;
+    private BanManager banManager;
+    private ReasonManager reasonManager;
 
     private Property property;
 
@@ -40,6 +43,8 @@ public class LostProxy extends Plugin {
         this.historyManager = new HistoryManager();
         this.teamSpeakManager = new TeamSpeakManager();
         this.teamManager = new TeamManager();
+        this.banManager = new BanManager();
+        this.reasonManager = new ReasonManager(gson, database);
 
         getProxy().getPluginManager().registerCommand(this, new TSCommand("ts", "lostproxy.command.ts"));
         getProxy().getPluginManager().registerCommand(this, new PingCommand("ping", "lostproxy.command.ping"));
@@ -49,9 +54,16 @@ public class LostProxy extends Plugin {
         getProxy().getPluginManager().registerCommand(this, new KickInfoCommand("kickinfo", "lostproxy.command.kickinfo", "ki"));
         getProxy().getPluginManager().registerCommand(this, new TCCommand("tc", "lostproxy.command.tc", "teamchat"));
         getProxy().getPluginManager().registerCommand(this, new TeamCommand("team", "lostproxy.command.team"));
+        getProxy().getPluginManager().registerCommand(this, new BanReasonsCommand("banreasons", "lostproxy.command.banreasons", "br"));
+        getProxy().getPluginManager().registerCommand(this, new UnbanCommand("unban", "lostproxy.command.unban", "ub"));
+        getProxy().getPluginManager().registerCommand(this, new BanInfoCommand("baninfo", "lostproxy.command.baninfo", "bi"));
+        getProxy().getPluginManager().registerCommand(this, new BanHistoryClearCommand("banhistoryclear", "lostproxy.command.banhistoryclear", "bhc", "bhclear"));
+        getProxy().getPluginManager().registerCommand(this, new BanCommand("ban", "lostproxy.command.ban", "b"));
+        getProxy().getPluginManager().registerCommand(this, new EACommand("ea", "lostproxy.command.ea"));
 
         getProxy().getPluginManager().registerListener(this, new PostLoginListener());
         getProxy().getPluginManager().registerListener(this, new PlayerDisconnectListener());
+        getProxy().getPluginManager().registerListener(this, new PreLoginListener());
 
         CloudServices.SYNCPROXY_MANAGEMENT = CloudNetDriver.getInstance().getServicesRegistry().getFirstService(AbstractSyncProxyManagement.class);
     }
@@ -86,6 +98,10 @@ public class LostProxy extends Plugin {
         return msg.toString();
     }
 
+    public BanManager getBanManager() {
+        return banManager;
+    }
+
     public TeamSpeakManager getTeamSpeakManager() {
         return teamSpeakManager;
     }
@@ -116,5 +132,9 @@ public class LostProxy extends Plugin {
 
     public Property getProperty() {
         return property;
+    }
+
+    public ReasonManager getReasonManager() {
+        return reasonManager;
     }
 }
