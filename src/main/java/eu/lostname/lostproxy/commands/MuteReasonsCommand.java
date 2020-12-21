@@ -45,7 +45,7 @@ public class MuteReasonsCommand extends Command {
                         commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Informationen zum angegebenen Mutegrund§8:").build());
                         commandSender.sendMessage(new MessageBuilder("§8┃ §7Name §8» §c" + iMuteReason.getName()).build());
                         commandSender.sendMessage(new MessageBuilder("§8┃ §7ID §8» §c" + iMuteReason.getId()).build());
-                        commandSender.sendMessage(new MessageBuilder("§8┃ §7Mutezeit §8» §c" + (iMuteReason.getTime() == -1 ? "permanent" : iMuteReason.getTime() + " " + iMuteReason.getTimeUnit().toString())).build());
+                        commandSender.sendMessage(new MessageBuilder("§8┃ §7Mutezeit §8» §c" + (iMuteReason.getTime() == -1 ? "permanent" : iMuteReason.getTime() + " " + iMuteReason.getTimeUnit().name())).build());
                         commandSender.sendMessage(new MessageBuilder("§8┃ §7Berechtigung §8» §c" + iMuteReason.getPermission()).build());
                         commandSender.sendMessage(new MessageBuilder("§8§m--------------------§r").build());
 
@@ -182,7 +182,7 @@ public class MuteReasonsCommand extends Command {
                     int id = Integer.parseInt(strings[1]);
 
                     if (LostProxy.getInstance().getReasonManager().getMuteReasonByID(id) == null) {
-                        String name = strings[2];
+                        String name = strings[2].replaceAll("_", " ");
                         int time = Integer.parseInt(strings[3]);
                         TimeUnit timeUnit = Arrays.stream(TimeUnit.values()).filter(one -> one.name().equalsIgnoreCase(strings[4])).findFirst().orElse(null);
 

@@ -37,7 +37,7 @@ public class PingCommand extends Command implements TabExecutor {
                     if (target != null) {
                         ProxiedPlayer finalTarget = target;
                         IPlayerSync iPlayer = new IPlayerSync(target.getUniqueId());
-                            player.sendMessage(new MessageBuilder(Prefix.LOSTPROXY + "Der Ping von " + iPlayer.getPrefix() + finalTarget.getName() + " §7beträgt aktuell§8: §c" + finalTarget.getPing() + "ms").build());
+                            player.sendMessage(new MessageBuilder(Prefix.LOSTPROXY + "Der Ping von " + iPlayer.getDisplay() + finalTarget.getName() + " §7beträgt aktuell§8: §c" + finalTarget.getPing() + "ms").build());
                     } else {
                         player.sendMessage(new MessageBuilder(Prefix.LOSTPROXY + "Der angegebene Spieler konnte §cnicht §7gefunden werden§8.").build());
                     }

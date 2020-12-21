@@ -62,13 +62,13 @@ public class KickCommand extends Command {
 
 
                         if (commandSender instanceof ProxiedPlayer) {
-                            LostProxy.getInstance().getPlayerManager().getIPlayerAsync(((ProxiedPlayer) commandSender).getUniqueId(), iPlayer -> LostProxy.getInstance().getTeamManager().sendKickNotify(iPlayer.getPrefix() + commandSender.getName(), targetIPlayer.getPrefix() + targetIPlayer.getPlayerName(), reason));
+                            LostProxy.getInstance().getPlayerManager().getIPlayerAsync(((ProxiedPlayer) commandSender).getUniqueId(), iPlayer -> LostProxy.getInstance().getTeamManager().sendKickNotify(iPlayer.getDisplay() + commandSender.getName(), targetIPlayer.getDisplay() + targetIPlayer.getPlayerName(), reason));
                         } else {
-                            LostProxy.getInstance().getTeamManager().sendKickNotify("§4Konsole", targetIPlayer.getPrefix() + targetIPlayer.getPlayerName(), reason);
+                            LostProxy.getInstance().getTeamManager().sendKickNotify("§4Konsole", targetIPlayer.getDisplay() + targetIPlayer.getPlayerName(), reason);
                         }
-                        commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Du hast " + targetIPlayer.getPrefix() + targetIPlayer.getPlayerName() + " §7wegen §e" + reason + "§7gekickt§8.").build());
+                        commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Du hast " + targetIPlayer.getDisplay() + targetIPlayer.getPlayerName() + " §7wegen §e" + reason + "§7gekickt§8.").build());
                     } else {
-                            commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Du hast §ckeine §7Rechte§8, §7um " + targetIPlayer.getPrefix() + targetIPlayer.getPlayerName() + " §7zu §ekicken§8.").build());
+                        commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Du hast §ckeine §7Rechte§8, §7um " + targetIPlayer.getDisplay() + targetIPlayer.getPlayerName() + " §7zu §ekicken§8.").build());
                         }
                 } else {
                     commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Du darfst dich §cnicht §7selber §ekicken§8.").build());

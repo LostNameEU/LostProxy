@@ -31,7 +31,7 @@ public class TCCommand extends Command {
                     String msg = LostProxy.getInstance().formatArrayToString(0, strings);
 
                     IPlayerSync iPlayer = new IPlayerSync(player.getUniqueId());
-                    LostProxy.getInstance().getTeamManager().getLoggedIn().forEach(all -> all.sendMessage(new MessageBuilder(Prefix.TMS + iPlayer.getPrefix() + player.getName() + " §8» §" + new Random().nextInt(9) + msg).build()));
+                    LostProxy.getInstance().getTeamManager().getLoggedIn().forEach(all -> all.sendMessage(new MessageBuilder(Prefix.TMS + iPlayer.getDisplay() + player.getName() + " §8» §" + new Random().nextInt(9) + msg).build()));
                 } else {
                     player.sendMessage(new MessageBuilder(Prefix.TMS + "Du bist §cnicht §7eingeloggt§8.").build());
                 }

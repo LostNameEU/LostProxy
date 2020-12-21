@@ -65,10 +65,10 @@ public class BanCommand extends Command {
                                 commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Zurzeit sind §ckeinerlei §7Banngründe registriert§8.").build());
                             }
                         } else {
-                            commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Du hast §ckeine §7Rechte§8, §7um " + targetIPlayer.getPrefix() + targetIPlayer.getPlayerName() + " §7zu §ebannen§8.").build());
+                            commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Du hast §ckeine §7Rechte§8, §7um " + targetIPlayer.getDisplay() + targetIPlayer.getPlayerName() + " §7zu §ebannen§8.").build());
                         }
                     } else {
-                        commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Der Spieler " + targetIPlayer.getPrefix() + targetIPlayer.getPlayerName() + " §7ist §cbereits §7gebannt§8.").build());
+                        commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Der Spieler " + targetIPlayer.getDisplay() + targetIPlayer.getPlayerName() + " §7ist §cbereits §7gebannt§8.").build());
                     }
                 } else {
                     commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Der angegebene Spieler wurde §cnicht §7gefunden§8.").build());
@@ -138,16 +138,16 @@ public class BanCommand extends Command {
                                         }
 
                                         if (commandSender instanceof ProxiedPlayer) {
-                                            LostProxy.getInstance().getPlayerManager().getIPlayerAsync(((ProxiedPlayer) commandSender).getUniqueId(), iPlayer -> LostProxy.getInstance().getTeamManager().sendBanNotify(iPlayer.getPrefix() + iPlayer.getPlayerName(), targetIPlayer.getPrefix() + targetIPlayer.getPlayerName(), iBanReason));
+                                            LostProxy.getInstance().getPlayerManager().getIPlayerAsync(((ProxiedPlayer) commandSender).getUniqueId(), iPlayer -> LostProxy.getInstance().getTeamManager().sendBanNotify(iPlayer.getDisplay() + iPlayer.getPlayerName(), targetIPlayer.getDisplay() + targetIPlayer.getPlayerName(), iBanReason));
                                         } else {
-                                            LostProxy.getInstance().getTeamManager().sendBanNotify("§4Konsole", targetIPlayer.getPrefix() + targetIPlayer.getPlayerName(), iBanReason);
+                                            LostProxy.getInstance().getTeamManager().sendBanNotify("§4Konsole", targetIPlayer.getDisplay() + targetIPlayer.getPlayerName(), iBanReason);
                                         }
 
                                         IBanHistory iBanHistory = LostProxy.getInstance().getHistoryManager().getBanHistory(uuid);
                                         iBanHistory.addEntry(new IBanEntry(EBanEntryType.BAN_ENTRY, uuid, invokerId, currentTimeMillis, iBanReason.getName(), banDuration, (banDuration == -1 ? -1 : currentTimeMillis + banDuration)));
 
                                         LostProxy.getInstance().getHistoryManager().saveBanHistory(iBanHistory);
-                                        commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Du hast " + targetIPlayer.getPrefix() + targetIPlayer.getPlayerName() + " §7wegen §e" + iBanReason.getName() + " §7für §c" + (ban.getEnd() == -1 ? "§4permanent" : iBanReason.displayBanDuration()) + " §7gebannt§8.").build());
+                                        commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Du hast " + targetIPlayer.getDisplay() + targetIPlayer.getPlayerName() + " §7wegen §e" + iBanReason.getName() + " §7für §c" + (ban.getEnd() == -1 ? "§4permanent" : iBanReason.getTime() + " " + iBanReason.getTimeUnit().name()) + " §7gebannt§8.").build());
                                     } else {
                                         commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Du hast darfst den Banngrund §e" + iBanReason.getName() + " §cnicht §7benutzen§8.").build());
                                     }
@@ -158,10 +158,10 @@ public class BanCommand extends Command {
                                 commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Du hast §ckeine §7Zahl angegeben§8.").build());
                             }
                         } else {
-                            commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Du hast §ckeine §7Rechte§8, §7um " + targetIPlayer.getPrefix() + targetIPlayer.getPlayerName() + " §7zu §ebannen§8.").build());
+                            commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Du hast §ckeine §7Rechte§8, §7um " + targetIPlayer.getDisplay() + targetIPlayer.getPlayerName() + " §7zu §ebannen§8.").build());
                         }
                     } else {
-                        commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Der Spieler " + targetIPlayer.getPrefix() + targetIPlayer.getPlayerName() + " §7ist §cbereits §7gebannt§8.").build());
+                        commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Der Spieler " + targetIPlayer.getDisplay() + targetIPlayer.getPlayerName() + " §7ist §cbereits §7gebannt§8.").build());
                     }
                 } else {
                     commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Der angegebene Spieler wurde §cnicht §7gefunden§8.").build());
