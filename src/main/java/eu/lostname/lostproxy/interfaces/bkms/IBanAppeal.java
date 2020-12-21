@@ -4,18 +4,18 @@ import java.util.UUID;
 
 public class IBanAppeal {
 
-    private final UUID _id;
+    private final String _id;
     private final String invoker;
     private final long timestamp;
 
     public IBanAppeal(UUID _id, String invoker, long timestamp) {
-        this._id = _id;
+        this._id = _id.toString();
         this.invoker = invoker;
         this.timestamp = timestamp;
     }
 
     public UUID getUniqueId() {
-        return _id;
+        return UUID.fromString(_id);
     }
 
     public String getInvoker() {

@@ -7,18 +7,18 @@ import java.util.UUID;
 
 public class IMuteHistory extends IHistory {
 
-    private final ArrayList<IMuteSpecificEntry> history;
+    private final ArrayList<IMuteEntry> history;
 
-    public IMuteHistory(UUID uniqueId, ArrayList<IMuteSpecificEntry> history) {
+    public IMuteHistory(UUID uniqueId, ArrayList<IMuteEntry> history) {
         super(uniqueId);
         this.history = history;
     }
 
-    public ArrayList<IMuteSpecificEntry> getHistory() {
+    public ArrayList<IMuteEntry> getHistory() {
         return history;
     }
 
-    public void addEntry(IMuteSpecificEntry iMuteSpecificEntry) {
-        history.add(iMuteSpecificEntry);
+    public void addEntry(IMuteEntry iMuteEntry) {
+        history.add(iMuteEntry);
     }
 }

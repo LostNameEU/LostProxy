@@ -4,7 +4,7 @@ import java.util.UUID;
 
 public class IMute {
 
-    private final UUID _id;
+    private final String _id;
     private final long timestamp;
     private final long duration;
     private final boolean verified;
@@ -14,7 +14,7 @@ public class IMute {
     private long end;
 
     public IMute(UUID _id, String playerName, String invoker, String reason, long timestamp, long duration, boolean verified) {
-        this._id = _id;
+        this._id = _id.toString();
         this.playerName = playerName;
         this.invoker = invoker;
         this.reason = reason;
@@ -25,7 +25,7 @@ public class IMute {
     }
 
     public UUID getUniqueId() {
-        return _id;
+        return UUID.fromString(_id);
     }
 
     public String getPlayerName() {

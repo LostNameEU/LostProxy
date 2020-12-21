@@ -1,18 +1,15 @@
 package eu.lostname.lostproxy.manager;
 
-import com.mongodb.async.SingleResultCallback;
-import com.mongodb.client.model.Filters;
+import com.google.gson.Gson;
 import com.mongodb.client.model.ReplaceOptions;
-import com.mongodb.client.result.DeleteResult;
-import com.mongodb.client.result.UpdateResult;
 import eu.lostname.lostproxy.LostProxy;
 import eu.lostname.lostproxy.interfaces.bkms.IMute;
 import eu.lostname.lostproxy.utils.MongoCollection;
 import org.bson.Document;
 
-import java.sql.Time;
 import java.util.UUID;
-import java.util.function.Consumer;
+
+import static com.mongodb.client.model.Filters.eq;
 
 public class MuteManager {
 
@@ -21,82 +18,97 @@ public class MuteManager {
      * Returns a mute when the given player is muted
      *
      * @param uniqueId the uniqueId of the player who has to be checked
-     * @param consumer returns the imute when ban is active
+     * @return the ban of the given uniqueId
      */
-    public void getMute(UUID uniqueId, Consumer<IMute> consumer) {
-        LostProxy.getInstance().getDatabase().getMongoDatabase().getCollection(MongoCollection.ACTIVE_MUTES).find(Filters.eq("_id", uniqueId)).first((document, throwable) -> {
-            if (document != null) {
-                consumer.accept(LostProxy.getInstance().getGson().fromJson(document.toJson(), IMute.class));
-            } else {
-                consumer.accept(null);
-            }
-        });
+    public IMute getMute(UUID uniqueId) {
+        Document d = LostProxy.getInstance().getDatabase().getMongoDatabase().getCollection(MongoCollection.ACTIVE_MUTES).find(eq("_id", uniqueId.toString())).first();
+
+        return d != null ? LostProxy.getInstance().getGson().fromJson(d.toJson(), IMute.class) : null;
     }
 
     /**
      * Saves the given mute in the database
      *
-     * @param iMute                            the mute which has to be saved
-     * @param updateResultSingleResultCallback returns a UpdateResult of the insert
+     * @param iMute the mute which has to be saved
      */
-    public void saveMute(IMute iMute, SingleResultCallback<UpdateResult> updateResultSingleResultCallback) {
-        LostProxy.getInstance().getDatabase().getMongoDatabase().getCollection(MongoCollection.ACTIVE_MUTES).replaceOne(Filters.eq("_id", iMute.getUniqueId()), LostProxy.getInstance().getGson().fromJson(LostProxy.getInstance().getGson().toJson(iMute), Document.class), new ReplaceOptions().upsert(true), updateResultSingleResultCallback);
+    public void saveMute(IMute iMute) {
+        Gson gson = LostProxy.getInstance().getGson();
+        LostProxy.getInstance().getDatabase().getMongoDatabase().getCollection(MongoCollection.ACTIVE_MUTES).replaceOne(eq("_id", iMute.getUniqueId().toString()), gson.fromJson(gson.toJson(iMute), Document.class), new ReplaceOptions().upsert(true));
     }
 
     /**
      * Inserts the given mute in the database
      *
-     * @param iMute                     that is gonna be inserted into the database
-     * @param voidSingleResultCallback returns the callback from the database
+     * @param iMute that is gonna be inserted into the database
      */
-    public void insertMute(IMute iMute, SingleResultCallback<Void> voidSingleResultCallback) {
-        LostProxy.getInstance().getDatabase().getMongoDatabase().getCollection(MongoCollection.ACTIVE_MUTES).insertOne(LostProxy.getInstance().getGson().fromJson(LostProxy.getInstance().getGson().toJson(iMute), Document.class), voidSingleResultCallback);
+    public void insertMute(IMute iMute) {
+        LostProxy.getInstance().getDatabase().getMongoDatabase().getCollection(MongoCollection.ACTIVE_MUTES).insertOne(LostProxy.getInstance().getGson().fromJson(LostProxy.getInstance().getGson().toJson(iMute), Document.class));
     }
 
     /**
      * Deletes the given mute in the database
      *
-     * @param iMute                             the mute which has to be deleted
-     * @param deleteResultSingleResultCallback returns the callback from the database
+     * @param iMute the mute which has to be deleted
      */
-    public void deleteMute(IMute iMute, SingleResultCallback<DeleteResult> deleteResultSingleResultCallback) {
-        LostProxy.getInstance().getDatabase().getMongoDatabase().getCollection(MongoCollection.ACTIVE_MUTES).deleteOne(Filters.eq("_id", iMute.getUniqueId()), deleteResultSingleResultCallback);
+    public void deleteMute(IMute iMute) {
+        LostProxy.getInstance().getDatabase().getMongoDatabase().getCollection(MongoCollection.ACTIVE_MUTES).deleteOne(eq("_id", iMute.getUniqueId().toString()));
     }
 
     /**
      * Returns a string which displays the remaining time to a given end
-     *
      * @param end the end time
      * @return a string with the display
      */
 
     @SuppressWarnings("deprecation")
     public String calculateRemainingTime(long end) {
-        Time time = new Time(end - System.currentTimeMillis());
+        long millis = end - System.currentTimeMillis();
+        int seconds = 0, minutes = 0, hours = 0, days = 0;
+
+        while (millis >= 1000) {
+            millis -= 1000;
+            seconds++;
+        }
+
+        while (seconds >= 60) {
+            seconds -= 60;
+            minutes++;
+        }
+
+        while (minutes >= 60) {
+            minutes -= 60;
+            hours++;
+        }
+
+        while (hours >= 24) {
+            hours -= 24;
+            days++;
+        }
+
         String estimatedTime = "";
 
-        if (time.getDay() == 1) {
-            estimatedTime = "ein §7Tag§8, ";
-        } else if (time.getDay() > 1) {
-            estimatedTime = time.getDay() + " §7Tage§8, ";
+        if (days == 1) {
+            estimatedTime += "ein §7Tag§8, ";
+        } else if (days > 1) {
+            estimatedTime += days + " §7Tage§8, ";
         }
 
-        if (time.getHours() == 1) {
-            estimatedTime = "§ceine §7Stunde§8, ";
-        } else if (time.getHours() > 1) {
-            estimatedTime = "§c" + time.getHours() + " §7Stunden§8, ";
+        if (hours == 1) {
+            estimatedTime += "§ceine §7Stunde§8, ";
+        } else if (hours > 1) {
+            estimatedTime += "§c" + hours + " §7Stunden§8, ";
         }
 
-        if (time.getMinutes() == 1) {
-            estimatedTime = "§ceine §7Minute und ";
-        } else if (time.getMinutes() > 1) {
-            estimatedTime = "§c" + time.getMinutes() + " §7Minuten und ";
+        if (minutes == 1) {
+            estimatedTime += "§ceine §7Minute und ";
+        } else if (minutes > 1) {
+            estimatedTime += "§c" + minutes + " §7Minuten und ";
         }
 
-        if (time.getSeconds() == 1) {
-            estimatedTime = "§ceine §7Sekunde";
-        } else if (time.getSeconds() > 1) {
-            estimatedTime = "§c" + time.getSeconds() + " §7Sekunden";
+        if (seconds == 1) {
+            estimatedTime += "§ceine §7Sekunde";
+        } else if (seconds > 1) {
+            estimatedTime += "§c" + seconds + " §7Sekunden";
         }
 
         return estimatedTime;

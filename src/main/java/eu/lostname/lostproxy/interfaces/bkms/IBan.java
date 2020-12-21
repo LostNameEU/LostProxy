@@ -4,7 +4,7 @@ import java.util.UUID;
 
 public class IBan {
 
-    private final UUID _id;
+    private final String _id;
     private String playerName;
     private final long timestamp;
     private final long duration;
@@ -15,7 +15,7 @@ public class IBan {
     private IBanAppeal banAppeal;
 
     public IBan(UUID _id, String playerName, String invoker, String reason, long timestamp, long duration, boolean verified, IBanAppeal banAppeal) {
-        this._id = _id;
+        this._id = _id.toString();
         this.playerName = playerName;
         this.invoker = invoker;
         this.reason = reason;
@@ -27,7 +27,7 @@ public class IBan {
     }
 
     public UUID getUniqueId() {
-        return _id;
+        return UUID.fromString(_id);
     }
 
     public String getPlayerName() {

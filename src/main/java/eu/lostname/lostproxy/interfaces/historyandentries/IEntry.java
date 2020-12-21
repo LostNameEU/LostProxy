@@ -4,18 +4,18 @@ import java.util.UUID;
 
 public class IEntry {
 
-    private final UUID _id;
+    private final String _id;
     private final String invokerId;
     private final long timestamp;
 
     public IEntry(UUID _id, String invokerId, long timestamp) {
-        this._id = _id;
+        this._id = _id.toString();
         this.invokerId = invokerId;
         this.timestamp = timestamp;
     }
 
     public UUID getUniqueId() {
-        return _id;
+        return UUID.fromString(_id);
     }
 
     public String getInvokerId() {

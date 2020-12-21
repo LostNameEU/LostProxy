@@ -65,9 +65,9 @@ public class LostProxy extends Plugin {
         getProxy().getPluginManager().registerCommand(this, new EACommand("ea", "lostproxy.command.ea"));
         getProxy().getPluginManager().registerCommand(this, new UnmuteCommand("unmute", "lostproxy.command.unmute"));
         getProxy().getPluginManager().registerCommand(this, new MuteCommand("mute", "lostproxy.command.mute"));
-        getProxy().getPluginManager().registerCommand(this, new MuteReasonsCommand("mutereasons", "lostproxy.command.mutereasons"));
-        getProxy().getPluginManager().registerCommand(this, new MuteInfoCommand("muteinfo", "lostproxy.command.muteinfo"));
-        getProxy().getPluginManager().registerCommand(this, new MuteHistoryClearCommand("mutehistoryclear", "lostproxy.command.mutehistoryclear"));
+        getProxy().getPluginManager().registerCommand(this, new MuteReasonsCommand("mutereasons", "lostproxy.command.mutereasons", "mr"));
+        getProxy().getPluginManager().registerCommand(this, new MuteInfoCommand("muteinfo", "lostproxy.command.muteinfo", "mi"));
+        getProxy().getPluginManager().registerCommand(this, new MuteHistoryClearCommand("mutehistoryclear", "lostproxy.command.mutehistoryclear", "mhclear", "mhc"));
 
         getProxy().getPluginManager().registerListener(this, new PostLoginListener());
         getProxy().getPluginManager().registerListener(this, new PlayerDisconnectListener());
@@ -75,6 +75,8 @@ public class LostProxy extends Plugin {
         getProxy().getPluginManager().registerListener(this, new ChatListener());
 
         CloudServices.SYNCPROXY_MANAGEMENT = CloudNetDriver.getInstance().getServicesRegistry().getFirstService(AbstractSyncProxyManagement.class);
+        CloudServices.PERMISSION_MANAGEMENT = CloudNetDriver.getInstance().getPermissionManagement();
+        CloudServices.PLAYER_MANAGER = CloudNetDriver.getInstance().getServicesRegistry().getFirstService(IPlayerManager.class);
     }
 
     @Override
@@ -83,9 +85,6 @@ public class LostProxy extends Plugin {
 
         property = new Property();
         property.setDefaultProps();
-
-        CloudServices.PERMISSION_MANAGEMENT = CloudNetDriver.getInstance().getPermissionManagement();
-        CloudServices.PLAYER_MANAGER = CloudNetDriver.getInstance().getServicesRegistry().getFirstService(IPlayerManager.class);
     }
 
     @Override

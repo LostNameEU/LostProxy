@@ -7,7 +7,6 @@ import eu.lostname.lostproxy.utils.Prefix;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 import java.util.ArrayList;
-import java.util.function.Consumer;
 
 public class TeamManager {
 
@@ -22,22 +21,20 @@ public class TeamManager {
     /**
      * Adds the given player to the ArrayList: notificationOn
      *
-     * @param player   the player who gets the notifications enabled
-     * @param consumer a consumer which includes the feedback whether the adding to the list worked
+     * @param player the player who gets the notifications enabled
      * @since 08.12.2020
      */
-    public void enableNotifications(ProxiedPlayer player, Consumer<Boolean> consumer) {
-        consumer.accept(notificationOn.add(player));
+    public boolean enableNotifications(ProxiedPlayer player) {
+        return notificationOn.add(player);
     }
 
     /**
      * Removes the given player from the ArrayList: notificationOn
      * @param player   the player who gets the notifications disabled
-     * @param consumer a consumer which includes the feedback whether the removing from the list worked
      * @since 08.12.2020
      */
-    public void disableNotifications(ProxiedPlayer player, Consumer<Boolean> consumer) {
-        consumer.accept(notificationOn.remove(player));
+    public boolean disableNotifications(ProxiedPlayer player) {
+        return notificationOn.remove(player);
     }
 
     /**
@@ -52,19 +49,17 @@ public class TeamManager {
     /**
      * Adds the given player to the ArrayList: loggedIn
      * @param proxiedPlayer the player who has to be logged in
-     * @param consumer      a consumer which includes the feedback whether the adding to the list worked
      */
-    public void login(ProxiedPlayer proxiedPlayer, Consumer<Boolean> consumer) {
-        consumer.accept(loggedIn.add(proxiedPlayer));
+    public boolean login(ProxiedPlayer proxiedPlayer) {
+        return loggedIn.add(proxiedPlayer);
     }
 
     /**
      * Removes the given player from the ArrayList: loggedIn
      * @param proxiedPlayer the player who has to be logged out
-     * @param consumer      a consumer which includes the feedback whether the removing from the list worked
      */
-    public void logout(ProxiedPlayer proxiedPlayer, Consumer<Boolean> consumer) {
-        consumer.accept(loggedIn.remove(proxiedPlayer));
+    public boolean logout(ProxiedPlayer proxiedPlayer) {
+        return loggedIn.remove(proxiedPlayer);
     }
 
     /**
@@ -150,7 +145,7 @@ public class TeamManager {
     public void sendMuteNotify(String invokerDisplay, String targetDisplay, IMuteReason iMuteReason) {
         notificationOn.forEach(all -> {
             all.sendMessage(new MessageBuilder(Prefix.BKMS + invokerDisplay + " §8➼ " + targetDisplay).build());
-            all.sendMessage(new MessageBuilder("§8┃ §7Typ §8» §4Ban").build());
+            all.sendMessage(new MessageBuilder("§8┃ §7Typ §8» §cMute").build());
             all.sendMessage(new MessageBuilder("§8┃ §7Grund §8» §e" + iMuteReason.getName()).build());
             all.sendMessage(new MessageBuilder("§8┃ §7Dauer §8» §e" + (iMuteReason.getTime() == -1 ? "Permanent" : iMuteReason.getTime() + " " + iMuteReason.getTimeUnit().toString())).build());
             all.sendMessage(new MessageBuilder("§8§m--------------------§r").build());

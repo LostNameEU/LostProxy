@@ -45,7 +45,7 @@ public class BanReasonsCommand extends Command {
                         commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Informationen zum angegebenen Banngrund§8:").build());
                         commandSender.sendMessage(new MessageBuilder("§8┃ §7Name §8» §c" + iBanReason.getName()).build());
                         commandSender.sendMessage(new MessageBuilder("§8┃ §7ID §8» §c" + iBanReason.getId()).build());
-                        commandSender.sendMessage(new MessageBuilder("§8┃ §7Bannzeit §8» §c" + iBanReason.getTime() + iBanReason.getTimeUnit().toString()).build());
+                        commandSender.sendMessage(new MessageBuilder("§8┃ §7Bannzeit §8» §c" + (iBanReason.getTime() == -1 ? "permanent" : iBanReason.getTime() + " " + iBanReason.getTimeUnit().toString())).build());
                         commandSender.sendMessage(new MessageBuilder("§8┃ §7Berechtigung §8» §c" + iBanReason.getPermission()).build());
                         commandSender.sendMessage(new MessageBuilder("§8§m--------------------§r").build());
 
@@ -91,14 +91,9 @@ public class BanReasonsCommand extends Command {
                             if (LostProxy.getInstance().getReasonManager().getBanReasonCommandProcess().contains(commandSender.getName())) {
                                 if (strings[2].equalsIgnoreCase("confirmed")) {
                                     LostProxy.getInstance().getReasonManager().getBanReasonCommandProcess().remove(commandSender.getName());
-                                    LostProxy.getInstance().getReasonManager().deleteBanReason(iBanReason, (deleteResult, throwable) -> {
-                                        if (deleteResult.wasAcknowledged()) {
-                                            LostProxy.getInstance().getReasonManager().reloadBanReasons();
-                                            commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Der Banngrund §e" + iBanReason.getName() + " §8(§e" + iBanReason.getId() + "§8) §7wurde erfolgreich §cgelöscht§8.").build());
-                                        } else {
-                                            commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Beim Löschen des §eBanngrunds §7ist ein §4Fehler §7aufgetreten§8. §7Bitte kontaktiere sofort das Referat §4DEV/01§8!").build());
-                                        }
-                                    });
+                                    LostProxy.getInstance().getReasonManager().deleteBanReason(iBanReason);
+                                    LostProxy.getInstance().getReasonManager().reloadBanReasons();
+                                    commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Der Banngrund §e" + iBanReason.getName() + " §8(§e" + iBanReason.getId() + "§8) §7wurde erfolgreich §cgelöscht§8.").build());
                                 } else {
                                     commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Bitte beachte die §eBenutzung §7dieses Kommandos§8.").build());
                                 }
@@ -129,38 +124,23 @@ public class BanReasonsCommand extends Command {
                                     int newId = Integer.parseInt(strings[3]);
                                     iBanReason.setId(newId);
 
-                                    LostProxy.getInstance().getReasonManager().saveBanReason(iBanReason, (updateResult, throwable) -> {
-                                        if (updateResult.wasAcknowledged()) {
-                                            LostProxy.getInstance().getReasonManager().reloadBanReasons();
-                                            commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Die neue ID des Banngrunds §e" + iBanReason.getName() + " §7lautet nun §a" + newId + "§8.").build());
-                                        } else {
-                                            commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Beim Aktualisieren des §eBanngrunds §7ist ein §4Fehler §7aufgetreten§8. §7Bitte kontaktiere sofort das Referat §4DEV/01§8!").build());
-                                        }
-                                    });
+                                    LostProxy.getInstance().getReasonManager().saveBanReason(iBanReason);
+                                    LostProxy.getInstance().getReasonManager().reloadBanReasons();
+                                    commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Die neue ID des Banngrunds §e" + iBanReason.getName() + " §7lautet nun §a" + newId + "§8.").build());
                                     break;
                                 case "name":
                                     iBanReason.setName(strings[3].replaceAll("_", " "));
 
-                                    LostProxy.getInstance().getReasonManager().saveBanReason(iBanReason, (updateResult, throwable) -> {
-                                        if (updateResult.wasAcknowledged()) {
-                                            LostProxy.getInstance().getReasonManager().reloadBanReasons();
-                                            commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Der neue Name des Banngrunds §e" + iBanReason.getName() + " §8(§e" + iBanReason.getId() + "§8) §7lautet nun §a" + iBanReason.getName() + "§8.").build());
-                                        } else {
-                                            commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Beim Aktualisieren des §eBanngrunds §7ist ein §4Fehler §7aufgetreten§8. §7Bitte kontaktiere sofort das Referat §4DEV/01§8!").build());
-                                        }
-                                    });
+                                    LostProxy.getInstance().getReasonManager().saveBanReason(iBanReason);
+                                    LostProxy.getInstance().getReasonManager().reloadBanReasons();
+                                    commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Der neue Name des Banngrunds §e" + iBanReason.getName() + " §8(§e" + iBanReason.getId() + "§8) §7lautet nun §a" + iBanReason.getName() + "§8.").build());
                                     break;
                                 case "time":
                                     iBanReason.setTime(Long.parseLong(strings[3]));
 
-                                    LostProxy.getInstance().getReasonManager().saveBanReason(iBanReason, (updateResult, throwable) -> {
-                                        if (updateResult.wasAcknowledged()) {
-                                            LostProxy.getInstance().getReasonManager().reloadBanReasons();
-                                            commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Der neue Zeitwert des Banngrunds §e" + iBanReason.getName() + " §8(§e" + iBanReason.getId() + "§8) §7ist nun §a" + iBanReason.getTime() + "§8.").build());
-                                        } else {
-                                            commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Beim Aktualisieren des §eBanngrunds §7ist ein §4Fehler §7aufgetreten§8. §7Bitte kontaktiere sofort das Referat §4DEV/01§8!").build());
-                                        }
-                                    });
+                                    LostProxy.getInstance().getReasonManager().saveBanReason(iBanReason);
+                                    LostProxy.getInstance().getReasonManager().reloadBanReasons();
+                                    commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Der neue Zeitwert des Banngrunds §e" + iBanReason.getName() + " §8(§e" + iBanReason.getId() + "§8) §7ist nun §a" + iBanReason.getTime() + "§8.").build());
                                     break;
                                 case "timeunit":
                                     TimeUnit timeUnit = Arrays.stream(TimeUnit.values()).filter(one -> one.toString().equalsIgnoreCase(strings[3])).findFirst().orElse(null);
@@ -169,26 +149,16 @@ public class BanReasonsCommand extends Command {
                                         return;
                                     }
 
-                                    LostProxy.getInstance().getReasonManager().saveBanReason(iBanReason, (updateResult, throwable) -> {
-                                        if (updateResult.wasAcknowledged()) {
-                                            LostProxy.getInstance().getReasonManager().reloadBanReasons();
-                                            commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Die neue Zeiteinheit des Banngrunds §e" + iBanReason.getName() + " §8(§e" + iBanReason.getId() + "§8) §7ist nun §a" + iBanReason.getTimeUnit().toString() + "§8.").build());
-                                        } else {
-                                            commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Beim Aktualisieren des §eBanngrunds §7ist ein §4Fehler §7aufgetreten§8. §7Bitte kontaktiere sofort das Referat §4DEV/01§8!").build());
-                                        }
-                                    });
+                                    LostProxy.getInstance().getReasonManager().saveBanReason(iBanReason);
+                                    LostProxy.getInstance().getReasonManager().reloadBanReasons();
+                                    commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Die neue Zeiteinheit des Banngrunds §e" + iBanReason.getName() + " §8(§e" + iBanReason.getId() + "§8) §7ist nun §a" + iBanReason.getTimeUnit().toString() + "§8.").build());
                                     break;
                                 case "permission":
                                     iBanReason.setPermission(strings[3]);
 
-                                    LostProxy.getInstance().getReasonManager().saveBanReason(iBanReason, (updateResult, throwable) -> {
-                                        if (updateResult.wasAcknowledged()) {
-                                            LostProxy.getInstance().getReasonManager().reloadBanReasons();
-                                            commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Die neue Permission des Banngrunds §e" + iBanReason.getName() + " §8(§e" + iBanReason.getId() + "§8) §7ist nun §a" + iBanReason.getPermission() + "§8.").build());
-                                        } else {
-                                            commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Beim Aktualisieren des §eBanngrunds §7ist ein §4Fehler §7aufgetreten§8. §7Bitte kontaktiere sofort das Referat §4DEV/01§8!").build());
-                                        }
-                                    });
+                                    LostProxy.getInstance().getReasonManager().saveBanReason(iBanReason);
+                                    LostProxy.getInstance().getReasonManager().reloadBanReasons();
+                                    commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Die neue Berechtigung für den Banngrund §e" + iBanReason.getName() + " §8(§e" + iBanReason.getId() + "§8) §7ist nun §a" + iBanReason.getPermission() + "§8.").build());
                                     break;
                                 default:
                                     commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Bitte beachte die §eBenutzung §7dieses Kommandos§8.").build());
@@ -214,21 +184,15 @@ public class BanReasonsCommand extends Command {
                     if (LostProxy.getInstance().getReasonManager().getBanReasonByID(id) == null) {
                         String name = strings[2];
                         int time = Integer.parseInt(strings[3]);
-                        TimeUnit timeUnit = Arrays.stream(TimeUnit.values()).filter(one -> one.toString().equalsIgnoreCase(strings[3])).findFirst().orElse(null);
+                        TimeUnit timeUnit = Arrays.stream(TimeUnit.values()).filter(one -> one.name().equalsIgnoreCase(strings[4])).findFirst().orElse(null);
 
                         if (timeUnit != null) {
-                            String permission = strings[4];
+                            String permission = strings[5];
                             IBanReason iBanReason = new IBanReason(id, name, time, timeUnit, permission);
 
-                            LostProxy.getInstance().getReasonManager().saveBanReason(iBanReason, (updateResult, throwable) -> {
-                                if (updateResult.wasAcknowledged()) {
-                                    LostProxy.getInstance().getReasonManager().reloadBanReasons();
-
-                                    commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Du hast §aerfolgreich §7den Banngrund §e" + name + " §7mit der ID §e" + id + " §7erstellt§8.").build());
-                                } else {
-                                    commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Beim Hinzufügen des §eBanngrunds §7ist ein §4Fehler §7aufgetreten§8. §7Bitte kontaktiere sofort das Referat §4DEV/01§8!").build());
-                                }
-                            });
+                            LostProxy.getInstance().getReasonManager().saveBanReason(iBanReason);
+                            LostProxy.getInstance().getReasonManager().reloadBanReasons();
+                            commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Du hast §aerfolgreich §7den Banngrund §e" + name + " §7mit der ID §e" + id + " §7erstellt§8.").build());
                         } else {
                             commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Die angegebene §eZeiteinheit §7wurde §cnicht §7gefunden§8.").build());
                         }
