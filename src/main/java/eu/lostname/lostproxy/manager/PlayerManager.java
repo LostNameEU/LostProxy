@@ -16,8 +16,8 @@ public class PlayerManager {
 
     @SuppressWarnings("UnstableApiUsage")
     public UUID getUUIDofPlayername(String playername) {
-        ICloudOfflinePlayer p = CloudNetDriver.getInstance().getServicesRegistry().getFirstService(IPlayerManager.class).getRegisteredPlayers().stream().filter(any -> any.getName().equalsIgnoreCase(playername)).findFirst().get();
-        return p != null ? p.getUniqueId() : null;
+        ICloudOfflinePlayer player = CloudNetDriver.getInstance().getServicesRegistry().getFirstService(IPlayerManager.class).getRegisteredPlayers().stream().filter(any -> any.getName().equalsIgnoreCase(playername)).findFirst().orElse(null);
+        return player != null ? player.getUniqueId() : null;
     }
 
     public void getCloudOfflinePlayer(UUID uniqueId, Consumer<ICloudOfflinePlayer> consumer) {
