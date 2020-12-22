@@ -5,17 +5,21 @@ import eu.lostname.lostproxy.builder.MessageBuilder;
 import eu.lostname.lostproxy.interfaces.IPlayerSync;
 import eu.lostname.lostproxy.interfaces.linkages.ITeamSpeakLinkage;
 import eu.lostname.lostproxy.utils.CloudServices;
+import eu.lostname.lostproxy.utils.MongoCollection;
 import eu.lostname.lostproxy.utils.Prefix;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
+import net.md_5.bungee.api.plugin.TabExecutor;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class TSCommand extends Command {
+public class TSCommand extends Command implements TabExecutor {
 
     public TSCommand(String name, String permission, String... aliases) {
         super(name, permission, aliases);
@@ -187,5 +191,70 @@ public class TSCommand extends Command {
         } else {
             commandSender.sendMessage(new MessageBuilder(Prefix.TEAMSPEAK + "Du kannst diesen Befehl §cnicht §7als Konsole ausführen§8.").build());
         }
+    }
+
+
+    /*
+                    player.sendMessage(new MessageBuilder(Prefix.TEAMSPEAK + "Benutzung von §b/ts§8:").build());
+                player.sendMessage(new MessageBuilder("§8┃ §b/ts set <Identität> §8» §7Verknüfe manuell deine TeamSpeak Identität").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/ts set ").build());
+                player.sendMessage(new MessageBuilder("§8┃ §b/ts unlink §8» §7Hebe die Teamspeak-Verknüpfung auf").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/ts unlink").build());
+                player.sendMessage(new MessageBuilder("§8┃ §b/ts info §8» §7Zeige dir Informationen zu deiner TeamSpeak Verknüfung an").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/ts info").build());
+                if (player.hasPermission("lostproxy.command.ts.iinfo")) {
+                    player.sendMessage(new MessageBuilder("§8┃ §b/ts iinfo <Identität> §8» §7Lasse dir Informationen zu einer TeamSpeak Identität anzeigen").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/ts iinfo ").build());
+                }
+                if (player.hasPermission("lostproxy.command.ts.ninfo")) {
+                    player.sendMessage(new MessageBuilder("§8┃ §b/ts ninfo <Spielernamen> §8» §7Lasse dir Informationen zu einem Spielernamen anzeigen").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/ts ninfo ").build());
+                }
+                if (player.hasPermission("lostproxy.command.ts.delete")) {
+                    player.sendMessage(new MessageBuilder("§8┃ §b/ts delete <Name> §8» §7Lösche die TeamSpeak Verknüpfung eines anderen Spielers").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/ts delete Name").build());
+                }
+                if (player.hasPermission("lostproxy.command.ts.set")) {
+                    player.sendMessage(new MessageBuilder("§8┃ §b/ts set <Rang> <ID> §8» §7Setzte einer Permission-Gruppe die dazugehörige TS-Servergruppen-ID").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/ts set ").build());
+                }
+                player.sendMessage(new MessageBuilder("§8§m--------------------§r").build());
+     */
+
+    @Override
+    public Iterable<String> onTabComplete(CommandSender commandSender, String[] strings) {
+        ArrayList<String> list = new ArrayList<>();
+        if (strings.length == 0) {
+            list.addAll(Arrays.asList("set", "unlink", "info"));
+
+            if (commandSender.hasPermission("lostproxy.command.ts.iinfo"))
+                list.add("iinfo");
+            if (commandSender.hasPermission("lostproxy.command.ts.ninfo"))
+                list.add("ninfo");
+            if (commandSender.hasPermission("lostproxy.command.ts.delete"))
+                list.add("delete");
+            if (commandSender.hasPermission("lostproxy.command.ts.set"))
+                list.add("set");
+        } else if (strings.length == 1) {
+            if (strings[0].equalsIgnoreCase("iinfo") && commandSender.hasPermission("lostproxy.command.ts.iinfo")) {
+                LostProxy.getInstance().getDatabase().getMongoDatabase().getCollection(MongoCollection.TEAMSPEAK_LINKAGES).find().forEach(one -> {
+                    ITeamSpeakLinkage iTeamSpeakLinkage = LostProxy.getInstance().getGson().fromJson(one.toJson(), ITeamSpeakLinkage.class);
+                    list.add(iTeamSpeakLinkage.getIdentity());
+                });
+            } else if (strings[0].equalsIgnoreCase("ninfo") && commandSender.hasPermission("lostproxy.command.ts.ninfo")) {
+                LostProxy.getInstance().getDatabase().getMongoDatabase().getCollection(MongoCollection.TEAMSPEAK_LINKAGES).find().forEach(one -> {
+                    ITeamSpeakLinkage iTeamSpeakLinkage = LostProxy.getInstance().getGson().fromJson(one.toJson(), ITeamSpeakLinkage.class);
+                    list.add(new IPlayerSync(iTeamSpeakLinkage.getUuid()).getPlayerName());
+                });
+            } else if (strings[0].equalsIgnoreCase("delete") && commandSender.hasPermission("lostproxy.command.ts.delete")) {
+                LostProxy.getInstance().getDatabase().getMongoDatabase().getCollection(MongoCollection.TEAMSPEAK_LINKAGES).find().forEach(one -> {
+                    ITeamSpeakLinkage iTeamSpeakLinkage = LostProxy.getInstance().getGson().fromJson(one.toJson(), ITeamSpeakLinkage.class);
+                    list.add(new IPlayerSync(iTeamSpeakLinkage.getUuid()).getPlayerName());
+                });
+            } else if (strings[0].equalsIgnoreCase("set") && commandSender.hasPermission("lostproxy.command.ts.set")) {
+                CloudServices.PERMISSION_MANAGEMENT.getGroups().forEach(one -> list.add(one.getName()));
+            }
+        } else if (strings.length == 2) {
+            if (strings[0].equalsIgnoreCase("set") && commandSender.hasPermission("lostproxy.command.ts.set")) {
+                LostProxy.getInstance().getTeamSpeakManager().getApi().getServerGroups().onSuccess(serverGroups -> {
+                    serverGroups.forEach(one -> list.add(String.valueOf(one.getId())));
+                });
+            }
+        }
+
+        return list;
     }
 }
