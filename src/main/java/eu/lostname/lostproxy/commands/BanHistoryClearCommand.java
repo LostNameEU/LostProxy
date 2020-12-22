@@ -74,9 +74,7 @@ public class BanHistoryClearCommand extends Command implements TabExecutor {
     public Iterable<String> onTabComplete(CommandSender commandSender, String[] strings) {
         ArrayList<String> list = new ArrayList<>();
         if (strings.length == 0) {
-            LostProxy.getInstance().getDatabase().getMongoDatabase().getCollection(MongoCollection.BAN_HISTORIES).find().forEach(all -> {
-                list.add(new IPlayerSync(UUID.fromString(all.getString("_id"))).getPlayerName());
-            });
+            LostProxy.getInstance().getDatabase().getMongoDatabase().getCollection(MongoCollection.BAN_HISTORIES).find().forEach(all -> list.add(new IPlayerSync(UUID.fromString(all.getString("_id"))).getPlayerName()));
         }
         return list;
     }
