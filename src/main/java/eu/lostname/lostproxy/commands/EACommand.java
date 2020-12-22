@@ -42,7 +42,7 @@ public class EACommand extends Command implements TabExecutor {
                                 iBan.setEnd(System.currentTimeMillis() + TimeUnit.DAYS.toMillis(3));
 
                                 IBanHistory iBanHistory = LostProxy.getInstance().getHistoryManager().getBanHistory(uuid);
-                                iBanHistory.addEntry(new IBanEntry(EBanEntryType.BAN_APPEAL_ENTRY, uuid, (commandSender instanceof ProxiedPlayer ? ((ProxiedPlayer) commandSender).getUniqueId().toString() : "console"), System.currentTimeMillis(), "EA-Command", 0, 0));
+                                iBanHistory.addEntry(new IBanEntry(EBanEntryType.BAN_APPEAL_ENTRY, uuid, (commandSender instanceof ProxiedPlayer ? ((ProxiedPlayer) commandSender).getUniqueId().toString() : "console"), System.currentTimeMillis(), "EA-Command", 0, null, 0));
 
                                 LostProxy.getInstance().getHistoryManager().saveBanHistory(iBanHistory);
                                 LostProxy.getInstance().getBanManager().saveBan(iBan);

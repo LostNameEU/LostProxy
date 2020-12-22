@@ -1,20 +1,19 @@
 package eu.lostname.lostproxy.interfaces.bkms;
 
 import eu.lostname.lostproxy.enums.EReasonType;
+import eu.lostname.lostproxy.enums.ETimeUnit;
 import eu.lostname.lostproxy.interfaces.IReason;
-
-import java.util.concurrent.TimeUnit;
 
 public class IMuteReason extends IReason {
 
     private long time;
-    private TimeUnit timeUnit;
+    private ETimeUnit eTimeUnit;
     private String permission;
 
-    public IMuteReason(int _id, String name, long time, TimeUnit timeUnit, String permission) {
+    public IMuteReason(int _id, String name, long time, ETimeUnit eTimeUnit, String permission) {
         super(_id, name, EReasonType.MUTE);
         this.time = time;
-        this.timeUnit = timeUnit;
+        this.eTimeUnit = eTimeUnit;
         this.permission = permission;
     }
 
@@ -26,12 +25,12 @@ public class IMuteReason extends IReason {
         this.time = time;
     }
 
-    public TimeUnit getTimeUnit() {
-        return timeUnit;
+    public ETimeUnit getETimeUnit() {
+        return eTimeUnit;
     }
 
-    public void setTimeUnit(TimeUnit timeUnit) {
-        this.timeUnit = timeUnit;
+    public void setETimeUnit(ETimeUnit eTimeUnit) {
+        this.eTimeUnit = eTimeUnit;
     }
 
     public String getPermission() {

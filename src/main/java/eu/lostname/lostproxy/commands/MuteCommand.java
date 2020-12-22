@@ -3,6 +3,7 @@ package eu.lostname.lostproxy.commands;
 import eu.lostname.lostproxy.LostProxy;
 import eu.lostname.lostproxy.builder.MessageBuilder;
 import eu.lostname.lostproxy.enums.EMuteEntryType;
+import eu.lostname.lostproxy.enums.ETimeUnit;
 import eu.lostname.lostproxy.interfaces.IPlayerSync;
 import eu.lostname.lostproxy.interfaces.IReason;
 import eu.lostname.lostproxy.interfaces.bkms.IMute;
@@ -95,7 +96,7 @@ public class MuteCommand extends Command implements TabExecutor {
                                 if (iMuteReason != null) {
                                     if (commandSender.hasPermission(iMuteReason.getPermission())) {
                                         long currentTimeMillis = System.currentTimeMillis();
-                                        long muteDuration = (iMuteReason.getTime() == -1 ? -1 : iMuteReason.getTimeUnit().toMillis(iMuteReason.getTime()));
+                                        long muteDuration = (iMuteReason.getTime() == -1 ? -1 : iMuteReason.getETimeUnit().toMillis(iMuteReason.getTime()));
                                         String invokerId = (commandSender instanceof ProxiedPlayer ? ((ProxiedPlayer) commandSender).getUniqueId().toString() : "console");
 
                                         IMute mute = new IMute(uuid, targetIPlayer.getPlayerName(), invokerId, iMuteReason.getName(), currentTimeMillis, muteDuration, true);
@@ -124,10 +125,10 @@ public class MuteCommand extends Command implements TabExecutor {
                                         }
 
                                         IMuteHistory iMuteHistory = LostProxy.getInstance().getHistoryManager().getMuteHistory(uuid);
-                                        iMuteHistory.addEntry(new IMuteEntry(EMuteEntryType.MUTE_ENTRY, uuid, invokerId, currentTimeMillis, iMuteReason.getName(), muteDuration, (muteDuration == -1 ? -1 : currentTimeMillis + muteDuration)));
+                                        iMuteHistory.addEntry(new IMuteEntry(EMuteEntryType.MUTE_ENTRY, uuid, invokerId, currentTimeMillis, iMuteReason.getName(), iMuteReason.getTime(), iMuteReason.getETimeUnit(), (muteDuration == -1 ? -1 : currentTimeMillis + muteDuration)));
 
                                         LostProxy.getInstance().getHistoryManager().saveMuteHistory(iMuteHistory);
-                                        commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Du hast " + targetIPlayer.getDisplay() + targetIPlayer.getPlayerName() + " §7wegen §e" + iMuteReason.getName() + " §7für §c" + (mute.getEnd() == -1 ? "§4permanent" : iMuteReason.getTime() + " " + iMuteReason.getTimeUnit().name()) + " §7gemutet§8.").build());
+                                        commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Du hast " + targetIPlayer.getDisplay() + targetIPlayer.getPlayerName() + " §7wegen §e" + iMuteReason.getName() + " §7für §c" + (iMuteReason.getTime() == -1 ? "§4permanent" : iMuteReason.getTime() + " " + ETimeUnit.getDisplayName(iMuteReason.getTime(), iMuteReason.getETimeUnit())) + " §7gemutet§8.").build());
                                     } else {
                                         commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Du hast darfst den Mutegrund §e" + iMuteReason.getName() + " §cnicht §7benutzen§8.").build());
                                     }

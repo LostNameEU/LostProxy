@@ -15,7 +15,6 @@ import net.md_5.bungee.api.plugin.TabExecutor;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.concurrent.TimeUnit;
 
 public class BanReasonsCommand extends Command implements TabExecutor {
     public BanReasonsCommand(String name, String permission, String... aliases) {
@@ -48,7 +47,7 @@ public class BanReasonsCommand extends Command implements TabExecutor {
                         commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Informationen zum angegebenen Banngrund§8:").build());
                         commandSender.sendMessage(new MessageBuilder("§8┃ §7Name §8» §c" + iBanReason.getName()).build());
                         commandSender.sendMessage(new MessageBuilder("§8┃ §7ID §8» §c" + iBanReason.getId()).build());
-                        commandSender.sendMessage(new MessageBuilder("§8┃ §7Bannzeit §8» §c" + (iBanReason.getTime() == -1 ? "permanent" : iBanReason.getTime() + " " + iBanReason.getTimeUnit().name())).build());
+                        commandSender.sendMessage(new MessageBuilder("§8┃ §7Bannzeit §8» §c" + (iBanReason.getTime() == -1 ? "permanent" : iBanReason.getTime() + " " + ETimeUnit.getDisplayName(iBanReason.getTime(), iBanReason.getETimeUnit()))).build());
                         commandSender.sendMessage(new MessageBuilder("§8┃ §7Berechtigung §8» §c" + iBanReason.getPermission()).build());
                         commandSender.sendMessage(new MessageBuilder("§8§m--------------------§r").build());
 
@@ -146,15 +145,15 @@ public class BanReasonsCommand extends Command implements TabExecutor {
                                     commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Der neue Zeitwert des Banngrunds §e" + iBanReason.getName() + " §8(§e" + iBanReason.getId() + "§8) §7ist nun §a" + iBanReason.getTime() + "§8.").build());
                                     break;
                                 case "timeunit":
-                                    TimeUnit timeUnit = Arrays.stream(TimeUnit.values()).filter(one -> one.toString().equalsIgnoreCase(strings[3])).findFirst().orElse(null);
-                                    if (timeUnit == null) {
+                                    ETimeUnit eTimeUnit = Arrays.stream(ETimeUnit.values()).filter(one -> one.toString().equalsIgnoreCase(strings[3])).findFirst().orElse(null);
+                                    if (eTimeUnit == null) {
                                         commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Die angegebene §eZeiteinheit §7wurde §cnicht §7gefunden§8.").build());
                                         return;
                                     }
 
                                     LostProxy.getInstance().getReasonManager().saveBanReason(iBanReason);
                                     LostProxy.getInstance().getReasonManager().reloadBanReasons();
-                                    commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Die neue Zeiteinheit des Banngrunds §e" + iBanReason.getName() + " §8(§e" + iBanReason.getId() + "§8) §7ist nun §a" + iBanReason.getTimeUnit().toString() + "§8.").build());
+                                    commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Die neue Zeiteinheit des Banngrunds §e" + iBanReason.getName() + " §8(§e" + iBanReason.getId() + "§8) §7ist nun §a" + ETimeUnit.getDisplayName(0, eTimeUnit) + "§8.").build());
                                     break;
                                 case "permission":
                                     iBanReason.setPermission(strings[3]);
@@ -187,7 +186,7 @@ public class BanReasonsCommand extends Command implements TabExecutor {
                     if (LostProxy.getInstance().getReasonManager().getBanReasonByID(id) == null) {
                         String name = strings[2].replaceAll("_", " ");
                         int time = Integer.parseInt(strings[3]);
-                        TimeUnit timeUnit = Arrays.stream(TimeUnit.values()).filter(one -> one.name().equalsIgnoreCase(strings[4])).findFirst().orElse(null);
+                        ETimeUnit timeUnit = Arrays.stream(ETimeUnit.values()).filter(one -> one.name().equalsIgnoreCase(strings[4])).findFirst().orElse(null);
 
                         if (timeUnit != null) {
                             String permission = strings[5];
