@@ -249,9 +249,7 @@ public class TSCommand extends Command implements TabExecutor {
             }
         } else if (strings.length == 2) {
             if (strings[0].equalsIgnoreCase("set") && commandSender.hasPermission("lostproxy.command.ts.set")) {
-                LostProxy.getInstance().getTeamSpeakManager().getApi().getServerGroups().onSuccess(serverGroups -> {
-                    serverGroups.forEach(one -> list.add(String.valueOf(one.getId())));
-                });
+                LostProxy.getInstance().getTeamSpeakManager().getApi().getServerGroups().onSuccess(serverGroups -> serverGroups.forEach(one -> list.add(String.valueOf(one.getId()))));
             }
         }
 
