@@ -34,10 +34,10 @@ lostproxy.command.banreasons.add | Add a new banreason | ↑ | ↑ | /banreasons
 lostproxy.command.banreasons.info | To get info about one registered banreason | ↑ | ↑ | /banreasons `ID`
 set `id,name,time,timeunit,permission` `value` | ↑ | lostproxy.command.banreasons.set | To edit one registered banreason
 | UnbanCommand.java | /unban | /unban `Spielername` | /ub | lostproxy.commmand.unban | To unban a banned player |
-BanInfoCommand.java | /baninfo | /baninfo `Spielername` | /bi | lostproxy.command.baninfo | To check a players
-banhistory | | BanHistoryClearCommand.java | /banhistoryclear | /banhistoryclear `Spielername` | /bhclear <br\> /bhc |
-lostproxy.command.banhistoryclear | To use /banhistoryclear | | BanCommand.java | /ban | /ban `Spielername` | /b |
-lostproxy.command.ban | To show the invokers all available ban reasons | ↑ | ↑ | /ban `Spielername` `ID` | ↑ | ↑ | To
+BanHistoryCommand.java | /banhistory | /banhistory `Spielername` | /bh | lostproxy.command.banhistory | To check a
+players banhistory | | BanHistoryClearCommand.java | /banhistoryclear | /banhistoryclear `Spielername` | /bhclear <br\>
+/bhc | lostproxy.command.banhistoryclear | To use /banhistoryclear | | BanCommand.java | /ban | /ban `Spielername` | /b
+| lostproxy.command.ban | To show the invokers all available ban reasons | ↑ | ↑ | /ban `Spielername` `ID` | ↑ | ↑ | To
 ban a player directly with a given ban reason | ↑ | ↑ | ↑ | ↑ | lostproxy.command.ban.group.`Gruppenname` | To ban
 players with the permission group `Gruppenname`
 | EACommand.java | /ea | /ea `Spielername` | / | lostproxy.command.ea | To shorten a player's ban to a length of three
@@ -46,6 +46,6 @@ MuteCommand.java | /mute | /mute `Spielername` | / | lostproxy.command.mute | To
 | /mutereasons | /mutereasons | /mr | lostproxy.command.mutereasons | To edit all registered mutereasons and to add new
 to the database. | ↑ | ↑ | /mutereasons `list` | ↑ | lostproxy.command.mutereasons.list | To get listed all registered
 mutereasons | ↑ | ↑ | /mutereasons add `name` `Zeit` `Zeiteinheit` `Permission` | ↑ | lostproxy.command.mutereasons.add
-| Add a new mutereason | ↑ | ↑ | /mutereasons `ID` | ↑ | lostproxy.command.banreasons.info | To get info about one
+| Add a new mutereason | ↑ | ↑ | /mutereasons `ID` | ↑ | lostproxy.command.mutereasons.info | To get info about one
 registered mutereason | ↑ | ↑ | /mutereasons `ID` set `id,name,time,timeunit,permission` `value` | ↑ |
 lostproxy.command.mutereasons.set | To edit one registered mutereason
