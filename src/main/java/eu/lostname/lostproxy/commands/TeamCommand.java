@@ -9,8 +9,12 @@ import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
+import net.md_5.bungee.api.plugin.TabExecutor;
 
-public class TeamCommand extends Command {
+import java.util.ArrayList;
+import java.util.Arrays;
+
+public class TeamCommand extends Command implements TabExecutor {
     public TeamCommand(String name, String permission, String... aliases) {
         super(name, permission, aliases);
     }
@@ -81,5 +85,21 @@ public class TeamCommand extends Command {
         } else {
             commandSender.sendMessage(new MessageBuilder(Prefix.TMS + "Du kannst diesen Befehl §cnicht §7als Konsole ausführen§8.").build());
         }
+    }
+
+
+    /*
+                    player.sendMessage(new MessageBuilder("§8┃ §a/team login §8» §7Loggt dich in das Team Management System ein").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/team login").build());
+                player.sendMessage(new MessageBuilder("§8┃ §a/team logout §8» §7Loggt dich aus dem Team Management System aus").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/team logout").build());
+                player.sendMessage(new MessageBuilder("§8┃ §a/team list §8» §7Liste dir alle verfügbaren Teammitglieder auf").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/team list").build());
+     */
+
+    @Override
+    public Iterable<String> onTabComplete(CommandSender commandSender, String[] strings) {
+        ArrayList<String> list = new ArrayList<>();
+        if (strings.length == 0) {
+            list.addAll(Arrays.asList("login", "logout", "list"));
+        }
+        return list;
     }
 }
