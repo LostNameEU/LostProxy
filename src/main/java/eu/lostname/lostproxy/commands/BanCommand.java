@@ -181,10 +181,10 @@ public class BanCommand extends Command implements TabExecutor {
     @Override
     public Iterable<String> onTabComplete(CommandSender commandSender, String[] strings) {
         ArrayList<String> list = new ArrayList<>();
-        if (strings.length == 0) {
-            CloudServices.PLAYER_MANAGER.getOnlinePlayers().forEach(one -> list.add(one.getName()));
-        } else if (strings.length == 1) {
-            LostProxy.getInstance().getReasonManager().getRegistedBanReasons().stream().filter(one -> commandSender.hasPermission(one.getPermission())).forEach(one -> list.add(String.valueOf(one.getId())));
+        if (strings.length == 1) {
+            CloudServices.PLAYER_MANAGER.getOnlinePlayers().stream().filter(one -> one.getName().startsWith(strings[0])).forEach(one -> list.add(one.getName()));
+        } else if (strings.length == 2) {
+            LostProxy.getInstance().getReasonManager().getRegistedBanReasons().stream().filter(one -> commandSender.hasPermission(one.getPermission()) && String.valueOf(one.getId()).startsWith(strings[1])).forEach(one -> list.add(String.valueOf(one.getId())));
         }
         return list;
     }
