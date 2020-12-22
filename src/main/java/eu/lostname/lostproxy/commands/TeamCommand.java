@@ -87,17 +87,10 @@ public class TeamCommand extends Command implements TabExecutor {
         }
     }
 
-
-    /*
-                    player.sendMessage(new MessageBuilder("§8┃ §a/team login §8» §7Loggt dich in das Team Management System ein").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/team login").build());
-                player.sendMessage(new MessageBuilder("§8┃ §a/team logout §8» §7Loggt dich aus dem Team Management System aus").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/team logout").build());
-                player.sendMessage(new MessageBuilder("§8┃ §a/team list §8» §7Liste dir alle verfügbaren Teammitglieder auf").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/team list").build());
-     */
-
     @Override
     public Iterable<String> onTabComplete(CommandSender commandSender, String[] strings) {
         ArrayList<String> list = new ArrayList<>();
-        if (strings.length == 0) {
+        if (strings.length == 1) {
             list.addAll(Arrays.asList("login", "logout", "list"));
         }
         return list;
