@@ -1,6 +1,7 @@
 package eu.lostname.lostproxy.manager;
 
 import eu.lostname.lostproxy.builder.MessageBuilder;
+import eu.lostname.lostproxy.enums.ETimeUnit;
 import eu.lostname.lostproxy.interfaces.bkms.IBanReason;
 import eu.lostname.lostproxy.interfaces.bkms.IMuteReason;
 import eu.lostname.lostproxy.utils.Prefix;
@@ -130,7 +131,7 @@ public class TeamManager {
             all.sendMessage(new MessageBuilder(Prefix.BKMS + invokerDisplay + " §8➼ " + targetDisplay).build());
             all.sendMessage(new MessageBuilder("§8┃ §7Typ §8» §4Ban").build());
             all.sendMessage(new MessageBuilder("§8┃ §7Grund §8» §e" + iBanReason.getName()).build());
-            all.sendMessage(new MessageBuilder("§8┃ §7Dauer §8» §e" + (iBanReason.getTime() == -1 ? "Permanent" : iBanReason.getTime() + " " + iBanReason.getTimeUnit().name())).build());
+            all.sendMessage(new MessageBuilder("§8┃ §7Dauer §8» §e" + (iBanReason.getTime() == -1 ? "Permanent" : iBanReason.getTime() + " " + ETimeUnit.getDisplayName(iBanReason.getTime(), iBanReason.getETimeUnit()))).build());
             all.sendMessage(new MessageBuilder("§8§m--------------------§r").build());
         });
     }
@@ -147,7 +148,7 @@ public class TeamManager {
             all.sendMessage(new MessageBuilder(Prefix.BKMS + invokerDisplay + " §8➼ " + targetDisplay).build());
             all.sendMessage(new MessageBuilder("§8┃ §7Typ §8» §cMute").build());
             all.sendMessage(new MessageBuilder("§8┃ §7Grund §8» §e" + iMuteReason.getName()).build());
-            all.sendMessage(new MessageBuilder("§8┃ §7Dauer §8» §e" + (iMuteReason.getTime() == -1 ? "Permanent" : iMuteReason.getTime() + " " + iMuteReason.getTimeUnit().name())).build());
+            all.sendMessage(new MessageBuilder("§8┃ §7Dauer §8» §e" + (iMuteReason.getTime() == -1 ? "Permanent" : iMuteReason.getTime() + " " + ETimeUnit.getDisplayName(iMuteReason.getTime(), iMuteReason.getETimeUnit()))).build());
             all.sendMessage(new MessageBuilder("§8§m--------------------§r").build());
         });
     }

@@ -2,6 +2,7 @@ package eu.lostname.lostproxy.commands;
 
 import eu.lostname.lostproxy.LostProxy;
 import eu.lostname.lostproxy.builder.MessageBuilder;
+import eu.lostname.lostproxy.enums.ETimeUnit;
 import eu.lostname.lostproxy.interfaces.IReason;
 import eu.lostname.lostproxy.interfaces.bkms.IMuteReason;
 import eu.lostname.lostproxy.utils.Prefix;
@@ -12,7 +13,6 @@ import net.md_5.bungee.api.plugin.Command;
 
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.concurrent.TimeUnit;
 
 public class MuteReasonsCommand extends Command {
     public MuteReasonsCommand(String name, String permission, String... aliases) {
@@ -45,7 +45,7 @@ public class MuteReasonsCommand extends Command {
                         commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Informationen zum angegebenen Mutegrund§8:").build());
                         commandSender.sendMessage(new MessageBuilder("§8┃ §7Name §8» §c" + iMuteReason.getName()).build());
                         commandSender.sendMessage(new MessageBuilder("§8┃ §7ID §8» §c" + iMuteReason.getId()).build());
-                        commandSender.sendMessage(new MessageBuilder("§8┃ §7Mutezeit §8» §c" + (iMuteReason.getTime() == -1 ? "permanent" : iMuteReason.getTime() + " " + iMuteReason.getTimeUnit().name())).build());
+                        commandSender.sendMessage(new MessageBuilder("§8┃ §7Mutezeit §8» §c" + (iMuteReason.getTime() == -1 ? "permanent" : iMuteReason.getTime() + " " + ETimeUnit.getDisplayName(iMuteReason.getTime(), iMuteReason.getETimeUnit()))).build());
                         commandSender.sendMessage(new MessageBuilder("§8┃ §7Berechtigung §8» §c" + iMuteReason.getPermission()).build());
                         commandSender.sendMessage(new MessageBuilder("§8§m--------------------§r").build());
 
@@ -143,15 +143,15 @@ public class MuteReasonsCommand extends Command {
                                     commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Der neue Zeitwert des Mutegrunds §e" + iMuteReason.getName() + " §8(§e" + iMuteReason.getId() + "§8) §7ist nun §a" + iMuteReason.getTime() + "§8.").build());
                                     break;
                                 case "timeunit":
-                                    TimeUnit timeUnit = Arrays.stream(TimeUnit.values()).filter(one -> one.toString().equalsIgnoreCase(strings[3])).findFirst().orElse(null);
-                                    if (timeUnit == null) {
+                                    ETimeUnit eTimeUnit = Arrays.stream(ETimeUnit.values()).filter(one -> one.toString().equalsIgnoreCase(strings[3])).findFirst().orElse(null);
+                                    if (eTimeUnit == null) {
                                         commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Die angegebene §eZeiteinheit §7wurde §cnicht §7gefunden§8.").build());
                                         return;
                                     }
 
                                     LostProxy.getInstance().getReasonManager().saveMuteReason(iMuteReason);
                                     LostProxy.getInstance().getReasonManager().reloadMuteReasons();
-                                    commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Die neue Zeiteinheit des Mutegrunds §e" + iMuteReason.getName() + " §8(§e" + iMuteReason.getId() + "§8) §7ist nun §a" + iMuteReason.getTimeUnit().toString() + "§8.").build());
+                                    commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Die neue Zeiteinheit des Mutegrunds §e" + iMuteReason.getName() + " §8(§e" + iMuteReason.getId() + "§8) §7ist nun §a" + ETimeUnit.getDisplayName(0, eTimeUnit) + "§8.").build());
                                     break;
                                 case "permission":
                                     iMuteReason.setPermission(strings[3]);
@@ -184,11 +184,11 @@ public class MuteReasonsCommand extends Command {
                     if (LostProxy.getInstance().getReasonManager().getMuteReasonByID(id) == null) {
                         String name = strings[2].replaceAll("_", " ");
                         int time = Integer.parseInt(strings[3]);
-                        TimeUnit timeUnit = Arrays.stream(TimeUnit.values()).filter(one -> one.name().equalsIgnoreCase(strings[4])).findFirst().orElse(null);
+                        ETimeUnit eTimeUnit = Arrays.stream(ETimeUnit.values()).filter(one -> one.name().equalsIgnoreCase(strings[4])).findFirst().orElse(null);
 
-                        if (timeUnit != null) {
+                        if (eTimeUnit != null) {
                             String permission = strings[5];
-                            IMuteReason iMuteReason = new IMuteReason(id, name, time, timeUnit, permission);
+                            IMuteReason iMuteReason = new IMuteReason(id, name, time, eTimeUnit, permission);
 
                             LostProxy.getInstance().getReasonManager().saveMuteReason(iMuteReason);
                             LostProxy.getInstance().getReasonManager().reloadMuteReasons();
