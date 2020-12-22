@@ -45,7 +45,7 @@ public class BanReasonsCommand extends Command {
                         commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Informationen zum angegebenen Banngrund§8:").build());
                         commandSender.sendMessage(new MessageBuilder("§8┃ §7Name §8» §c" + iBanReason.getName()).build());
                         commandSender.sendMessage(new MessageBuilder("§8┃ §7ID §8» §c" + iBanReason.getId()).build());
-                        commandSender.sendMessage(new MessageBuilder("§8┃ §7Bannzeit §8» §c" + (iBanReason.getTime() == -1 ? "permanent" : iBanReason.getTime() + " " + iBanReason.getTimeUnit().toString())).build());
+                        commandSender.sendMessage(new MessageBuilder("§8┃ §7Bannzeit §8» §c" + (iBanReason.getTime() == -1 ? "permanent" : iBanReason.getTime() + " " + iBanReason.getTimeUnit().name())).build());
                         commandSender.sendMessage(new MessageBuilder("§8┃ §7Berechtigung §8» §c" + iBanReason.getPermission()).build());
                         commandSender.sendMessage(new MessageBuilder("§8§m--------------------§r").build());
 
@@ -182,7 +182,7 @@ public class BanReasonsCommand extends Command {
                     int id = Integer.parseInt(strings[1]);
 
                     if (LostProxy.getInstance().getReasonManager().getBanReasonByID(id) == null) {
-                        String name = strings[2];
+                        String name = strings[2].replaceAll("_", " ");
                         int time = Integer.parseInt(strings[3]);
                         TimeUnit timeUnit = Arrays.stream(TimeUnit.values()).filter(one -> one.name().equalsIgnoreCase(strings[4])).findFirst().orElse(null);
 

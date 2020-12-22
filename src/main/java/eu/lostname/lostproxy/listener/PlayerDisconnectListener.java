@@ -22,7 +22,7 @@ public class PlayerDisconnectListener implements Listener {
         if (player.hasPermission("lostproxy.command.team") && player.hasPermission("lostproxy.command.team.logout")) {
             if (LostProxy.getInstance().getTeamManager().logout(player)) {
                 IPlayerSync iPlayer = new IPlayerSync(player.getUniqueId());
-                LostProxy.getInstance().getTeamManager().getLoggedIn().forEach(all -> all.sendMessage(new MessageBuilder(Prefix.TMS + iPlayer.getPrefix() + iPlayer.getPlayerName() + " §7hat das Netzwerk §cverlassen§8.").build()));
+                LostProxy.getInstance().getTeamManager().getLoggedIn().forEach(all -> all.sendMessage(new MessageBuilder(Prefix.TMS + iPlayer.getDisplay() + iPlayer.getPlayerName() + " §7hat das Netzwerk §cverlassen§8.").build()));
             }
         }
     }

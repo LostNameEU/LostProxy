@@ -29,13 +29,13 @@ public class MuteHistoryClearCommand extends Command {
                 IPlayerSync targetiPlayer = new IPlayerSync(targetUUID);
                 IMuteHistory iMuteHistory = LostProxy.getInstance().getHistoryManager().getMuteHistory(targetUUID);
                 if (iMuteHistory.getHistory().size() > 0) {
-                    commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Möchtest du wirklich die §eMute-History §7von " + targetiPlayer.getPrefix() + targetiPlayer.getPlayerName() + " §clöschen§8?").build());
+                    commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Möchtest du wirklich die §eMute-History §7von " + targetiPlayer.getDisplay() + targetiPlayer.getPlayerName() + " §clöschen§8?").build());
                     commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "§7[§a§lKlick§7]").addClickEvent(ClickEvent.Action.RUN_COMMAND, "/mhclear " + strings[0] + " confirmed").build());
                     if (!LostProxy.getInstance().getHistoryManager().getMuteHistoryClearCommandProcess().contains(commandSender.getName())) {
                         LostProxy.getInstance().getHistoryManager().getMuteHistoryClearCommandProcess().add(commandSender.getName());
                     }
                 } else {
-                    commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Die §eMute-History §7von " + targetiPlayer.getPrefix() + targetiPlayer.getPlayerName() + " §7ist §cleer§8.").build());
+                    commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Die §eMute-History §7von " + targetiPlayer.getDisplay() + targetiPlayer.getPlayerName() + " §7ist §cleer§8.").build());
                 }
             } else {
                 commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Der angegebene Spieler konnte §cnicht §7gefunden werden§8.").build());
@@ -51,9 +51,9 @@ public class MuteHistoryClearCommand extends Command {
                         if (iMuteHistory.getHistory().size() > 0) {
                             iMuteHistory.getHistory().clear();
                             LostProxy.getInstance().getHistoryManager().saveMuteHistory(iMuteHistory);
-                            commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Du hast §aerfolgreich §7die §eMute-History §7von " + targetiPlayer.getPrefix() + targetiPlayer.getPlayerName() + " §cgelöscht§8.").build());
+                            commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Du hast §aerfolgreich §7die §eMute-History §7von " + targetiPlayer.getDisplay() + targetiPlayer.getPlayerName() + " §cgelöscht§8.").build());
                         } else {
-                            commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Die §eMute-History §7von " + targetiPlayer.getPrefix() + targetiPlayer.getPlayerName() + " §7ist §cleer§8.").build());
+                            commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Die §eMute-History §7von " + targetiPlayer.getDisplay() + targetiPlayer.getPlayerName() + " §7ist §cleer§8.").build());
                         }
                     } else {
                         commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Der angegebene Spieler konnte §cnicht §7gefunden werden§8.").build());

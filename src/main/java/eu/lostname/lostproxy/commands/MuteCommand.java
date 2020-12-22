@@ -65,10 +65,10 @@ public class MuteCommand extends Command {
                                 commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Zurzeit sind §ckeinerlei §7Mutegründe registriert§8.").build());
                             }
                         } else {
-                            commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Du hast §ckeine §7Rechte§8, §7um " + targetIPlayer.getPrefix() + targetIPlayer.getPlayerName() + " §7zu §emuten§8.").build());
+                            commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Du hast §ckeine §7Rechte§8, §7um " + targetIPlayer.getDisplay() + targetIPlayer.getPlayerName() + " §7zu §emuten§8.").build());
                         }
                     } else {
-                        commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Der Spieler " + targetIPlayer.getPrefix() + targetIPlayer.getPlayerName() + " §7ist §cbereits §7gemutet§8.").build());
+                        commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Der Spieler " + targetIPlayer.getDisplay() + targetIPlayer.getPlayerName() + " §7ist §cbereits §7gemutet§8.").build());
                     }
                 } else {
                     commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Der angegebene Spieler wurde §cnicht §7gefunden§8.").build());
@@ -115,16 +115,16 @@ public class MuteCommand extends Command {
 
                                         if (commandSender instanceof ProxiedPlayer) {
                                             IPlayerSync iPlayer = new IPlayerSync(((ProxiedPlayer) commandSender).getUniqueId());
-                                            LostProxy.getInstance().getTeamManager().sendMuteNotify(iPlayer.getPrefix() + iPlayer.getPlayerName(), targetIPlayer.getPrefix() + targetIPlayer.getPlayerName(), iMuteReason);
+                                            LostProxy.getInstance().getTeamManager().sendMuteNotify(iPlayer.getDisplay() + iPlayer.getPlayerName(), targetIPlayer.getDisplay() + targetIPlayer.getPlayerName(), iMuteReason);
                                         } else {
-                                            LostProxy.getInstance().getTeamManager().sendMuteNotify("§4Konsole", targetIPlayer.getPrefix() + targetIPlayer.getPlayerName(), iMuteReason);
+                                            LostProxy.getInstance().getTeamManager().sendMuteNotify("§4Konsole", targetIPlayer.getDisplay() + targetIPlayer.getPlayerName(), iMuteReason);
                                         }
 
                                         IMuteHistory iMuteHistory = LostProxy.getInstance().getHistoryManager().getMuteHistory(uuid);
                                         iMuteHistory.addEntry(new IMuteEntry(EMuteEntryType.MUTE_ENTRY, uuid, invokerId, currentTimeMillis, iMuteReason.getName(), muteDuration, (muteDuration == -1 ? -1 : currentTimeMillis + muteDuration)));
 
                                         LostProxy.getInstance().getHistoryManager().saveMuteHistory(iMuteHistory);
-                                        commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Du hast " + targetIPlayer.getPrefix() + targetIPlayer.getPlayerName() + " §7wegen §e" + iMuteReason.getName() + " §7für §c" + (mute.getEnd() == -1 ? "§4permanent" : iMuteReason.displayMuteDuration()) + " §7gemutet§8.").build());
+                                        commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Du hast " + targetIPlayer.getDisplay() + targetIPlayer.getPlayerName() + " §7wegen §e" + iMuteReason.getName() + " §7für §c" + (mute.getEnd() == -1 ? "§4permanent" : iMuteReason.getTime() + " " + iMuteReason.getTimeUnit().name()) + " §7gemutet§8.").build());
                                     } else {
                                         commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Du hast darfst den Mutegrund §e" + iMuteReason.getName() + " §cnicht §7benutzen§8.").build());
                                     }
@@ -135,10 +135,10 @@ public class MuteCommand extends Command {
                                 commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Du hast §ckeine §7Zahl angegeben§8.").build());
                             }
                         } else {
-                            commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Du hast §ckeine §7Rechte§8, §7um " + targetIPlayer.getPrefix() + targetIPlayer.getPlayerName() + " §7zu §emuten§8.").build());
+                            commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Du hast §ckeine §7Rechte§8, §7um " + targetIPlayer.getDisplay() + targetIPlayer.getPlayerName() + " §7zu §emuten§8.").build());
                         }
                     } else {
-                        commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Der Spieler " + targetIPlayer.getPrefix() + targetIPlayer.getPlayerName() + " §7ist §cbereits §7gemutet§8.").build());
+                        commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Der Spieler " + targetIPlayer.getDisplay() + targetIPlayer.getPlayerName() + " §7ist §cbereits §7gemutet§8.").build());
                     }
                 } else {
                     commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Der angegebene Spieler wurde §cnicht §7gefunden§8.").build());

@@ -54,19 +54,19 @@ public class LostProxy extends Plugin {
         getProxy().getPluginManager().registerCommand(this, new KickCommand("kick", "lostproxy.command.kick"));
         getProxy().getPluginManager().registerCommand(this, new NotifyCommand("notify", "lostproxy.command.notify", "benachrichtigung"));
         getProxy().getPluginManager().registerCommand(this, new KickHistoryClearCommand("kickhistoryclear", "lostproxy.command.kickhistoryclear", "khc", "khclear"));
-        getProxy().getPluginManager().registerCommand(this, new KickInfoCommand("kickinfo", "lostproxy.command.kickinfo", "ki"));
+        getProxy().getPluginManager().registerCommand(this, new KickHistoryCommand("kickhistory", "lostproxy.command.kickhistory", "kh"));
         getProxy().getPluginManager().registerCommand(this, new TCCommand("tc", "lostproxy.command.tc", "teamchat"));
         getProxy().getPluginManager().registerCommand(this, new TeamCommand("team", "lostproxy.command.team"));
         getProxy().getPluginManager().registerCommand(this, new BanReasonsCommand("banreasons", "lostproxy.command.banreasons", "br"));
         getProxy().getPluginManager().registerCommand(this, new UnbanCommand("unban", "lostproxy.command.unban", "ub"));
-        getProxy().getPluginManager().registerCommand(this, new BanInfoCommand("baninfo", "lostproxy.command.baninfo", "bi"));
+        getProxy().getPluginManager().registerCommand(this, new BanHistoryCommand("banhistory", "lostproxy.command.banhistory", "bh"));
         getProxy().getPluginManager().registerCommand(this, new BanHistoryClearCommand("banhistoryclear", "lostproxy.command.banhistoryclear", "bhc", "bhclear"));
         getProxy().getPluginManager().registerCommand(this, new BanCommand("ban", "lostproxy.command.ban", "b"));
         getProxy().getPluginManager().registerCommand(this, new EACommand("ea", "lostproxy.command.ea"));
         getProxy().getPluginManager().registerCommand(this, new UnmuteCommand("unmute", "lostproxy.command.unmute"));
         getProxy().getPluginManager().registerCommand(this, new MuteCommand("mute", "lostproxy.command.mute"));
         getProxy().getPluginManager().registerCommand(this, new MuteReasonsCommand("mutereasons", "lostproxy.command.mutereasons", "mr"));
-        getProxy().getPluginManager().registerCommand(this, new MuteInfoCommand("muteinfo", "lostproxy.command.muteinfo", "mi"));
+        getProxy().getPluginManager().registerCommand(this, new MuteHistoryCommand("mutehistory", "lostproxy.command.mutehistory", "mh"));
         getProxy().getPluginManager().registerCommand(this, new MuteHistoryClearCommand("mutehistoryclear", "lostproxy.command.mutehistoryclear", "mhclear", "mhc"));
 
         getProxy().getPluginManager().registerListener(this, new PostLoginListener());

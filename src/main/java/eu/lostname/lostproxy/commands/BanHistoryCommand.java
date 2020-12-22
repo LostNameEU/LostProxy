@@ -14,17 +14,17 @@ import java.util.Date;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class BanInfoCommand extends Command {
+public class BanHistoryCommand extends Command {
 
-    public BanInfoCommand(String name, String permission, String... aliases) {
+    public BanHistoryCommand(String name, String permission, String... aliases) {
         super(name, permission, aliases);
     }
 
     @Override
     public void execute(CommandSender commandSender, String[] strings) {
         if (strings.length != 1) {
-            commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Benutzung von §c/baninfo§8:").build());
-            commandSender.sendMessage(new MessageBuilder("§8┃ §c/baninfo <Spieler> §8» §7Listet die gesamte Bannhistory des angegebenen Spielers an").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/baninfo ").build());
+            commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Benutzung von §c/banhistory§8:").build());
+            commandSender.sendMessage(new MessageBuilder("§8┃ §c/banhistory <Spieler> §8» §7Listet die gesamte Bannhistory des angegebenen Spielers an").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/baninfo ").build());
             commandSender.sendMessage(new MessageBuilder("§8§m--------------------§r").build());
         } else {
             UUID targetUUID = LostProxy.getInstance().getPlayerManager().getUUIDofPlayername(strings[0]);
@@ -32,7 +32,7 @@ public class BanInfoCommand extends Command {
                 IBanHistory iBanHistory = LostProxy.getInstance().getHistoryManager().getBanHistory(targetUUID);
                 IPlayerSync targetIPlayer = new IPlayerSync(targetUUID);
                 if (iBanHistory.getHistory().size() > 0) {
-                    commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Bans von " + targetIPlayer.getPrefix() + targetIPlayer.getPlayerName() + "§8:").build());
+                    commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Bans von " + targetIPlayer.getDisplay() + targetIPlayer.getPlayerName() + "§8:").build());
                     commandSender.sendMessage(new MessageBuilder("§8┃ §7Anzahl §8» §c" + iBanHistory.getHistory().size()).build());
                     AtomicInteger currentEntry = new AtomicInteger(-1);
 
@@ -51,7 +51,7 @@ public class BanInfoCommand extends Command {
                                     commandSender.sendMessage(new MessageBuilder("§8┃ §cBan §8» §e" + date + " §7@ §e" + time + " §8» §4Konsole §8» §e" + iBanEntry.getReason() + " §8» §c" + calculateRemainingTime(iBanEntry.getDuration()) + " §8» §a" + (iBanEntry.getDuration() == -1 ? "/" : unbanDate + " §7@ §a" + unbanTime)).build());
                                 } else {
                                     IPlayerSync iPlayer = new IPlayerSync(UUID.fromString(iBanEntry.getInvokerId()));
-                                    commandSender.sendMessage(new MessageBuilder("§8┃ §cBan §8» §e" + date + " §7@ §e" + time + " §8» " + iPlayer.getPrefix() + iPlayer.getPlayerName() + " §8» §e" + iBanEntry.getReason() + " §8» §c" + (iBanEntry.getDuration() == -1 ? "permanent" : calculateRemainingTime(iBanEntry.getDuration())) + " §8» §a" + (iBanEntry.getDuration() == -1 ? "/" : unbanDate + " §7@ §a" + unbanTime)).build());
+                                    commandSender.sendMessage(new MessageBuilder("§8┃ §cBan §8» §e" + date + " §7@ §e" + time + " §8» " + iPlayer.getDisplay() + iPlayer.getPlayerName() + " §8» §e" + iBanEntry.getReason() + " §8» §c" + (iBanEntry.getDuration() == -1 ? "permanent" : calculateRemainingTime(iBanEntry.getDuration())) + " §8» §a" + (iBanEntry.getDuration() == -1 ? "/" : unbanDate + " §7@ §a" + unbanTime)).build());
                                 }
                                 break;
                             case UNBAN_ENTRY:
@@ -59,7 +59,7 @@ public class BanInfoCommand extends Command {
                                     commandSender.sendMessage(new MessageBuilder("§8┃ §aUnban §8» §e" + date + " §7@ §e" + time + " §8» §4Konsole §8» §e" + iBanEntry.getReason()).build());
                                 } else {
                                     IPlayerSync iPlayer = new IPlayerSync(UUID.fromString(iBanEntry.getInvokerId()));
-                                    commandSender.sendMessage(new MessageBuilder("§8┃ §aUnban §8» §e" + date + " §7@ §e" + time + " §8» " + iPlayer.getPrefix() + iPlayer.getPlayerName() + " §8» §e" + iBanEntry.getReason()).build());
+                                    commandSender.sendMessage(new MessageBuilder("§8┃ §aUnban §8» §e" + date + " §7@ §e" + time + " §8» " + iPlayer.getDisplay() + iPlayer.getPlayerName() + " §8» §e" + iBanEntry.getReason()).build());
                                 }
                                 break;
                             case BAN_APPEAL_ENTRY:
@@ -67,7 +67,7 @@ public class BanInfoCommand extends Command {
                                     commandSender.sendMessage(new MessageBuilder("§8┃ §eEA §8» §e" + date + " §7@ §e" + time + " §8» §4Konsole §8» §e" + iBanEntry.getReason()).build());
                                 } else {
                                     IPlayerSync iPlayer = new IPlayerSync(UUID.fromString(iBanEntry.getInvokerId()));
-                                    commandSender.sendMessage(new MessageBuilder("§8┃ §aUnban §8» §e" + date + " §7@ §e" + time + " §8» " + iPlayer.getPrefix() + iPlayer.getPlayerName() + " §8» §e" + iBanEntry.getReason()).build());
+                                    commandSender.sendMessage(new MessageBuilder("§8┃ §aUnban §8» §e" + date + " §7@ §e" + time + " §8» " + iPlayer.getDisplay() + iPlayer.getPlayerName() + " §8» §e" + iBanEntry.getReason()).build());
                                 }
                                 break;
                         }
@@ -79,7 +79,7 @@ public class BanInfoCommand extends Command {
                                 }
                             });
                         } else {
-                    commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Der Spieler " + targetIPlayer.getPrefix() + targetIPlayer.getPlayerName() + " §7hat §ckeine §7Ban-History§8.").build());
+                    commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Der Spieler " + targetIPlayer.getDisplay() + targetIPlayer.getPlayerName() + " §7hat §ckeine §7Ban-History§8.").build());
                         }
                 } else {
                     commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Zu dem angegebenen Spielernamen konnte §ckeine §7UUID gefunden werden§8.").build());

@@ -24,12 +24,12 @@ public class PostLoginListener implements Listener {
         if (iBan != null && iBan.getEnd() < System.currentTimeMillis()) {
             LostProxy.getInstance().getBanManager().deleteBan(iBan);
             IBanHistory iBanHistory = LostProxy.getInstance().getHistoryManager().getBanHistory(player.getUniqueId());
-            iBanHistory.addEntry(new IBanEntry(EBanEntryType.UNBAN_ENTRY, player.getUniqueId(), "console", System.currentTimeMillis(), "BAN_EXPIRED_ON_JOIN", 0, 0));
+            iBanHistory.addEntry(new IBanEntry(EBanEntryType.UNBAN_ENTRY, player.getUniqueId(), "console", System.currentTimeMillis(), "BAN_EXPIRED", 0, 0));
             LostProxy.getInstance().getHistoryManager().saveBanHistory(iBanHistory);
             LostProxy.getInstance().getTeamManager().getNotificationOn().forEach(all -> {
-                all.sendMessage(new MessageBuilder(Prefix.BKMS + "§4BKM-System" + " §8➼ " + iPlayer.getPrefix() + player.getName()).build());
+                all.sendMessage(new MessageBuilder(Prefix.BKMS + "§4BKM-System" + " §8➼ " + iPlayer.getDisplay() + player.getName()).build());
                 all.sendMessage(new MessageBuilder("§8┃ §7Typ §8» §aUnban").build());
-                all.sendMessage(new MessageBuilder("§8┃ §7Grund §8» §eAbgelaufen beim Beitritt").build());
+                all.sendMessage(new MessageBuilder("§8┃ §7Grund §8» §eAbgelaufen").build());
                 all.sendMessage(new MessageBuilder("§8§m--------------------§r").build());
             });
         }
@@ -43,7 +43,7 @@ public class PostLoginListener implements Listener {
         if (player.hasPermission("lostproxy.command.team") && player.hasPermission("lostproxy.command.team.login")) {
             if (LostProxy.getInstance().getTeamManager().login(player)) {
                 player.sendMessage(new MessageBuilder(Prefix.TMS + "§a✔").build());
-                LostProxy.getInstance().getTeamManager().getLoggedIn().forEach(all -> all.sendMessage(new MessageBuilder(Prefix.TMS + iPlayer.getPrefix() + iPlayer.getPlayerName() + " §7hat das Netzwerk §abetreten§8.").build()));
+                LostProxy.getInstance().getTeamManager().getLoggedIn().forEach(all -> all.sendMessage(new MessageBuilder(Prefix.TMS + iPlayer.getDisplay() + iPlayer.getPlayerName() + " §7hat das Netzwerk §abetreten§8.").build()));
             }
         }
     }

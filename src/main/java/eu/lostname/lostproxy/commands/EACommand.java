@@ -44,12 +44,13 @@ public class EACommand extends Command {
                                 LostProxy.getInstance().getHistoryManager().saveBanHistory(iBanHistory);
                                 LostProxy.getInstance().getBanManager().saveBan(iBan);
                                 if (commandSender instanceof ProxiedPlayer) {
-                                    LostProxy.getInstance().getPlayerManager().getIPlayerAsync(((ProxiedPlayer) commandSender).getUniqueId(), invoker -> LostProxy.getInstance().getTeamManager().sendEANotify(invoker.getPrefix() + invoker.getPlayerName(), iPlayer.getPrefix() + iPlayer.getPlayerName()));
+                                    IPlayerSync invoker = new IPlayerSync(((ProxiedPlayer) commandSender).getUniqueId());
+                                    LostProxy.getInstance().getTeamManager().sendEANotify(invoker.getDisplay() + invoker.getPlayerName(), iPlayer.getDisplay() + iPlayer.getPlayerName());
                                 } else {
-                                    LostProxy.getInstance().getTeamManager().sendEANotify("§4Konsole", iPlayer.getPrefix() + iPlayer.getPlayerName());
+                                    LostProxy.getInstance().getTeamManager().sendEANotify("§4Konsole", iPlayer.getDisplay() + iPlayer.getPlayerName());
                                 }
 
-                                commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Der Ban von " + iPlayer.getPrefix() + iPlayer.getPlayerName() + " §7läuft nun in §e3 Tagen §7ab§8.").build());
+                                commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Der Ban von " + iPlayer.getDisplay() + iPlayer.getPlayerName() + " §7läuft nun in §e3 Tagen §7ab§8.").build());
                             } else {
                                 commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Da der Bann bereits in §e3 Tagen §cabläuft§8, §7kann der Bann §cnicht §7nochmal verkürzt werden§8.").build());
                             }
@@ -57,10 +58,10 @@ public class EACommand extends Command {
                             commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Ein §4permanenter §7Bann kann §cnicht §7verkürzt werden§8.").build());
                                 }
                             } else {
-                                commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Der Bann von " + iPlayer.getPrefix() + iPlayer.getPlayerName() + " §7wurde §cbereits §7verkürzt§8.").build());
+                        commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Der Bann von " + iPlayer.getDisplay() + iPlayer.getPlayerName() + " §7wurde §cbereits §7verkürzt§8.").build());
                             }
                         } else {
-                            commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Der Spieler " + iPlayer.getPrefix() + iPlayer.getPlayerName() + " §7ist §cnicht §7gebannt§8.").build());
+                    commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Der Spieler " + iPlayer.getDisplay() + iPlayer.getPlayerName() + " §7ist §cnicht §7gebannt§8.").build());
                         }
                 } else {
                     commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Der angegebene Spieler wurde §cnicht §7gefunden§8.").build());
