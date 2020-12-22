@@ -44,7 +44,7 @@ public class UnbanCommand extends Command implements TabExecutor {
                     iBanHistory.addEntry(new IBanEntry(EBanEntryType.UNBAN_ENTRY, uuid, invokerId, System.currentTimeMillis(), reason, 0, null, 0));
                     LostProxy.getInstance().getHistoryManager().saveBanHistory(iBanHistory);
                     commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Der Spieler " + targetIPlayer.getDisplay() + targetIPlayer.getPlayerName() + " §7wurde §aentbannt§8.").build());
-                    LostProxy.getInstance().getTeamManager().sendUnbanNotify(commandSender instanceof ProxiedPlayer ? new IPlayerSync(((ProxiedPlayer) commandSender).getUniqueId()).getPrefix() + commandSender.getName() : "§4Konsole", targetIPlayer.getDisplay() + targetIPlayer.getPlayerName(), reason);
+                    LostProxy.getInstance().getTeamManager().sendUnbanNotify(commandSender instanceof ProxiedPlayer ? new IPlayerSync(((ProxiedPlayer) commandSender).getUniqueId()).getDisplay() + commandSender.getName() : "§4Konsole", targetIPlayer.getDisplay() + targetIPlayer.getPlayerName(), reason);
                 } else {
                     commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Der Spieler " + targetIPlayer.getDisplay() + targetIPlayer.getPlayerName() + " §7ist §cnicht §7gebannt§8.").build());
                 }
