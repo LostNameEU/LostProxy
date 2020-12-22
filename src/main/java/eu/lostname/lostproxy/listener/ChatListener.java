@@ -47,7 +47,7 @@ public class ChatListener implements Listener {
                     } else if (iMute.getEnd() < System.currentTimeMillis()) {
                         LostProxy.getInstance().getMuteManager().deleteMute(iMute);
                         IMuteHistory iMuteHistory = LostProxy.getInstance().getHistoryManager().getMuteHistory(player.getUniqueId());
-                        iMuteHistory.addEntry(new IMuteEntry(EMuteEntryType.UNMUTE_ENTRY, player.getUniqueId(), "console", System.currentTimeMillis(), "MUTE_EXPIRED", 0, 0));
+                        iMuteHistory.addEntry(new IMuteEntry(EMuteEntryType.UNMUTE_ENTRY, player.getUniqueId(), "console", System.currentTimeMillis(), "MUTE_EXPIRED", 0, null, 0));
                         LostProxy.getInstance().getHistoryManager().saveMuteHistory(iMuteHistory);
                         LostProxy.getInstance().getTeamManager().getNotificationOn().forEach(all -> {
                             all.sendMessage(new MessageBuilder(Prefix.BKMS + "§4BKM-System" + " §8➼ " + iPlayer.getDisplay() + player.getName()).build());

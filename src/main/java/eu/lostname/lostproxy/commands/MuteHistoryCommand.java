@@ -2,6 +2,7 @@ package eu.lostname.lostproxy.commands;
 
 import eu.lostname.lostproxy.LostProxy;
 import eu.lostname.lostproxy.builder.MessageBuilder;
+import eu.lostname.lostproxy.enums.ETimeUnit;
 import eu.lostname.lostproxy.interfaces.IPlayerSync;
 import eu.lostname.lostproxy.interfaces.historyandentries.mute.IMuteHistory;
 import eu.lostname.lostproxy.utils.Prefix;
@@ -47,11 +48,12 @@ public class MuteHistoryCommand extends Command {
                                 String unmuteDate = new SimpleDateFormat("dd.MM.yyyy").format(new Date(iMuteEntry.getEnd()));
                                 String unmuteTime = new SimpleDateFormat("HH:mm:ss").format(new Date(iMuteEntry.getEnd()));
 
+                                boolean muteIsPermanent = iMuteEntry.getTime() == -1;
                                 if (iMuteEntry.isInvokerConsole()) {
-                                    commandSender.sendMessage(new MessageBuilder("§8┃ §cMute §8» §e" + date + " §7@ §e" + time + " §8» §4Konsole §8» §e" + iMuteEntry.getReason() + " §8» §c" + calculateRemainingTime(iMuteEntry.getDuration()) + " §8» §a" + (iMuteEntry.getDuration() == -1 ? "/" : unmuteDate + " §7@ §a" + unmuteTime)).build());
+                                    commandSender.sendMessage(new MessageBuilder("§8┃ §cMute §8» §e" + date + " §7@ §e" + time + " §8» §4Konsole §8» §e" + iMuteEntry.getReason() + " §8» §c" + (muteIsPermanent ? "permanent" : iMuteEntry.getTime() + " " + ETimeUnit.getDisplayName(iMuteEntry.getTime(), iMuteEntry.getETimeUnit())) + " §8» §a" + (muteIsPermanent ? "/" : unmuteDate + " §7@ §a" + unmuteTime)).build());
                                 } else {
                                     IPlayerSync iPlayer = new IPlayerSync(UUID.fromString(iMuteEntry.getInvokerId()));
-                                    commandSender.sendMessage(new MessageBuilder("§8┃ §cMute §8» §e" + date + " §7@ §e" + time + " §8» " + iPlayer.getDisplay() + iPlayer.getPlayerName() + " §8» §e" + iMuteEntry.getReason() + " §8» §c" + (iMuteEntry.getDuration() == -1 ? "permanent" : calculateRemainingTime(iMuteEntry.getDuration())) + " §8» §a" + (iMuteEntry.getDuration() == -1 ? "/" : unmuteDate + " §7@ §a" + unmuteTime)).build());
+                                    commandSender.sendMessage(new MessageBuilder("§8┃ §cMute §8» §e" + date + " §7@ §e" + time + " §8» " + iPlayer.getDisplay() + iPlayer.getPlayerName() + " §8» §e" + iMuteEntry.getReason() + " §8» §c" + (muteIsPermanent ? "permanent" : iMuteEntry.getTime() + " " + ETimeUnit.getDisplayName(iMuteEntry.getTime(), iMuteEntry.getETimeUnit())) + " §8» §a" + (muteIsPermanent ? "/" : unmuteDate + " §7@ §a" + unmuteTime)).build());
                                 }
                                 break;
                             case UNMUTE_ENTRY:
@@ -78,58 +80,4 @@ public class MuteHistoryCommand extends Command {
             }
         }
     }
-
-    @SuppressWarnings("deprecation")
-    public String calculateRemainingTime(long millis) {
-        int seconds = 0, minutes = 0, hours = 0, days = 0;
-
-        while (millis >= 1000) {
-            millis -= 1000;
-            seconds++;
-        }
-
-        while (seconds >= 60) {
-            seconds -= 60;
-            minutes++;
-        }
-
-        while (minutes >= 60) {
-            minutes -= 60;
-            hours++;
-        }
-
-        while (hours >= 24) {
-            hours -= 24;
-            days++;
-        }
-
-        String estimatedTime = "";
-
-        if (days == 1) {
-            estimatedTime += "ein §7Tag§8, ";
-        } else if (days > 1) {
-            estimatedTime += days + " §7Tage§8, ";
-        }
-
-        if (hours == 1) {
-            estimatedTime += "§ceine §7Stunde§8, ";
-        } else if (hours > 1) {
-            estimatedTime += "§c" + hours + " §7Stunden§8, ";
-        }
-
-        if (minutes == 1) {
-            estimatedTime += "§ceine §7Minute und ";
-        } else if (minutes > 1) {
-            estimatedTime += "§c" + minutes + " §7Minuten und ";
-        }
-
-        if (seconds == 1) {
-            estimatedTime += "§ceine §7Sekunde";
-        } else if (seconds > 1) {
-            estimatedTime += "§c" + seconds + " §7Sekunden";
-        }
-
-        return estimatedTime;
-    }
-
 }

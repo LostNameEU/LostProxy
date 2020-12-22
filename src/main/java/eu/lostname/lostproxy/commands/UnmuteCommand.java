@@ -38,7 +38,7 @@ public class UnmuteCommand extends Command {
                     String reason = LostProxy.getInstance().formatArrayToString(1, strings);
                     String invokerId = (commandSender instanceof ProxiedPlayer ? ((ProxiedPlayer) commandSender).getUniqueId().toString() : "console");
 
-                    iMuteHistory.addEntry(new IMuteEntry(EMuteEntryType.UNMUTE_ENTRY, uuid, invokerId, System.currentTimeMillis(), reason, 0, 0));
+                    iMuteHistory.addEntry(new IMuteEntry(EMuteEntryType.UNMUTE_ENTRY, uuid, invokerId, System.currentTimeMillis(), reason, 0, null, 0));
                     LostProxy.getInstance().getHistoryManager().saveMuteHistory(iMuteHistory);
                     commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Der Spieler " + targetIPlayer.getDisplay() + targetIPlayer.getPlayerName() + " §7wurde §aentmutet§8.").build());
                     LostProxy.getInstance().getTeamManager().sendUnmuteNotify(commandSender instanceof ProxiedPlayer ? new IPlayerSync(((ProxiedPlayer) commandSender).getUniqueId()).getDisplay() + commandSender.getName() : "§4Konsole", targetIPlayer.getDisplay() + targetIPlayer.getPlayerName(), reason);
