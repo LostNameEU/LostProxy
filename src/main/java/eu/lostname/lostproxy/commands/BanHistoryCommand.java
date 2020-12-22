@@ -4,17 +4,20 @@ import eu.lostname.lostproxy.LostProxy;
 import eu.lostname.lostproxy.builder.MessageBuilder;
 import eu.lostname.lostproxy.interfaces.IPlayerSync;
 import eu.lostname.lostproxy.interfaces.historyandentries.ban.IBanHistory;
+import eu.lostname.lostproxy.utils.MongoCollection;
 import eu.lostname.lostproxy.utils.Prefix;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.plugin.Command;
+import net.md_5.bungee.api.plugin.TabExecutor;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class BanHistoryCommand extends Command {
+public class BanHistoryCommand extends Command implements TabExecutor {
 
     public BanHistoryCommand(String name, String permission, String... aliases) {
         super(name, permission, aliases);
@@ -140,4 +143,12 @@ public class BanHistoryCommand extends Command {
         return estimatedTime;
     }
 
+    @Override
+    public Iterable<String> onTabComplete(CommandSender commandSender, String[] strings) {
+        ArrayList<String> list = new ArrayList<>();
+        if (strings.length == 0) {
+            LostProxy.getInstance().getDatabase().getMongoDatabase().getCollection(MongoCollection.BAN_HISTORIES).find().forEach(all -> list.add(new IPlayerSync(UUID.fromString(all.getString("_id"))).getPlayerName()));
+        }
+        return list;
+    }
 }
