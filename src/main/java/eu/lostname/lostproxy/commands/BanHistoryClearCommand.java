@@ -78,7 +78,7 @@ public class BanHistoryClearCommand extends Command implements TabExecutor {
                 IBanHistory iBanHistory = LostProxy.getInstance().getGson().fromJson(one.toJson(), IBanHistory.class);
                 if (iBanHistory.getHistory().size() > 0) {
                     IPlayerSync iPlayer = new IPlayerSync(iBanHistory.getUniqueId());
-                    if (iPlayer.getPlayerName().startsWith(strings[0]))
+                    if (iPlayer.getPlayerName().toLowerCase().startsWith(strings[0].toLowerCase()))
                         list.add(iPlayer.getPlayerName());
                 }
             });
