@@ -216,16 +216,31 @@ public class BanReasonsCommand extends Command implements TabExecutor {
         if (strings.length == 1) {
             list.addAll(Arrays.asList("list", "add"));
             LostProxy.getInstance().getReasonManager().getRegistedBanReasons().forEach(one -> list.add(String.valueOf(one.getId())));
-            list.removeIf(s -> !s.startsWith(strings[0]));
+            list.removeIf(s -> !s.toLowerCase().startsWith(strings[0].toLowerCase()));
         } else if (strings.length == 2) {
-            list.addAll(Arrays.asList("set", "delete"));
-            list.removeIf(s -> !s.startsWith(strings[0]));
+            try {
+                int check = Integer.parseInt(strings[0]);
+                list.addAll(Arrays.asList("set", "delete"));
+                list.removeIf(s -> !s.toLowerCase().startsWith(strings[1].toLowerCase()));
+            } catch (NumberFormatException ignored) {
+            }
         } else if (strings.length == 3) {
-            list.addAll(Arrays.asList("id", "name", "time", "timeunit", "permission"));
-            list.removeIf(s -> !s.startsWith(strings[0]));
+            try {
+                int check = Integer.parseInt(strings[0]);
+                if (strings[1].equalsIgnoreCase("set")) {
+                    list.addAll(Arrays.asList("id", "name", "time", "timeunit", "permission"));
+                    list.removeIf(s -> !s.toLowerCase().startsWith(strings[2].toLowerCase()));
+                }
+            } catch (NumberFormatException ignored) {
+            }
+        } else if (strings.length == 4) {
+            if (strings[2].equalsIgnoreCase("timeunit")) {
+                Arrays.stream(ETimeUnit.values()).forEach(one -> list.add(one.name()));
+                list.removeIf(s -> !s.toLowerCase().startsWith(strings[3].toLowerCase()));
+            }
         } else if (strings.length == 5) {
             Arrays.stream(ETimeUnit.values()).forEach(one -> list.add(one.name()));
-            list.removeIf(s -> !s.startsWith(strings[0]));
+            list.removeIf(s -> !s.toLowerCase().startsWith(strings[4].toLowerCase()));
         }
         return list;
     }
