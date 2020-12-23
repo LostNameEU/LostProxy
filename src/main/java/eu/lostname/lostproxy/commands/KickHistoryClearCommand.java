@@ -75,11 +75,13 @@ public class KickHistoryClearCommand extends Command implements TabExecutor {
     @Override
     public Iterable<String> onTabComplete(CommandSender commandSender, String[] strings) {
         ArrayList<String> list = new ArrayList<>();
-        if (strings.length == 0) {
+        if (strings.length == 1) {
             LostProxy.getInstance().getDatabase().getMongoDatabase().getCollection(MongoCollection.KICK_HISTORIES).find().forEach(one -> {
                 IKickHistory iKickHistory = LostProxy.getInstance().getGson().fromJson(one.toJson(), IKickHistory.class);
-                if (iKickHistory.getHistory().size() > 1) {
-                    list.add(new IPlayerSync(iKickHistory.getUniqueId()).getPlayerName());
+                if (iKickHistory.getHistory().size() > 0) {
+                    IPlayerSync iPlayer = new IPlayerSync(iKickHistory.getUniqueId());
+                    if (iPlayer.getPlayerName().toLowerCase().startsWith(strings[0].toLowerCase()))
+                        list.add(iPlayer.getPlayerName());
                 }
             });
         }
