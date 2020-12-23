@@ -10,11 +10,13 @@ import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.plugin.Command;
+import net.md_5.bungee.api.plugin.TabExecutor;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 
-public class BanReasonsCommand extends Command {
+public class BanReasonsCommand extends Command implements TabExecutor {
     public BanReasonsCommand(String name, String permission, String... aliases) {
         super(name, permission, aliases);
     }
@@ -206,5 +208,21 @@ public class BanReasonsCommand extends Command {
                 commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Bitte beachte die §eBenutzung §7dieses Kommandos§8.").build());
             }
         }
+    }
+
+    @Override
+    public Iterable<String> onTabComplete(CommandSender commandSender, String[] strings) {
+        ArrayList<String> list = new ArrayList<>();
+        if (strings.length == 0) {
+            list.addAll(Arrays.asList("list", "add"));
+            LostProxy.getInstance().getReasonManager().getRegistedBanReasons().forEach(one -> list.add(String.valueOf(one.getId())));
+        } else if (strings.length == 1) {
+            list.addAll(Arrays.asList("set", "delete"));
+        } else if (strings.length == 2) {
+            list.addAll(Arrays.asList("id", "name", "time", "timeunit", "permission"));
+        } else if (strings.length == 4) {
+            Arrays.stream(ETimeUnit.values()).forEach(one -> list.add(one.name()));
+        }
+        return list;
     }
 }
