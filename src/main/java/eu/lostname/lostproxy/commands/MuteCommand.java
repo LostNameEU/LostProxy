@@ -158,10 +158,12 @@ public class MuteCommand extends Command implements TabExecutor {
     @Override
     public Iterable<String> onTabComplete(CommandSender commandSender, String[] strings) {
         ArrayList<String> list = new ArrayList<>();
-        if (strings.length == 0) {
+        if (strings.length == 1) {
             CloudServices.PLAYER_MANAGER.getOnlinePlayers().forEach(one -> list.add(one.getName()));
-        } else if (strings.length == 1) {
+            list.removeIf(filter -> !filter.toLowerCase().startsWith(strings[0].toLowerCase()));
+        } else if (strings.length == 2) {
             LostProxy.getInstance().getReasonManager().getRegistedMuteReasons().stream().filter(one -> commandSender.hasPermission(one.getPermission())).forEach(one -> list.add(String.valueOf(one.getId())));
+            list.removeIf(filter -> !filter.toLowerCase().startsWith(strings[1].toLowerCase()));
         }
         return list;
     }
