@@ -77,18 +77,18 @@ public class BanHistoryCommand extends Command implements TabExecutor {
                                 break;
                         }
 
-                                currentEntry.set(currentEntry.get() + 1);
+                        currentEntry.set(currentEntry.get() + 1);
 
-                                if (iBanHistory.getHistory().size() == currentEntry.get()) {
-                                    commandSender.sendMessage(new MessageBuilder("§8§m--------------------§r").build());
-                                }
-                            });
-                        } else {
-                    commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Der Spieler " + targetIPlayer.getDisplay() + targetIPlayer.getPlayerName() + " §7hat §ckeine §7Ban-History§8.").build());
+                        if (iBanHistory.getHistory().size() == currentEntry.get()) {
+                            commandSender.sendMessage(new MessageBuilder("§8§m--------------------§r").build());
                         }
+                    });
                 } else {
-                    commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Zu dem angegebenen Spielernamen konnte §ckeine §7UUID gefunden werden§8.").build());
+                    commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Der Spieler " + targetIPlayer.getDisplay() + targetIPlayer.getPlayerName() + " §7hat §ckeine §7Ban-History§8.").build());
                 }
+            } else {
+                commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Zu dem angegebenen Spielernamen konnte §ckeine §7UUID gefunden werden§8.").build());
+            }
         }
     }
 
@@ -148,8 +148,14 @@ public class BanHistoryCommand extends Command implements TabExecutor {
     @Override
     public Iterable<String> onTabComplete(CommandSender commandSender, String[] strings) {
         ArrayList<String> list = new ArrayList<>();
-        if (strings.length == 0) {
-            LostProxy.getInstance().getDatabase().getMongoDatabase().getCollection(MongoCollection.BAN_HISTORIES).find().forEach(all -> list.add(new IPlayerSync(UUID.fromString(all.getString("_id"))).getPlayerName()));
+        if (strings.length == 1) {
+            LostProxy.getInstance().getDatabase().getMongoDatabase().getCollection(MongoCollection.BAN_HISTORIES).find().forEach(all -> {
+                IPlayerSync iPlayer = new IPlayerSync(UUID.fromString(all.getString("_id")));
+
+                if (iPlayer.getPlayerName().toLowerCase().startsWith(strings[0].toLowerCase())) {
+                    list.add(iPlayer.getPlayerName());
+                }
+            });
         }
         return list;
     }
