@@ -213,15 +213,19 @@ public class BanReasonsCommand extends Command implements TabExecutor {
     @Override
     public Iterable<String> onTabComplete(CommandSender commandSender, String[] strings) {
         ArrayList<String> list = new ArrayList<>();
-        if (strings.length == 0) {
+        if (strings.length == 1) {
             list.addAll(Arrays.asList("list", "add"));
             LostProxy.getInstance().getReasonManager().getRegistedBanReasons().forEach(one -> list.add(String.valueOf(one.getId())));
-        } else if (strings.length == 1) {
-            list.addAll(Arrays.asList("set", "delete"));
+            list.removeIf(s -> !s.startsWith(strings[0]));
         } else if (strings.length == 2) {
+            list.addAll(Arrays.asList("set", "delete"));
+            list.removeIf(s -> !s.startsWith(strings[0]));
+        } else if (strings.length == 3) {
             list.addAll(Arrays.asList("id", "name", "time", "timeunit", "permission"));
-        } else if (strings.length == 4) {
+            list.removeIf(s -> !s.startsWith(strings[0]));
+        } else if (strings.length == 5) {
             Arrays.stream(ETimeUnit.values()).forEach(one -> list.add(one.name()));
+            list.removeIf(s -> !s.startsWith(strings[0]));
         }
         return list;
     }
