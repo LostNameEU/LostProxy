@@ -75,11 +75,14 @@ public class EACommand extends Command implements TabExecutor {
     @Override
     public Iterable<String> onTabComplete(CommandSender commandSender, String[] strings) {
         ArrayList<String> list = new ArrayList<>();
-        if (strings.length == 0) {
+        if (strings.length == 1) {
             LostProxy.getInstance().getDatabase().getMongoDatabase().getCollection(MongoCollection.ACTIVE_BANS).find().forEach(one -> {
                 IBan iBan = LostProxy.getInstance().getGson().fromJson(one.toJson(), IBan.class);
                 if (iBan.getDuration() != -1) {
-                    list.add(new IPlayerSync(iBan.getUniqueId()).getPlayerName());
+                    IPlayerSync iPlayer = new IPlayerSync(iBan.getUniqueId());
+
+                    if (iPlayer.getPlayerName().toLowerCase().startsWith(strings[0].toLowerCase()))
+                        list.add(iPlayer.getPlayerName());
                 }
             });
         }
