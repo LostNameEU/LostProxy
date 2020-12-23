@@ -13,6 +13,7 @@ import net.md_5.bungee.api.plugin.TabExecutor;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 
 public class TeamCommand extends Command implements TabExecutor {
     public TeamCommand(String name, String permission, String... aliases) {
@@ -67,7 +68,7 @@ public class TeamCommand extends Command implements TabExecutor {
                     case "list":
                         if (player.hasPermission("lostproxy.command.team.list")) {
                             player.sendMessage(new MessageBuilder(Prefix.TMS + "Übersicht der Teammitglieder§8:").build());
-                            ProxyServer.getInstance().getPlayers().stream().filter(filter -> filter.hasPermission("lostproxy.command.team")).forEach(all -> {
+                            ProxyServer.getInstance().getPlayers().stream().filter(filter -> filter.hasPermission("lostproxy.command.team")).sorted(Comparator.comparingInt(one -> new IPlayerSync(one.getUniqueId()).getSortId())).forEach(all -> {
                                 IPlayerSync allIPlayer = new IPlayerSync(all.getUniqueId());
                                 player.sendMessage(new MessageBuilder("§8┃ " + allIPlayer.getDisplay() + allIPlayer.getPlayerName() + " §8» " + (LostProxy.getInstance().getTeamManager().isLoggedIn(all) ? "§a✔" : "§c✖") + " §8» §7" + all.getServer().getInfo().getName()).build());
                             });
