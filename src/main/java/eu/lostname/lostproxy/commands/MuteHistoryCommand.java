@@ -140,11 +140,13 @@ public class MuteHistoryCommand extends Command implements TabExecutor {
     @Override
     public Iterable<String> onTabComplete(CommandSender commandSender, String[] strings) {
         ArrayList<String> list = new ArrayList<>();
-        if (strings.length == 0) {
+        if (strings.length == 1) {
             LostProxy.getInstance().getDatabase().getMongoDatabase().getCollection(MongoCollection.MUTE_HISTORIES).find().forEach(one -> {
                 IMuteHistory iMuteHistory = LostProxy.getInstance().getGson().fromJson(one.toJson(), IMuteHistory.class);
-                if (iMuteHistory.getHistory().size() > 1) {
-                    list.add(new IPlayerSync(iMuteHistory.getUniqueId()).getPlayerName());
+                if (iMuteHistory.getHistory().size() > 0) {
+                    IPlayerSync iPlayer = new IPlayerSync(iMuteHistory.getUniqueId());
+                    if (iPlayer.getPlayerName().toLowerCase().startsWith(strings[0].toLowerCase()))
+                        list.add(iPlayer.getPlayerName());
                 }
             });
         }
