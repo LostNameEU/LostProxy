@@ -5,21 +5,18 @@ import eu.lostname.lostproxy.builder.MessageBuilder;
 import eu.lostname.lostproxy.interfaces.IPlayerSync;
 import eu.lostname.lostproxy.interfaces.historyandentries.IEntry;
 import eu.lostname.lostproxy.interfaces.historyandentries.kick.IKickHistory;
-import eu.lostname.lostproxy.utils.MongoCollection;
 import eu.lostname.lostproxy.utils.Prefix;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.plugin.Command;
-import net.md_5.bungee.api.plugin.TabExecutor;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class KickHistoryCommand extends Command implements TabExecutor {
+public class KickHistoryCommand extends Command {
     public KickHistoryCommand(String name, String permission, String... aliases) {
         super(name, permission, aliases);
     }
@@ -66,19 +63,5 @@ public class KickHistoryCommand extends Command implements TabExecutor {
         } else {
             commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Bitte beachte die §eBenutzung §7dieses Kommandos§8.").build());
         }
-    }
-
-    @Override
-    public Iterable<String> onTabComplete(CommandSender commandSender, String[] strings) {
-        ArrayList<String> list = new ArrayList<>();
-        if (strings.length == 0) {
-            LostProxy.getInstance().getDatabase().getMongoDatabase().getCollection(MongoCollection.KICK_HISTORIES).find().forEach(one -> {
-                IKickHistory iKickHistory = LostProxy.getInstance().getGson().fromJson(one.toJson(), IKickHistory.class);
-                if (iKickHistory.getHistory().size() > 1) {
-                    list.add(new IPlayerSync(iKickHistory.getUniqueId()).getPlayerName());
-                }
-            });
-        }
-        return list;
     }
 }

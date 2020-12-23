@@ -7,18 +7,15 @@ import eu.lostname.lostproxy.interfaces.IPlayerSync;
 import eu.lostname.lostproxy.interfaces.bkms.IBan;
 import eu.lostname.lostproxy.interfaces.historyandentries.ban.IBanEntry;
 import eu.lostname.lostproxy.interfaces.historyandentries.ban.IBanHistory;
-import eu.lostname.lostproxy.utils.MongoCollection;
 import eu.lostname.lostproxy.utils.Prefix;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
-import net.md_5.bungee.api.plugin.TabExecutor;
 
-import java.util.ArrayList;
 import java.util.UUID;
 
-public class UnbanCommand extends Command implements TabExecutor {
+public class UnbanCommand extends Command {
 
     public UnbanCommand(String name, String permission, String... aliases) {
         super(name, permission, aliases);
@@ -52,18 +49,5 @@ public class UnbanCommand extends Command implements TabExecutor {
                 commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Der angegebene Spieler wurde §cnicht §7gefunden§8.").build());
             }
         }
-    }
-
-    @Override
-    public Iterable<String> onTabComplete(CommandSender commandSender, String[] strings) {
-        ArrayList<String> list = new ArrayList<>();
-
-        if (strings.length == 0) {
-            LostProxy.getInstance().getDatabase().getMongoDatabase().getCollection(MongoCollection.ACTIVE_BANS).find().forEach(one -> {
-                IBan iBan = LostProxy.getInstance().getGson().fromJson(one.toJson(), IBan.class);
-                list.add(new IPlayerSync(iBan.getUniqueId()).getPlayerName());
-            });
-        }
-        return list;
     }
 }

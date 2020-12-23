@@ -5,20 +5,17 @@ import eu.lostname.lostproxy.builder.MessageBuilder;
 import eu.lostname.lostproxy.enums.ETimeUnit;
 import eu.lostname.lostproxy.interfaces.IPlayerSync;
 import eu.lostname.lostproxy.interfaces.historyandentries.ban.IBanHistory;
-import eu.lostname.lostproxy.utils.MongoCollection;
 import eu.lostname.lostproxy.utils.Prefix;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.plugin.Command;
-import net.md_5.bungee.api.plugin.TabExecutor;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class BanHistoryCommand extends Command implements TabExecutor {
+public class BanHistoryCommand extends Command {
 
     public BanHistoryCommand(String name, String permission, String... aliases) {
         super(name, permission, aliases);
@@ -92,65 +89,4 @@ public class BanHistoryCommand extends Command implements TabExecutor {
         }
     }
 
-    @SuppressWarnings("deprecation")
-    public String calculateRemainingTime(long millis) {
-        int seconds = 0, minutes = 0, hours = 0, days = 0;
-
-        while (millis >= 1000) {
-            millis -= 1000;
-            seconds++;
-        }
-
-        while (seconds >= 60) {
-            seconds -= 60;
-            minutes++;
-        }
-
-        while (minutes >= 60) {
-            minutes -= 60;
-            hours++;
-        }
-
-        while (hours >= 24) {
-            hours -= 24;
-            days++;
-        }
-
-        String estimatedTime = "";
-
-        if (days == 1) {
-            estimatedTime += "ein §7Tag§8, ";
-        } else if (days > 1) {
-            estimatedTime += days + " §7Tage§8, ";
-        }
-
-        if (hours == 1) {
-            estimatedTime += "§ceine §7Stunde§8, ";
-        } else if (hours > 1) {
-            estimatedTime += "§c" + hours + " §7Stunden§8, ";
-        }
-
-        if (minutes == 1) {
-            estimatedTime += "§ceine §7Minute und ";
-        } else if (minutes > 1) {
-            estimatedTime += "§c" + minutes + " §7Minuten und ";
-        }
-
-        if (seconds == 1) {
-            estimatedTime += "§ceine §7Sekunde";
-        } else if (seconds > 1) {
-            estimatedTime += "§c" + seconds + " §7Sekunden";
-        }
-
-        return estimatedTime;
-    }
-
-    @Override
-    public Iterable<String> onTabComplete(CommandSender commandSender, String[] strings) {
-        ArrayList<String> list = new ArrayList<>();
-        if (strings.length == 0) {
-            LostProxy.getInstance().getDatabase().getMongoDatabase().getCollection(MongoCollection.BAN_HISTORIES).find().forEach(all -> list.add(new IPlayerSync(UUID.fromString(all.getString("_id"))).getPlayerName()));
-        }
-        return list;
-    }
 }

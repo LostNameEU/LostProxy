@@ -10,7 +10,6 @@ import eu.lostname.lostproxy.interfaces.bkms.IBan;
 import eu.lostname.lostproxy.interfaces.bkms.IBanReason;
 import eu.lostname.lostproxy.interfaces.historyandentries.ban.IBanEntry;
 import eu.lostname.lostproxy.interfaces.historyandentries.ban.IBanHistory;
-import eu.lostname.lostproxy.utils.CloudServices;
 import eu.lostname.lostproxy.utils.Prefix;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.ProxyServer;
@@ -18,16 +17,14 @@ import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
-import net.md_5.bungee.api.plugin.TabExecutor;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-public class BanCommand extends Command implements TabExecutor {
+public class BanCommand extends Command {
 
     public BanCommand(String name, String permission, String... aliases) {
         super(name, permission, aliases);
@@ -176,16 +173,5 @@ public class BanCommand extends Command implements TabExecutor {
         } else {
             commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Bitte beachte die §eBenutzung §7dieses Kommandos§8.").build());
         }
-    }
-
-    @Override
-    public Iterable<String> onTabComplete(CommandSender commandSender, String[] strings) {
-        ArrayList<String> list = new ArrayList<>();
-        if (strings.length == 0) {
-            CloudServices.PLAYER_MANAGER.getOnlinePlayers().forEach(one -> list.add(one.getName()));
-        } else if (strings.length == 1) {
-            LostProxy.getInstance().getReasonManager().getRegistedBanReasons().stream().filter(one -> commandSender.hasPermission(one.getPermission())).forEach(one -> list.add(String.valueOf(one.getId())));
-        }
-        return list;
     }
 }
