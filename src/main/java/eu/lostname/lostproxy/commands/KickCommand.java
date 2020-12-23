@@ -86,8 +86,9 @@ public class KickCommand extends Command implements TabExecutor {
     @Override
     public Iterable<String> onTabComplete(CommandSender commandSender, String[] strings) {
         ArrayList<String> list = new ArrayList<>();
-        if (strings.length == 0) {
+        if (strings.length == 1) {
             CloudServices.PLAYER_MANAGER.getOnlinePlayers().forEach(one -> list.add(one.getName()));
+            list.removeIf(filter -> !filter.toLowerCase().startsWith(strings[0].toLowerCase()));
         }
         return list;
     }
