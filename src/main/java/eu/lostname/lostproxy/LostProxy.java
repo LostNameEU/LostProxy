@@ -49,7 +49,7 @@ public class LostProxy extends Plugin {
         this.banManager = new BanManager();
         this.muteManager = new MuteManager();
         this.reasonManager = new ReasonManager(gson, database);
-        this.friendManager = new FriendManager();
+        this.friendManager = new FriendManager(database, gson);
 
         getProxy().getPluginManager().registerCommand(this, new TSCommand("ts", "lostproxy.command.ts"));
         getProxy().getPluginManager().registerCommand(this, new PingCommand("ping", "lostproxy.command.ping"));
