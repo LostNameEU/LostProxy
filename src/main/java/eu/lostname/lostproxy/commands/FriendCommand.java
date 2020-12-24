@@ -53,6 +53,7 @@ public class FriendCommand extends Command {
                         player.sendMessage(new MessageBuilder("§8┃ §c/friend togglemsg §8» §7De- oder aktiviert Nachrichten von Freunden").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/friend togglenotify").build());
                         player.sendMessage(new MessageBuilder("§8┃ §c/friend togglejump §8» §7De- oder aktiviert Nachspringen von Freunden").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/friend togglejump").build());
                         player.sendMessage(new MessageBuilder("§8┃ §c/friend toggleonline §8» §7De- oder aktiviert den Onlinestatus vor anderen Freunden").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/friend toggleonline").build());
+                        player.sendMessage(new MessageBuilder("§8┃ §c/friend info <Name> §8» §7Zeigt Informationen über einen Freund").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/friend info ").build());
                         player.sendMessage(new MessageBuilder("§8§m--------------------§r").build());
                         break;
                     case "list":
@@ -93,6 +94,25 @@ public class FriendCommand extends Command {
                         }
                         break;
                     case "requests":
+                        if (iFriendData.getRequests().size() > 0) {
+                            player.sendMessage(new MessageBuilder(Prefix.FRIENDS + "Freundschaftsanfragen §8(§e" + iFriendData.getRequests().size() + "§8):").build());
+                            iFriendData.getRequests().keySet().forEach(all -> {
+                                IPlayerSync iPlayer = new IPlayerSync(UUID.fromString(all));
+
+                                TextComponent playerNameComponent = new MessageBuilder("§8┃ " + iPlayer.getDisplay() + iPlayer.getPlayerName() + " §8» ").build();
+                                TextComponent acceptComponent = new MessageBuilder("§a§l✔").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/friend accept " + iPlayer.getPlayerName()).addHoverEvent(HoverEvent.Action.SHOW_TEXT, "§8» §eKlicke§8, §7um diese Freundschaftsanfrage §aanzunehmen§8.").build();
+                                TextComponent seperateComponent = new MessageBuilder(" ").build();
+                                TextComponent denyComponent = new MessageBuilder("§c§l✖").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/friend deny " + iPlayer.getPlayerName()).addHoverEvent(HoverEvent.Action.SHOW_TEXT, "§8» §eKlicke§8, §7um diese Freundschaftsanfrage §cabzulehnen§8.").build();
+
+                                playerNameComponent.addExtra(acceptComponent);
+                                playerNameComponent.addExtra(seperateComponent);
+                                playerNameComponent.addExtra(denyComponent);
+
+                                player.sendMessage(playerNameComponent);
+                            });
+                        } else {
+                            player.sendMessage(new MessageBuilder(Prefix.FRIENDS + "Du hast §ckeine §7Freundschaftsanfragen §7erhalten§8.").build());
+                        }
                         break;
                     case "acceptall":
                         break;
