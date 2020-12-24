@@ -195,6 +195,21 @@ public class FriendCommand extends Command {
                             player.sendMessage(new MessageBuilder(Prefix.FRIENDS + "Freunde sehen deinen Onlinestatus §cnicht §7mehr§8.").build());
                         }
                         break;
+                    case "clear":
+                        iFriendData.getFriends().keySet().forEach(friend -> {
+                            IPlayerSync friendIPlayer = new IPlayerSync(UUID.fromString(friend));
+                            IFriendData friendData = LostProxy.getInstance().getFriendManager().getFriendData(friendIPlayer.getUniqueId());
+
+                            friendData.removeFriend(player.getUniqueId());
+                            friendData.save();
+
+                            player.sendMessage(new MessageBuilder(Prefix.FRIENDS + "Die Freundschaft mit " + friendIPlayer.getDisplay() + friendIPlayer.getPlayerName() + " §7wurde §caufgelöst§8.").build());
+
+                            if (friendIPlayer.isOnline())
+                                ProxyServer.getInstance().getPlayer(friendIPlayer.getUniqueId()).sendMessage(new MessageBuilder(Prefix.FRIENDS + iPlayer.getDisplay() + iPlayer.getPlayerName() + " §7hat die Freundschaft §caufgelöst§8.").build());
+                        });
+                        iFriendData.getFriends().clear();
+                        iFriendData.save();
                     default:
                         player.sendMessage(new MessageBuilder(Prefix.FRIENDS + "Bitte beachte die §eBenutzung §7dieses Kommandos§8.").build());
                 }
