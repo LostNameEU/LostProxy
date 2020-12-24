@@ -58,10 +58,13 @@ public class UnmuteCommand extends Command implements TabExecutor {
     public Iterable<String> onTabComplete(CommandSender commandSender, String[] strings) {
         ArrayList<String> list = new ArrayList<>();
 
-        if (strings.length == 0) {
+        if (strings.length == 1) {
             LostProxy.getInstance().getDatabase().getMongoDatabase().getCollection(MongoCollection.ACTIVE_MUTES).find().forEach(one -> {
                 IMute iMute = LostProxy.getInstance().getGson().fromJson(one.toJson(), IMute.class);
-                list.add(new IPlayerSync(iMute.getUniqueId()).getPlayerName());
+                String playerName = new IPlayerSync(iMute.getUniqueId()).getPlayerName();
+
+                if (playerName.toLowerCase().startsWith(strings[0].toLowerCase()))
+                    list.add(playerName);
             });
         }
         return list;
