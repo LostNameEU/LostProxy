@@ -58,10 +58,13 @@ public class UnbanCommand extends Command implements TabExecutor {
     public Iterable<String> onTabComplete(CommandSender commandSender, String[] strings) {
         ArrayList<String> list = new ArrayList<>();
 
-        if (strings.length == 0) {
+        if (strings.length == 1) {
             LostProxy.getInstance().getDatabase().getMongoDatabase().getCollection(MongoCollection.ACTIVE_BANS).find().forEach(one -> {
                 IBan iBan = LostProxy.getInstance().getGson().fromJson(one.toJson(), IBan.class);
-                list.add(new IPlayerSync(iBan.getUniqueId()).getPlayerName());
+                String playerName = new IPlayerSync(iBan.getUniqueId()).getPlayerName();
+
+                if (playerName.toLowerCase().startsWith(strings[0].toLowerCase()))
+                    list.add(playerName);
             });
         }
         return list;
