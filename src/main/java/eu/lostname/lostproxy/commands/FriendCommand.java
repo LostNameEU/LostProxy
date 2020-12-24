@@ -121,7 +121,6 @@ public class FriendCommand extends Command {
                             iFriendData.getRequests().keySet().forEach(request -> {
                                 IPlayerSync requestIPlayer = new IPlayerSync(UUID.fromString(request));
 
-                                iFriendData.removeRequest(requestIPlayer.getUniqueId());
                                 iFriendData.addFriend(requestIPlayer.getUniqueId());
                                 iFriendData.save();
 
@@ -134,6 +133,8 @@ public class FriendCommand extends Command {
                                 if (requestIPlayer.isOnline())
                                     ProxyServer.getInstance().getPlayer(requestIPlayer.getUniqueId()).sendMessage(new MessageBuilder(Prefix.FRIENDS + iPlayer.getDisplay() + iPlayer.getPlayerName() + " §7hat deine Freundschaftsanfrage §aakzeptiert§8.").build());
                             });
+                            iFriendData.getRequests().clear();
+                            iFriendData.save();
                         } else {
                             player.sendMessage(new MessageBuilder(Prefix.FRIENDS + "Du hast §ckeine §7Freundschaftsanfragen §7erhalten§8.").build());
                         }
@@ -143,14 +144,13 @@ public class FriendCommand extends Command {
                             iFriendData.getRequests().keySet().forEach(request -> {
                                 IPlayerSync requestIPlayer = new IPlayerSync(UUID.fromString(request));
 
-                                iFriendData.removeRequest(requestIPlayer.getUniqueId());
-                                iFriendData.save();
-
                                 player.sendMessage(new MessageBuilder(Prefix.FRIENDS + "Du hast die Freundschaftsanfrage von " + requestIPlayer.getDisplay() + requestIPlayer.getPlayerName() + " §cabgelehnt§8.").build());
 
                                 if (requestIPlayer.isOnline())
                                     ProxyServer.getInstance().getPlayer(requestIPlayer.getUniqueId()).sendMessage(new MessageBuilder(Prefix.FRIENDS + iPlayer.getDisplay() + iPlayer.getPlayerName() + " §7hat deine Freundschaftsanfrage §cabgelehnt§8.").build());
                             });
+                            iFriendData.getRequests().clear();
+                            iFriendData.save();
                         } else {
                             player.sendMessage(new MessageBuilder(Prefix.FRIENDS + "Du hast §ckeine §7Freundschaftsanfragen §7erhalten§8.").build());
                         }
