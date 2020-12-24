@@ -166,10 +166,34 @@ public class FriendCommand extends Command {
                         }
                         break;
                     case "togglenotify":
+                        iFriendData.setNotifyMessagesEnabled(!iFriendData.areNotifyMessagesEnabled());
+                        iFriendData.save();
+
+                        if (iFriendData.areNotifyMessagesEnabled()) {
+                            player.sendMessage(new MessageBuilder(Prefix.FRIENDS + "Du erhältst nun §awieder §7Benachrichtigungen§8.").build());
+                        } else {
+                            player.sendMessage(new MessageBuilder(Prefix.FRIENDS + "Du erhältst nun §ckeine §7Benachrichtigungen mehr§8.").build());
+                        }
                         break;
                     case "togglejump":
+                        iFriendData.setFriendJumpAllowed(!iFriendData.isFriendJumpAllowed());
+                        iFriendData.save();
+
+                        if (iFriendData.isFriendJumpAllowed()) {
+                            player.sendMessage(new MessageBuilder(Prefix.FRIENDS + "Freunde können dir nun §awieder §7hinterher springen§8.").build());
+                        } else {
+                            player.sendMessage(new MessageBuilder(Prefix.FRIENDS + "Freunde können dir nun §cnicht §7mehr hinterher springen§8.").build());
+                        }
                         break;
                     case "toggleonline":
+                        iFriendData.setFriendsSeeOnlineStatusAllowed(!iFriendData.canFriendsSeeOnlineStatusAllowed());
+                        iFriendData.save();
+
+                        if (iFriendData.canFriendsSeeOnlineStatusAllowed()) {
+                            player.sendMessage(new MessageBuilder(Prefix.FRIENDS + "Freunde sehen deinen Onlinestatus nun §awieder§8.").build());
+                        } else {
+                            player.sendMessage(new MessageBuilder(Prefix.FRIENDS + "Freunde sehen deinen Onlinestatus §cnicht §7mehr§8.").build());
+                        }
                         break;
                     default:
                         player.sendMessage(new MessageBuilder(Prefix.FRIENDS + "Bitte beachte die §eBenutzung §7dieses Kommandos§8.").build());
