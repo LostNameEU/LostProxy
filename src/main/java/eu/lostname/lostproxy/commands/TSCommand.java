@@ -217,7 +217,7 @@ public class TSCommand extends Command implements TabExecutor {
     @Override
     public Iterable<String> onTabComplete(CommandSender commandSender, String[] strings) {
         ArrayList<String> list = new ArrayList<>();
-        if (strings.length == 0) {
+        if (strings.length == 1) {
             list.addAll(Arrays.asList("set", "unlink", "info"));
 
             if (commandSender.hasPermission("lostproxy.command.ts.iinfo"))
@@ -228,7 +228,9 @@ public class TSCommand extends Command implements TabExecutor {
                 list.add("delete");
             if (commandSender.hasPermission("lostproxy.command.ts.set"))
                 list.add("set");
-        } else if (strings.length == 1) {
+
+            list.removeIf(filter -> !filter.toLowerCase().startsWith(strings[0].toLowerCase()));
+        } else if (strings.length == 2) {
             if (strings[0].equalsIgnoreCase("iinfo") && commandSender.hasPermission("lostproxy.command.ts.iinfo")) {
                 LostProxy.getInstance().getDatabase().getMongoDatabase().getCollection(MongoCollection.TEAMSPEAK_LINKAGES).find().forEach(one -> {
                     ITeamSpeakLinkage iTeamSpeakLinkage = LostProxy.getInstance().getGson().fromJson(one.toJson(), ITeamSpeakLinkage.class);
@@ -247,11 +249,14 @@ public class TSCommand extends Command implements TabExecutor {
             } else if (strings[0].equalsIgnoreCase("set") && commandSender.hasPermission("lostproxy.command.ts.set")) {
                 CloudServices.PERMISSION_MANAGEMENT.getGroups().forEach(one -> list.add(one.getName()));
             }
-        } else if (strings.length == 2) {
+            list.removeIf(filter -> !filter.toLowerCase().startsWith(strings[1].toLowerCase()));
+        } else if (strings.length == 3) {
             if (strings[0].equalsIgnoreCase("set") && commandSender.hasPermission("lostproxy.command.ts.set")) {
                 LostProxy.getInstance().getTeamSpeakManager().getApi().getServerGroups().onSuccess(serverGroups -> serverGroups.forEach(one -> list.add(String.valueOf(one.getId()))));
+                list.removeIf(filter -> !filter.toLowerCase().startsWith(strings[2].toLowerCase()));
             }
         }
+
 
         return list;
     }
