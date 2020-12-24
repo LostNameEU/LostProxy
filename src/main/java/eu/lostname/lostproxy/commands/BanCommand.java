@@ -97,6 +97,7 @@ public class BanCommand extends Command implements TabExecutor {
                                     if (commandSender.hasPermission(iBanReason.getPermission())) {
                                         long currentTimeMillis = System.currentTimeMillis();
                                         long banDuration = (iBanReason.getTime() == -1 ? -1 : iBanReason.getETimeUnit().toMillis(iBanReason.getTime()));
+                                        long end = (banDuration == -1 ? -1 : currentTimeMillis + banDuration);
                                         String invokerId = (commandSender instanceof ProxiedPlayer ? ((ProxiedPlayer) commandSender).getUniqueId().toString() : "console");
 
                                         IBan ban = new IBan(uuid, targetIPlayer.getPlayerName(), invokerId, iBanReason.getName(), currentTimeMillis, banDuration, true, null);
@@ -148,7 +149,7 @@ public class BanCommand extends Command implements TabExecutor {
                                         }
 
                                         IBanHistory iBanHistory = LostProxy.getInstance().getHistoryManager().getBanHistory(uuid);
-                                        iBanHistory.addEntry(new IBanEntry(EBanEntryType.BAN_ENTRY, uuid, invokerId, currentTimeMillis, iBanReason.getName(), iBanReason.getTime(), iBanReason.getETimeUnit(), (banDuration == -1 ? -1 : currentTimeMillis + banDuration)));
+                                        iBanHistory.addEntry(new IBanEntry(EBanEntryType.BAN_ENTRY, uuid, invokerId, currentTimeMillis, iBanReason.getName(), iBanReason.getTime(), iBanReason.getETimeUnit(), end));
 
                                         LostProxy.getInstance().getHistoryManager().saveBanHistory(iBanHistory);
                                         commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Du hast " + targetIPlayer.getDisplay() + targetIPlayer.getPlayerName() + " §7wegen §e" + iBanReason.getName() + " §7für §c" + (ban.getEnd() == -1 ? "§4permanent" : iBanReason.getTime() + " " + ETimeUnit.getDisplayName(iBanReason.getTime(), iBanReason.getETimeUnit())) + " §7gebannt§8.").build());
