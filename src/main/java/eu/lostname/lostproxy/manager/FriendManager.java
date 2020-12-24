@@ -24,7 +24,7 @@ public class FriendManager {
         Document d = database.getMongoDatabase().getCollection(MongoCollection.FRIEND_DATA).find(Filters.eq("_id", uniqueId.toString())).first();
 
         if (d == null) {
-            d = gson.fromJson(gson.toJson(new IFriendData(uniqueId.toString(), System.currentTimeMillis(), new HashMap<>(), new HashMap<>(), true, true, true, true)), Document.class);
+            d = gson.fromJson(gson.toJson(new IFriendData(uniqueId.toString(), System.currentTimeMillis(), new HashMap<>(), new HashMap<>(), true, true, true, true, System.currentTimeMillis())), Document.class);
 
             database.getMongoDatabase().getCollection(MongoCollection.FRIEND_DATA).insertOne(d);
         }
