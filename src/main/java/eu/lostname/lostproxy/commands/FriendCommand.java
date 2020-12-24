@@ -210,6 +210,8 @@ public class FriendCommand extends Command {
                         });
                         iFriendData.getFriends().clear();
                         iFriendData.save();
+                    case "party":
+                        player.sendMessage(new MessageBuilder(Prefix.FRIENDS + "Diese Funktion folgt bald").build());
                     default:
                         player.sendMessage(new MessageBuilder(Prefix.FRIENDS + "Bitte beachte die §eBenutzung §7dieses Kommandos§8.").build());
                 }
