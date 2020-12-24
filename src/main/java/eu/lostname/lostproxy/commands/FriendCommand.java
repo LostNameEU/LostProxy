@@ -6,6 +6,7 @@ import eu.lostname.lostproxy.interfaces.IFriendData;
 import eu.lostname.lostproxy.interfaces.IPlayerSync;
 import eu.lostname.lostproxy.utils.Prefix;
 import net.md_5.bungee.api.CommandSender;
+import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -28,6 +29,7 @@ public class FriendCommand extends Command {
         if (commandSender instanceof ProxiedPlayer) {
             ProxiedPlayer player = (ProxiedPlayer) commandSender;
             IFriendData iFriendData = LostProxy.getInstance().getFriendManager().getFriendData(player.getUniqueId());
+            IPlayerSync iPlayer = new IPlayerSync(player.getUniqueId());
 
             if (strings.length == 0) {
                 player.sendMessage(new MessageBuilder(Prefix.FRIENDS + "Benutzung von §c/friend§8:").build());
@@ -63,20 +65,20 @@ public class FriendCommand extends Command {
                             List<String> offlineFriends = iFriendData.getFriends().keySet().stream().filter(filter -> !new IPlayerSync(UUID.fromString(filter)).isOnline() || !LostProxy.getInstance().getFriendManager().getFriendData(UUID.fromString(filter)).canFriendsSeeOnlineStatusAllowed()).collect(Collectors.toList());
 
                             onlineFriends.forEach(online -> {
-                                IPlayerSync iPlayer = new IPlayerSync(UUID.fromString(online));
+                                IPlayerSync friendiPlayer = new IPlayerSync(UUID.fromString(online));
 
-                                TextComponent playerNameComponent = new MessageBuilder("§8┃ " + iPlayer.getDisplay() + iPlayer.getPlayerName() + " §8» ").build();
-                                TextComponent serverComponent = new MessageBuilder("§e§n" + iPlayer.getICloudPlayer().getConnectedService().getServerName()).addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/friend jump " + iPlayer.getPlayerName()).addHoverEvent(HoverEvent.Action.SHOW_TEXT, "§8» §eKlicke§8, §7um " + iPlayer.getDisplay() + iPlayer.getPlayerName() + " §7nachzuspringen§8.").build();
+                                TextComponent playerNameComponent = new MessageBuilder("§8┃ " + friendiPlayer.getDisplay() + friendiPlayer.getPlayerName() + " §8» ").build();
+                                TextComponent serverComponent = new MessageBuilder("§e§n" + friendiPlayer.getICloudPlayer().getConnectedService().getServerName()).addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/friend jump " + friendiPlayer.getPlayerName()).addHoverEvent(HoverEvent.Action.SHOW_TEXT, "§8» §eKlicke§8, §7um " + friendiPlayer.getDisplay() + friendiPlayer.getPlayerName() + " §7nachzuspringen§8.").build();
                                 playerNameComponent.addExtra(serverComponent);
 
                                 player.sendMessage(playerNameComponent);
                             });
 
                             offlineFriends.forEach(offline -> {
-                                IPlayerSync iPlayer = new IPlayerSync(UUID.fromString(offline));
-                                IFriendData friendData = LostProxy.getInstance().getFriendManager().getFriendData(iPlayer.getUniqueId());
+                                IPlayerSync friendiPlayer = new IPlayerSync(UUID.fromString(offline));
+                                IFriendData friendData = LostProxy.getInstance().getFriendManager().getFriendData(friendiPlayer.getUniqueId());
 
-                                TextComponent playerNameComponent = new MessageBuilder("§8┃ " + iPlayer.getDisplay() + iPlayer.getPlayerName() + " §8» ").build();
+                                TextComponent playerNameComponent = new MessageBuilder("§8┃ " + friendiPlayer.getDisplay() + friendiPlayer.getPlayerName() + " §8» ").build();
                                 TextComponent extraComponent = null;
 
                                 if (friendData.canFriendsSeeOnlineStatusAllowed()) {
@@ -97,12 +99,12 @@ public class FriendCommand extends Command {
                         if (iFriendData.getRequests().size() > 0) {
                             player.sendMessage(new MessageBuilder(Prefix.FRIENDS + "Freundschaftsanfragen §8(§e" + iFriendData.getRequests().size() + "§8):").build());
                             iFriendData.getRequests().keySet().forEach(all -> {
-                                IPlayerSync iPlayer = new IPlayerSync(UUID.fromString(all));
+                                IPlayerSync friendiPlayer = new IPlayerSync(UUID.fromString(all));
 
-                                TextComponent playerNameComponent = new MessageBuilder("§8┃ " + iPlayer.getDisplay() + iPlayer.getPlayerName() + " §8» ").build();
-                                TextComponent acceptComponent = new MessageBuilder("§a§l✔").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/friend accept " + iPlayer.getPlayerName()).addHoverEvent(HoverEvent.Action.SHOW_TEXT, "§8» §eKlicke§8, §7um diese Freundschaftsanfrage §aanzunehmen§8.").build();
+                                TextComponent playerNameComponent = new MessageBuilder("§8┃ " + friendiPlayer.getDisplay() + friendiPlayer.getPlayerName() + " §8» ").build();
+                                TextComponent acceptComponent = new MessageBuilder("§a§l✔").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/friend accept " + friendiPlayer.getPlayerName()).addHoverEvent(HoverEvent.Action.SHOW_TEXT, "§8» §eKlicke§8, §7um diese Freundschaftsanfrage §aanzunehmen§8.").build();
                                 TextComponent seperateComponent = new MessageBuilder(" §8| ").build();
-                                TextComponent denyComponent = new MessageBuilder("§c§l✖").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/friend deny " + iPlayer.getPlayerName()).addHoverEvent(HoverEvent.Action.SHOW_TEXT, "§8» §eKlicke§8, §7um diese Freundschaftsanfrage §cabzulehnen§8.").build();
+                                TextComponent denyComponent = new MessageBuilder("§c§l✖").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/friend deny " + friendiPlayer.getPlayerName()).addHoverEvent(HoverEvent.Action.SHOW_TEXT, "§8» §eKlicke§8, §7um diese Freundschaftsanfrage §cabzulehnen§8.").build();
 
                                 playerNameComponent.addExtra(acceptComponent);
                                 playerNameComponent.addExtra(seperateComponent);
@@ -115,6 +117,26 @@ public class FriendCommand extends Command {
                         }
                         break;
                     case "acceptall":
+                        if (iFriendData.getRequests().size() > 0) {
+                            iFriendData.getRequests().keySet().forEach(request -> {
+                                IPlayerSync requestIPlayer = new IPlayerSync(UUID.fromString(request));
+
+                                iFriendData.removeRequest(requestIPlayer.getUniqueId());
+                                iFriendData.addFriend(requestIPlayer.getUniqueId());
+                                iFriendData.save();
+
+                                IFriendData requestIFriendData = LostProxy.getInstance().getFriendManager().getFriendData(requestIPlayer.getUniqueId());
+                                requestIFriendData.addFriend(player.getUniqueId());
+                                requestIFriendData.save();
+
+                                player.sendMessage(new MessageBuilder(Prefix.FRIENDS + "Du bist nun mit " + requestIPlayer.getDisplay() + requestIPlayer.getPlayerName() + " §7befreundet§8.").build());
+
+                                if (requestIPlayer.isOnline())
+                                    ProxyServer.getInstance().getPlayer(requestIPlayer.getUniqueId()).sendMessage(new MessageBuilder(Prefix.FRIENDS + iPlayer.getDisplay() + iPlayer.getPlayerName() + " §7hat deine Freundschaftsanfrage §aakzeptiert§8.").build());
+                            });
+                        } else {
+                            player.sendMessage(new MessageBuilder(Prefix.FRIENDS + "Du hast §ckeine §7Freundschaftsanfragen §7erhalten§8.").build());
+                        }
                         break;
                     case "denyall":
                         break;
