@@ -80,7 +80,7 @@ public class TSCommand extends Command implements TabExecutor {
                     case "set":
                         ITeamSpeakLinkage identityCheck = LostProxy.getInstance().getLinkageManager().getTeamSpeakLinkage(player.getUniqueId());
                         if (identityCheck == null) {
-                            if (LostProxy.getInstance().getLinkageManager().isTeamSpeakIdentityInUse(argument)) {
+                            if (!LostProxy.getInstance().getLinkageManager().isTeamSpeakIdentityInUse(argument)) {
                                 ITeamSpeakLinkage linkage = LostProxy.getInstance().getLinkageManager().createTeamSpeakLinkage(player.getUniqueId(), player.getName(), argument);
                                 player.sendMessage(new MessageBuilder(Prefix.TEAMSPEAK + "Du hast §aerfolgreich §7deinen Minecraft-Account mit der folgenden TeamSpeak-Identität verknüpft§8: §b" + linkage.getIdentity()).build());
                             } else {
