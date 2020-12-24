@@ -1,5 +1,11 @@
 package eu.lostname.lostproxy.interfaces;
 
+import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.ReplaceOptions;
+import eu.lostname.lostproxy.LostProxy;
+import eu.lostname.lostproxy.utils.MongoCollection;
+import org.bson.Document;
+
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -20,6 +26,10 @@ public class IFriendData {
         this.friendRequestsAllowed = friendRequestsAllowed;
         this.friendJumpAllowed = friendJumpAllowed;
         this.friendsSeeOnlineStatusAllowed = friendsSeeOnlineStatusAllowed;
+    }
+
+    public void save() {
+        LostProxy.getInstance().getDatabase().getMongoDatabase().getCollection(MongoCollection.FRIEND_DATA).replaceOne(Filters.eq("_id", _id), LostProxy.getInstance().getGson().fromJson(LostProxy.getInstance().getGson().toJson(this), Document.class), new ReplaceOptions().upsert(true));
     }
 
     public UUID getUniqueId() {
