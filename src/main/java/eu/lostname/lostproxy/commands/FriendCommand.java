@@ -139,6 +139,21 @@ public class FriendCommand extends Command {
                         }
                         break;
                     case "denyall":
+                        if (iFriendData.getRequests().size() > 0) {
+                            iFriendData.getRequests().keySet().forEach(request -> {
+                                IPlayerSync requestIPlayer = new IPlayerSync(UUID.fromString(request));
+
+                                iFriendData.removeRequest(requestIPlayer.getUniqueId());
+                                iFriendData.save();
+
+                                player.sendMessage(new MessageBuilder(Prefix.FRIENDS + "Du hast die Freundschaftsanfrage von " + requestIPlayer.getDisplay() + requestIPlayer.getPlayerName() + " §cabgelehnt§8.").build());
+
+                                if (requestIPlayer.isOnline())
+                                    ProxyServer.getInstance().getPlayer(requestIPlayer.getUniqueId()).sendMessage(new MessageBuilder(Prefix.FRIENDS + iPlayer.getDisplay() + iPlayer.getPlayerName() + " §7hat deine Freundschaftsanfrage §cabgelehnt§8.").build());
+                            });
+                        } else {
+                            player.sendMessage(new MessageBuilder(Prefix.FRIENDS + "Du hast §ckeine §7Freundschaftsanfragen §7erhalten§8.").build());
+                        }
                         break;
                     case "toggle":
                         break;
