@@ -16,9 +16,9 @@ public class IFriendData {
     private HashMap<String, Long> friends;
     private HashMap<String, Long> requests;
     private boolean notifyMessagesEnabled, friendRequestsAllowed, friendJumpAllowed, friendsSeeOnlineStatusAllowed;
-    private long lastLoginTimestamp;
+    private long lastLogoutTimestamp;
 
-    public IFriendData(String _id, long timestamp, HashMap<String, Long> friends, HashMap<String, Long> requests, boolean notifyMessagesEnabled, boolean friendRequestsAllowed, boolean friendJumpAllowed, boolean friendsSeeOnlineStatusAllowed, long lastLoginTimestamp) {
+    public IFriendData(String _id, long timestamp, HashMap<String, Long> friends, HashMap<String, Long> requests, boolean notifyMessagesEnabled, boolean friendRequestsAllowed, boolean friendJumpAllowed, boolean friendsSeeOnlineStatusAllowed, long lastLogoutTimestamp) {
         this._id = _id;
         this.timestamp = timestamp;
         this.friends = friends;
@@ -27,7 +27,7 @@ public class IFriendData {
         this.friendRequestsAllowed = friendRequestsAllowed;
         this.friendJumpAllowed = friendJumpAllowed;
         this.friendsSeeOnlineStatusAllowed = friendsSeeOnlineStatusAllowed;
-        this.lastLoginTimestamp = lastLoginTimestamp;
+        this.lastLogoutTimestamp = lastLogoutTimestamp;
     }
 
     public void save() {
@@ -114,11 +114,11 @@ public class IFriendData {
         this.friendsSeeOnlineStatusAllowed = friendsSeeOnlineStatusAllowed;
     }
 
-    public long getLastLoginTimestamp() {
-        return lastLoginTimestamp;
+    public long getLastLogoutTimestamp() {
+        return lastLogoutTimestamp;
     }
 
-    public void setLastLoginTimestamp(long lastLoginTimestamp) {
-        this.lastLoginTimestamp = lastLoginTimestamp;
+    public void setLastLogoutTimestamp(long lastLogoutTimestamp) {
+        this.lastLogoutTimestamp = lastLogoutTimestamp;
     }
 }

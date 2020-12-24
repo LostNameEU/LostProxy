@@ -31,7 +31,7 @@ public class PlayerDisconnectListener implements Listener {
         }
 
         IFriendData iFriendData = LostProxy.getInstance().getFriendManager().getFriendData(player.getUniqueId());
-        iFriendData.setLastLoginTimestamp(System.currentTimeMillis());
+        iFriendData.setLastLogoutTimestamp(System.currentTimeMillis());
         iFriendData.save();
 
         if (iFriendData.canFriendsSeeOnlineStatusAllowed()) {
