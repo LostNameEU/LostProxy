@@ -65,7 +65,7 @@ public class PostLoginListener implements Listener {
                 });
 
 
-            player.sendMessage(new MessageBuilder(Prefix.FRIENDS + "Zurzeit sind §e" + onlineFriends.size() + " §7" + (onlineFriends.size() == 1 ? "Freund" : "Freunde") + " online§8.").build());
+            player.sendMessage(new MessageBuilder(Prefix.FRIENDS + "Zurzeit " + (onlineFriends.size() == 1 ? "ist" : "sind") + " §e" + onlineFriends.size() + " §7" + (onlineFriends.size() == 1 ? "Freund" : "Freunde") + " online§8.").build());
         }
     }
 }
