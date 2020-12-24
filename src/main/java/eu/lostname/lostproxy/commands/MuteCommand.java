@@ -97,6 +97,7 @@ public class MuteCommand extends Command implements TabExecutor {
                                     if (commandSender.hasPermission(iMuteReason.getPermission())) {
                                         long currentTimeMillis = System.currentTimeMillis();
                                         long muteDuration = (iMuteReason.getTime() == -1 ? -1 : iMuteReason.getETimeUnit().toMillis(iMuteReason.getTime()));
+                                        long end = (muteDuration == -1 ? -1 : currentTimeMillis + muteDuration);
                                         String invokerId = (commandSender instanceof ProxiedPlayer ? ((ProxiedPlayer) commandSender).getUniqueId().toString() : "console");
 
                                         IMute mute = new IMute(uuid, targetIPlayer.getPlayerName(), invokerId, iMuteReason.getName(), currentTimeMillis, muteDuration, true);
@@ -125,7 +126,7 @@ public class MuteCommand extends Command implements TabExecutor {
                                         }
 
                                         IMuteHistory iMuteHistory = LostProxy.getInstance().getHistoryManager().getMuteHistory(uuid);
-                                        iMuteHistory.addEntry(new IMuteEntry(EMuteEntryType.MUTE_ENTRY, uuid, invokerId, currentTimeMillis, iMuteReason.getName(), iMuteReason.getTime(), iMuteReason.getETimeUnit(), (muteDuration == -1 ? -1 : currentTimeMillis + muteDuration)));
+                                        iMuteHistory.addEntry(new IMuteEntry(EMuteEntryType.MUTE_ENTRY, uuid, invokerId, currentTimeMillis, iMuteReason.getName(), iMuteReason.getTime(), iMuteReason.getETimeUnit(), end));
 
                                         LostProxy.getInstance().getHistoryManager().saveMuteHistory(iMuteHistory);
                                         commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Du hast " + targetIPlayer.getDisplay() + targetIPlayer.getPlayerName() + " §7wegen §e" + iMuteReason.getName() + " §7für §c" + (iMuteReason.getTime() == -1 ? "§4permanent" : iMuteReason.getTime() + " " + ETimeUnit.getDisplayName(iMuteReason.getTime(), iMuteReason.getETimeUnit())) + " §7gemutet§8.").build());

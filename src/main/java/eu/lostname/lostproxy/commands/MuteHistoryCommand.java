@@ -84,59 +84,6 @@ public class MuteHistoryCommand extends Command implements TabExecutor {
         }
     }
 
-    @SuppressWarnings("deprecation")
-    public String calculateRemainingTime(long millis) {
-        int seconds = 0, minutes = 0, hours = 0, days = 0;
-
-        while (millis >= 1000) {
-            millis -= 1000;
-            seconds++;
-        }
-
-        while (seconds >= 60) {
-            seconds -= 60;
-            minutes++;
-        }
-
-        while (minutes >= 60) {
-            minutes -= 60;
-            hours++;
-        }
-
-        while (hours >= 24) {
-            hours -= 24;
-            days++;
-        }
-
-        String estimatedTime = "";
-
-        if (days == 1) {
-            estimatedTime += "ein §7Tag§8, ";
-        } else if (days > 1) {
-            estimatedTime += days + " §7Tage§8, ";
-        }
-
-        if (hours == 1) {
-            estimatedTime += "§ceine §7Stunde§8, ";
-        } else if (hours > 1) {
-            estimatedTime += "§c" + hours + " §7Stunden§8, ";
-        }
-
-        if (minutes == 1) {
-            estimatedTime += "§ceine §7Minute und ";
-        } else if (minutes > 1) {
-            estimatedTime += "§c" + minutes + " §7Minuten und ";
-        }
-
-        if (seconds == 1) {
-            estimatedTime += "§ceine §7Sekunde";
-        } else if (seconds > 1) {
-            estimatedTime += "§c" + seconds + " §7Sekunden";
-        }
-
-        return estimatedTime;
-    }
-
     @Override
     public Iterable<String> onTabComplete(CommandSender commandSender, String[] strings) {
         ArrayList<String> list = new ArrayList<>();
