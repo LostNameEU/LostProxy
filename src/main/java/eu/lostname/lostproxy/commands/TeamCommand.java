@@ -93,6 +93,7 @@ public class TeamCommand extends Command implements TabExecutor {
         ArrayList<String> list = new ArrayList<>();
         if (strings.length == 1) {
             list.addAll(Arrays.asList("login", "logout", "list"));
+            list.removeIf(filter -> !filter.toLowerCase().startsWith(strings[0].toLowerCase()));
         }
         return list;
     }
