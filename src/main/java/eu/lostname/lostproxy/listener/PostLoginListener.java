@@ -3,15 +3,21 @@ package eu.lostname.lostproxy.listener;
 import eu.lostname.lostproxy.LostProxy;
 import eu.lostname.lostproxy.builder.MessageBuilder;
 import eu.lostname.lostproxy.enums.EBanEntryType;
+import eu.lostname.lostproxy.interfaces.IFriendData;
 import eu.lostname.lostproxy.interfaces.IPlayerSync;
 import eu.lostname.lostproxy.interfaces.bkms.IBan;
 import eu.lostname.lostproxy.interfaces.historyandentries.ban.IBanEntry;
 import eu.lostname.lostproxy.interfaces.historyandentries.ban.IBanHistory;
 import eu.lostname.lostproxy.utils.Prefix;
+import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.PostLoginEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
+
+import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class PostLoginListener implements Listener {
 
@@ -45,6 +51,21 @@ public class PostLoginListener implements Listener {
                 player.sendMessage(new MessageBuilder(Prefix.TMS + "§a✔").build());
                 LostProxy.getInstance().getTeamManager().getLoggedIn().forEach(all -> all.sendMessage(new MessageBuilder(Prefix.TMS + iPlayer.getDisplay() + iPlayer.getPlayerName() + " §7hat das Netzwerk §abetreten§8.").build()));
             }
+        }
+
+        IFriendData iFriendData = LostProxy.getInstance().getFriendManager().getFriendData(player.getUniqueId());
+        final List<String> onlineFriends = iFriendData.getFriends().keySet().stream().filter(filter -> new IPlayerSync(UUID.fromString(filter)).isOnline()).collect(Collectors.toList());
+
+        if (onlineFriends.size() > 0) {
+            if (iFriendData.canFriendsSeeOnlineStatusAllowed())
+                onlineFriends.forEach(one -> {
+                    UUID friendUUID = UUID.fromString(one);
+                    if (LostProxy.getInstance().getFriendManager().getFriendData(friendUUID).areNotifyMessagesEnabled())
+                        ProxyServer.getInstance().getPlayer(friendUUID).sendMessage(new MessageBuilder(Prefix.FRIENDS + iPlayer.getDisplay() + player.getName() + " §7ist nun §aonline§8.").build());
+                });
+
+
+            player.sendMessage(new MessageBuilder(Prefix.FRIENDS + "Zurzeit sind §e" + onlineFriends.size() + " §7" + (onlineFriends.size() == 1 ? "Freund" : "Freunde") + " online§8.").build());
         }
     }
 }
