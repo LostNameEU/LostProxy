@@ -31,6 +31,9 @@ public class PlayerDisconnectListener implements Listener {
         }
 
         IFriendData iFriendData = LostProxy.getInstance().getFriendManager().getFriendData(player.getUniqueId());
+        iFriendData.setLastLoginTimestamp(System.currentTimeMillis());
+        iFriendData.save();
+
         if (iFriendData.canFriendsSeeOnlineStatusAllowed()) {
             iFriendData.getFriends().keySet().stream().filter(filter -> new IPlayerSync(UUID.fromString(filter)).isOnline()).forEach(one -> {
                 UUID friendUUID = UUID.fromString(one);
