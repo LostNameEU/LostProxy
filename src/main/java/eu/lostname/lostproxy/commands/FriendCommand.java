@@ -101,7 +101,7 @@ public class FriendCommand extends Command {
 
                                 TextComponent playerNameComponent = new MessageBuilder("§8┃ " + iPlayer.getDisplay() + iPlayer.getPlayerName() + " §8» ").build();
                                 TextComponent acceptComponent = new MessageBuilder("§a§l✔").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/friend accept " + iPlayer.getPlayerName()).addHoverEvent(HoverEvent.Action.SHOW_TEXT, "§8» §eKlicke§8, §7um diese Freundschaftsanfrage §aanzunehmen§8.").build();
-                                TextComponent seperateComponent = new MessageBuilder(" ").build();
+                                TextComponent seperateComponent = new MessageBuilder(" §8| ").build();
                                 TextComponent denyComponent = new MessageBuilder("§c§l✖").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/friend deny " + iPlayer.getPlayerName()).addHoverEvent(HoverEvent.Action.SHOW_TEXT, "§8» §eKlicke§8, §7um diese Freundschaftsanfrage §cabzulehnen§8.").build();
 
                                 playerNameComponent.addExtra(acceptComponent);
