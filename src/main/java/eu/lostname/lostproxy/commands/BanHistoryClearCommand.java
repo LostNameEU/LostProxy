@@ -4,14 +4,17 @@ import eu.lostname.lostproxy.LostProxy;
 import eu.lostname.lostproxy.builder.MessageBuilder;
 import eu.lostname.lostproxy.interfaces.IPlayerSync;
 import eu.lostname.lostproxy.interfaces.historyandentries.ban.IBanHistory;
+import eu.lostname.lostproxy.utils.MongoCollection;
 import eu.lostname.lostproxy.utils.Prefix;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.plugin.Command;
+import net.md_5.bungee.api.plugin.TabExecutor;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
-public class BanHistoryClearCommand extends Command {
+public class BanHistoryClearCommand extends Command implements TabExecutor {
 
     public BanHistoryClearCommand(String name, String permission, String... aliases) {
         super(name, permission, aliases);
@@ -65,5 +68,21 @@ public class BanHistoryClearCommand extends Command {
                 commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Bitte beachte die §eBenutzung §7dieses Kommandos§8.").build());
             }
         }
+    }
+
+    @Override
+    public Iterable<String> onTabComplete(CommandSender commandSender, String[] strings) {
+        ArrayList<String> list = new ArrayList<>();
+        if (strings.length == 1) {
+            LostProxy.getInstance().getDatabase().getMongoDatabase().getCollection(MongoCollection.BAN_HISTORIES).find().forEach(one -> {
+                IBanHistory iBanHistory = LostProxy.getInstance().getGson().fromJson(one.toJson(), IBanHistory.class);
+                if (iBanHistory.getHistory().size() > 0) {
+                    IPlayerSync iPlayer = new IPlayerSync(iBanHistory.getUniqueId());
+                    if (iPlayer.getPlayerName().toLowerCase().startsWith(strings[0].toLowerCase()))
+                        list.add(iPlayer.getPlayerName());
+                }
+            });
+        }
+        return list;
     }
 }

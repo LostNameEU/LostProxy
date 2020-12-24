@@ -7,16 +7,19 @@ import eu.lostname.lostproxy.interfaces.IPlayerSync;
 import eu.lostname.lostproxy.interfaces.bkms.IBan;
 import eu.lostname.lostproxy.interfaces.historyandentries.ban.IBanEntry;
 import eu.lostname.lostproxy.interfaces.historyandentries.ban.IBanHistory;
+import eu.lostname.lostproxy.utils.MongoCollection;
 import eu.lostname.lostproxy.utils.Prefix;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
+import net.md_5.bungee.api.plugin.TabExecutor;
 
+import java.util.ArrayList;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
-public class EACommand extends Command {
+public class EACommand extends Command implements TabExecutor {
     public EACommand(String name, String permission, String... aliases) {
         super(name, permission, aliases);
     }
@@ -59,13 +62,30 @@ public class EACommand extends Command {
                                 }
                             } else {
                         commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Der Bann von " + iPlayer.getDisplay() + iPlayer.getPlayerName() + " §7wurde §cbereits §7verkürzt§8.").build());
-                            }
-                        } else {
-                    commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Der Spieler " + iPlayer.getDisplay() + iPlayer.getPlayerName() + " §7ist §cnicht §7gebannt§8.").build());
-                        }
+                    }
                 } else {
-                    commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Der angegebene Spieler wurde §cnicht §7gefunden§8.").build());
+                    commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Der Spieler " + iPlayer.getDisplay() + iPlayer.getPlayerName() + " §7ist §cnicht §7gebannt§8.").build());
                 }
+            } else {
+                commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Der angegebene Spieler wurde §cnicht §7gefunden§8.").build());
+            }
         }
+    }
+
+    @Override
+    public Iterable<String> onTabComplete(CommandSender commandSender, String[] strings) {
+        ArrayList<String> list = new ArrayList<>();
+        if (strings.length == 1) {
+            LostProxy.getInstance().getDatabase().getMongoDatabase().getCollection(MongoCollection.ACTIVE_BANS).find().forEach(one -> {
+                IBan iBan = LostProxy.getInstance().getGson().fromJson(one.toJson(), IBan.class);
+                if (iBan.getDuration() != -1) {
+                    IPlayerSync iPlayer = new IPlayerSync(iBan.getUniqueId());
+
+                    if (iPlayer.getPlayerName().toLowerCase().startsWith(strings[0].toLowerCase()))
+                        list.add(iPlayer.getPlayerName());
+                }
+            });
+        }
+        return list;
     }
 }

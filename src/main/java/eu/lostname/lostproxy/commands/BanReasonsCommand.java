@@ -10,11 +10,13 @@ import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.plugin.Command;
+import net.md_5.bungee.api.plugin.TabExecutor;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 
-public class BanReasonsCommand extends Command {
+public class BanReasonsCommand extends Command implements TabExecutor {
     public BanReasonsCommand(String name, String permission, String... aliases) {
         super(name, permission, aliases);
     }
@@ -206,5 +208,40 @@ public class BanReasonsCommand extends Command {
                 commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Bitte beachte die §eBenutzung §7dieses Kommandos§8.").build());
             }
         }
+    }
+
+    @Override
+    public Iterable<String> onTabComplete(CommandSender commandSender, String[] strings) {
+        ArrayList<String> list = new ArrayList<>();
+        if (strings.length == 1) {
+            list.addAll(Arrays.asList("list", "add"));
+            LostProxy.getInstance().getReasonManager().getRegistedBanReasons().forEach(one -> list.add(String.valueOf(one.getId())));
+            list.removeIf(s -> !s.toLowerCase().startsWith(strings[0].toLowerCase()));
+        } else if (strings.length == 2) {
+            try {
+                int check = Integer.parseInt(strings[0]);
+                list.addAll(Arrays.asList("set", "delete"));
+                list.removeIf(s -> !s.toLowerCase().startsWith(strings[1].toLowerCase()));
+            } catch (NumberFormatException ignored) {
+            }
+        } else if (strings.length == 3) {
+            try {
+                int check = Integer.parseInt(strings[0]);
+                if (strings[1].equalsIgnoreCase("set")) {
+                    list.addAll(Arrays.asList("id", "name", "time", "timeunit", "permission"));
+                    list.removeIf(s -> !s.toLowerCase().startsWith(strings[2].toLowerCase()));
+                }
+            } catch (NumberFormatException ignored) {
+            }
+        } else if (strings.length == 4) {
+            if (strings[2].equalsIgnoreCase("timeunit")) {
+                Arrays.stream(ETimeUnit.values()).forEach(one -> list.add(one.name()));
+                list.removeIf(s -> !s.toLowerCase().startsWith(strings[3].toLowerCase()));
+            }
+        } else if (strings.length == 5) {
+            Arrays.stream(ETimeUnit.values()).forEach(one -> list.add(one.name()));
+            list.removeIf(s -> !s.toLowerCase().startsWith(strings[4].toLowerCase()));
+        }
+        return list;
     }
 }

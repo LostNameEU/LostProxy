@@ -5,14 +5,18 @@ import eu.lostname.lostproxy.builder.MessageBuilder;
 import eu.lostname.lostproxy.interfaces.IPlayerSync;
 import eu.lostname.lostproxy.interfaces.historyandentries.kick.IKickEntry;
 import eu.lostname.lostproxy.interfaces.historyandentries.kick.IKickHistory;
+import eu.lostname.lostproxy.utils.CloudServices;
 import eu.lostname.lostproxy.utils.Prefix;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
+import net.md_5.bungee.api.plugin.TabExecutor;
 
-public class KickCommand extends Command {
+import java.util.ArrayList;
+
+public class KickCommand extends Command implements TabExecutor {
 
     public KickCommand(String name, String permission, String... aliases) {
         super(name, permission, aliases);
@@ -69,7 +73,7 @@ public class KickCommand extends Command {
                         commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Du hast " + targetIPlayer.getDisplay() + targetIPlayer.getPlayerName() + " §7wegen §e" + reason + " §7gekickt§8.").build());
                     } else {
                         commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Du hast §ckeine §7Rechte§8, §7um " + targetIPlayer.getDisplay() + targetIPlayer.getPlayerName() + " §7zu §ekicken§8.").build());
-                        }
+                    }
                 } else {
                     commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Du darfst dich §cnicht §7selber §ekicken§8.").build());
                 }
@@ -77,5 +81,15 @@ public class KickCommand extends Command {
                 commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Der angegebene Spieler konnte §cnicht §7gefunden werden§8.").build());
             }
         }
+    }
+
+    @Override
+    public Iterable<String> onTabComplete(CommandSender commandSender, String[] strings) {
+        ArrayList<String> list = new ArrayList<>();
+        if (strings.length == 1) {
+            CloudServices.PLAYER_MANAGER.getOnlinePlayers().forEach(one -> list.add(one.getName()));
+            list.removeIf(filter -> !filter.toLowerCase().startsWith(strings[0].toLowerCase()));
+        }
+        return list;
     }
 }

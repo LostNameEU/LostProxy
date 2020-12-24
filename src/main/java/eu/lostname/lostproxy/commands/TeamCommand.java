@@ -9,8 +9,13 @@ import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
+import net.md_5.bungee.api.plugin.TabExecutor;
 
-public class TeamCommand extends Command {
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+
+public class TeamCommand extends Command implements TabExecutor {
     public TeamCommand(String name, String permission, String... aliases) {
         super(name, permission, aliases);
     }
@@ -63,7 +68,7 @@ public class TeamCommand extends Command {
                     case "list":
                         if (player.hasPermission("lostproxy.command.team.list")) {
                             player.sendMessage(new MessageBuilder(Prefix.TMS + "Übersicht der Teammitglieder§8:").build());
-                            ProxyServer.getInstance().getPlayers().stream().filter(filter -> filter.hasPermission("lostproxy.command.team")).forEach(all -> {
+                            ProxyServer.getInstance().getPlayers().stream().filter(filter -> filter.hasPermission("lostproxy.command.team")).sorted(Comparator.comparingInt(one -> new IPlayerSync(one.getUniqueId()).getSortId())).forEach(all -> {
                                 IPlayerSync allIPlayer = new IPlayerSync(all.getUniqueId());
                                 player.sendMessage(new MessageBuilder("§8┃ " + allIPlayer.getDisplay() + allIPlayer.getPlayerName() + " §8» " + (LostProxy.getInstance().getTeamManager().isLoggedIn(all) ? "§a✔" : "§c✖") + " §8» §7" + all.getServer().getInfo().getName()).build());
                             });
@@ -81,5 +86,15 @@ public class TeamCommand extends Command {
         } else {
             commandSender.sendMessage(new MessageBuilder(Prefix.TMS + "Du kannst diesen Befehl §cnicht §7als Konsole ausführen§8.").build());
         }
+    }
+
+    @Override
+    public Iterable<String> onTabComplete(CommandSender commandSender, String[] strings) {
+        ArrayList<String> list = new ArrayList<>();
+        if (strings.length == 1) {
+            list.addAll(Arrays.asList("login", "logout", "list"));
+            list.removeIf(filter -> !filter.toLowerCase().startsWith(strings[0].toLowerCase()));
+        }
+        return list;
     }
 }
