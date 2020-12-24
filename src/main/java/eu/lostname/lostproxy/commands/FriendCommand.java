@@ -156,6 +156,14 @@ public class FriendCommand extends Command {
                         }
                         break;
                     case "toggle":
+                        iFriendData.setFriendRequestsAllowed(!iFriendData.canFriendsSeeOnlineStatusAllowed());
+                        iFriendData.save();
+
+                        if (iFriendData.canFriendsSeeOnlineStatusAllowed()) {
+                            player.sendMessage(new MessageBuilder(Prefix.FRIENDS + "Du erhältst nun §awieder §7Freundschaftsanfragen§8.").build());
+                        } else {
+                            player.sendMessage(new MessageBuilder(Prefix.FRIENDS + "Du erhältst nun §ckeine §7Freundschaftsanfragen mehr§8.").build());
+                        }
                         break;
                     case "togglenotify":
                         break;
