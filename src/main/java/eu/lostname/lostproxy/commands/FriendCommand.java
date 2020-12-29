@@ -328,6 +328,28 @@ public class FriendCommand extends Command {
                         }
                         break;
                     case "jump":
+                        if (targetUUID != null) {
+                            IPlayerSync targetIPlayer = new IPlayerSync(targetUUID);
+
+                            if (iFriendData.isFriend(targetUUID)) {
+                                IFriendData targetIFriendData = LostProxy.getInstance().getFriendManager().getFriendData(targetUUID);
+
+                                if (targetIFriendData.isFriendJumpAllowed()) {
+                                    if (targetIPlayer.isOnline()) {
+                                        player.sendMessage(new MessageBuilder(Prefix.FRIENDS + "Du wirst nun mit dem Server von " + targetIPlayer.getDisplay() + targetIPlayer.getPlayerName() + " §7verbunden§8.").build());
+                                        player.connect(ProxyServer.getInstance().getPlayer(targetUUID).getServer().getInfo());
+                                    } else {
+                                        player.sendMessage(new MessageBuilder(Prefix.FRIENDS + targetIPlayer.getDisplay() + targetIPlayer.getPlayerName() + " §7ist §cnicht §7online§8.").build());
+                                    }
+                                } else {
+                                    player.sendMessage(new MessageBuilder(Prefix.FRIENDS + targetIPlayer.getDisplay() + targetIPlayer.getPlayerName() + " §7hat das Nachspringen §cdeaktiviert§8.").build());
+                                }
+                            } else {
+                                player.sendMessage(new MessageBuilder(Prefix.FRIENDS + "Du bist §cnicht §7mit " + targetIPlayer.getDisplay() + targetIPlayer.getPlayerName() + " §7befreundet§8.").build());
+                            }
+                        } else {
+                            player.sendMessage(new MessageBuilder(Prefix.FRIENDS + "Der angegebene Spieler wurde §cnicht §7gefunden§8.").build());
+                        }
                         break;
                     case "broadcast":
                         break;
