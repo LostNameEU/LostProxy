@@ -272,22 +272,16 @@ public class FriendCommand extends Command {
                                     targetFriendData.removeFriend(player.getUniqueId());
                                     targetFriendData.save();
 
+                                    iFriendData.removeFriend(targetUUID);
+                                    iFriendData.save();
+
                                     player.sendMessage(new MessageBuilder(Prefix.FRIENDS + "Die Freundschaft mit " + targetIPlayer.getDisplay() + targetIPlayer.getPlayerName() + " wurde §caufgelöst§8.").build());
 
                                     if (targetIPlayer.isOnline()) {
-                                        TextComponent informationComponent = new MessageBuilder(Prefix.FRIENDS + iPlayer.getDisplay() + iPlayer.getPlayerName() + " §7hat dir eine Freundschaftsanfrage gesendet§8. ").build();
-                                        TextComponent acceptComponent = new MessageBuilder("§a§l✔").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/friend accept " + player.getName()).addHoverEvent(HoverEvent.Action.SHOW_TEXT, "§8» §eKlicke§8, §7um diese Freundschaftsanfrage §aanzunehmen§8.").build();
-                                        TextComponent seperateComponent = new MessageBuilder(" §8| ").build();
-                                        TextComponent denyComponent = new MessageBuilder("§c§l✖").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/friend deny " + player.getName()).addHoverEvent(HoverEvent.Action.SHOW_TEXT, "§8» §eKlicke§8, §7um diese Freundschaftsanfrage §cabzulehnen§8.").build();
-
-                                        informationComponent.addExtra(acceptComponent);
-                                        informationComponent.addExtra(seperateComponent);
-                                        informationComponent.addExtra(denyComponent);
-
-                                        ProxyServer.getInstance().getPlayer(targetUUID).sendMessage(informationComponent);
+                                        ProxyServer.getInstance().getPlayer(targetUUID).sendMessage(new MessageBuilder(Prefix.FRIENDS + "Die Freundschaft mit " + iPlayer.getDisplay() + iPlayer.getPlayerName() + " §7wurde §caufgelöst§8.").build());
                                     }
                                 } else {
-                                    player.sendMessage(new MessageBuilder(Prefix.FRIENDS + "Du bist §cbereits §7mit " + targetIPlayer.getDisplay() + targetIPlayer.getPlayerName() + " §7befreundet§8.").build());
+                                    player.sendMessage(new MessageBuilder(Prefix.FRIENDS + "Du bist §cnicht §7mit " + targetIPlayer.getDisplay() + targetIPlayer.getPlayerName() + " §7befreundet§8.").build());
                                 }
                             } else {
                                 player.sendMessage(new MessageBuilder(Prefix.FRIENDS + "Der angegebene Spieler wurde §cnicht §7gefunden§8.").build());
