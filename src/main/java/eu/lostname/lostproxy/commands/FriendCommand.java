@@ -286,11 +286,19 @@ public class FriendCommand extends Command {
                             } else {
                                 player.sendMessage(new MessageBuilder(Prefix.FRIENDS + "Der angegebene Spieler wurde §cnicht §7gefunden§8.").build());
                             }
-                        } else {
-                            player.sendMessage(new MessageBuilder(Prefix.FRIENDS + "Du kannst §cnicht §7mit dir selbst befreundet sein§8.").build());
                         }
                         break;
                     case "accept":
+                        UUID targetUUID = LostProxy.getInstance().getPlayerManager().getUUIDofPlayername(argument);
+
+                        if (targetUUID != null) {
+                            IPlayerSync targetIPlayer = new IPlayerSync(targetUUID);
+                            if (iFriendData.getRequests().containsKey(targetUUID.toString())) {
+
+                            }
+                        } else {
+                            player.sendMessage(new MessageBuilder(Prefix.FRIENDS + "Der angegebene Spieler wurde §cnicht §7gefunden§8.").build());
+                        }
                         break;
                     case "deny":
                         break;
