@@ -337,7 +337,12 @@ public class FriendCommand extends Command {
                                 if (targetIFriendData.isFriendJumpAllowed()) {
                                     if (targetIPlayer.isOnline()) {
                                         player.sendMessage(new MessageBuilder(Prefix.FRIENDS + "Du wirst nun mit dem Server von " + targetIPlayer.getDisplay() + targetIPlayer.getPlayerName() + " §7verbunden§8.").build());
-                                        player.connect(ProxyServer.getInstance().getPlayer(targetUUID).getServer().getInfo());
+                                        ProxiedPlayer targetPlayer = ProxyServer.getInstance().getPlayer(targetUUID);
+
+                                        player.connect(targetPlayer.getServer().getInfo());
+
+                                        if (targetIFriendData.areNotifyMessagesEnabled())
+                                            targetPlayer.sendMessage(new MessageBuilder(Prefix.FRIENDS + iPlayer.getDisplay() + iPlayer.getPlayerName() + " §7ist zu dir §egesprungen§8.").build());
                                     } else {
                                         player.sendMessage(new MessageBuilder(Prefix.FRIENDS + targetIPlayer.getDisplay() + targetIPlayer.getPlayerName() + " §7ist §cnicht §7online§8.").build());
                                     }
