@@ -52,7 +52,7 @@ public class FriendCommand extends Command {
                         player.sendMessage(new MessageBuilder("§8┃ §c/friend jump <Name> §8» §7Springt zu einem Freund").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/friend clear").build());
                         player.sendMessage(new MessageBuilder("§8┃ §c/friend toggle §8» §7De- oder aktiviert Freundschaftsanfragen").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/friend toggle").build());
                         player.sendMessage(new MessageBuilder("§8┃ §c/friend togglenotify §8» §7De- oder aktiviert Benachrichtigungen").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/friend togglenotify").build());
-                        player.sendMessage(new MessageBuilder("§8┃ §c/friend togglemsg §8» §7De- oder aktiviert Nachrichten von Freunden").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/friend togglenotify").build());
+                        player.sendMessage(new MessageBuilder("§8┃ §c/friend togglemsg §8» §7De- oder aktiviert Nachrichten von Freunden").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/friend togglemsg").build());
                         player.sendMessage(new MessageBuilder("§8┃ §c/friend togglejump §8» §7De- oder aktiviert Nachspringen von Freunden").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/friend togglejump").build());
                         player.sendMessage(new MessageBuilder("§8┃ §c/friend toggleonline §8» §7De- oder aktiviert den Onlinestatus vor anderen Freunden").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/friend toggleonline").build());
                         player.sendMessage(new MessageBuilder("§8┃ §c/friend info <Name> §8» §7Zeigt Informationen über einen Freund").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/friend info ").build());
@@ -173,6 +173,16 @@ public class FriendCommand extends Command {
                             player.sendMessage(new MessageBuilder(Prefix.FRIENDS + "Du erhältst nun §awieder §7Benachrichtigungen§8.").build());
                         } else {
                             player.sendMessage(new MessageBuilder(Prefix.FRIENDS + "Du erhältst nun §ckeine §7Benachrichtigungen mehr§8.").build());
+                        }
+                        break;
+                    case "togglemsg":
+                        iFriendData.setSentMessagesAllowed(!iFriendData.canFriendsSentMessages());
+                        iFriendData.save();
+
+                        if (iFriendData.canFriendsSentMessages()) {
+                            player.sendMessage(new MessageBuilder(Prefix.FRIENDS + "Freunde können dir nun wieder §eNachrichten §7schreiben§8.").build());
+                        } else {
+                            player.sendMessage(new MessageBuilder(Prefix.FRIENDS + "Freunde können dir nun §ckeine §eNachrichten §7mehr schreiben§8.").build());
                         }
                         break;
                     case "togglejump":
@@ -357,6 +367,7 @@ public class FriendCommand extends Command {
                         }
                         break;
                     case "broadcast":
+                        //iFriendData.getFriends().keySet().stream().filter(filter -> new IPlayerSync(UUID.fromString(filter)).isOnline() && LostProxy.getInstance().getFriendManager().getFriendData(UUID.fromString(filter)).canFriendsSentMessages()).
                         break;
                     default:
                         player.sendMessage(new MessageBuilder(Prefix.FRIENDS + "Bitte beachte die §eBenutzung §7dieses Kommandos§8.").build());
