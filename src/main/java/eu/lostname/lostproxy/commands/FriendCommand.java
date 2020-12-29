@@ -294,7 +294,20 @@ public class FriendCommand extends Command {
                         if (targetUUID != null) {
                             IPlayerSync targetIPlayer = new IPlayerSync(targetUUID);
                             if (iFriendData.getRequests().containsKey(targetUUID.toString())) {
+                                iFriendData.removeRequest(targetUUID);
+                                iFriendData.addFriend(targetUUID);
+                                iFriendData.save();
 
+                                player.sendMessage(new MessageBuilder(Prefix.FRIENDS + "Du bist nun mit " + targetIPlayer.getDisplay() + targetIPlayer.getPlayerName() + " §7befreundet§8.").build());
+
+                                IFriendData targetIFriendData = LostProxy.getInstance().getFriendManager().getFriendData(targetUUID);
+                                targetIFriendData.addFriend(player.getUniqueId());
+                                targetIFriendData.save();
+
+                                if (targetIPlayer.isOnline())
+                                    ProxyServer.getInstance().getPlayer(targetUUID).sendMessage(new MessageBuilder(Prefix.FRIENDS + "Du bist nun mit " + iPlayer.getDisplay() + iPlayer.getPlayerName() + " §7befreundet§8.").build());
+                            } else {
+                                player.sendMessage(new MessageBuilder(Prefix.FRIENDS + "Du hast §ckeine §7Freundschaftsanfrage von " + targetIPlayer.getDisplay() + targetIPlayer.getPlayerName() + " §7erhalten§8.").build());
                             }
                         } else {
                             player.sendMessage(new MessageBuilder(Prefix.FRIENDS + "Der angegebene Spieler wurde §cnicht §7gefunden§8.").build());
