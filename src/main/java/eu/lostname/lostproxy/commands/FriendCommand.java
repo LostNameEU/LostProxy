@@ -217,11 +217,10 @@ public class FriendCommand extends Command {
                 }
             } else if (strings.length == 2) {
                 String argument = strings[1];
+                UUID targetUUID = LostProxy.getInstance().getPlayerManager().getUUIDofPlayername(argument);
                 switch (strings[0]) {
                     case "add":
                         if (!argument.equalsIgnoreCase(player.getName())) {
-                            UUID targetUUID = LostProxy.getInstance().getPlayerManager().getUUIDofPlayername(argument);
-
                             if (targetUUID != null) {
                                 IPlayerSync targetIPlayer = new IPlayerSync(targetUUID);
                                 IFriendData targetFriendData = LostProxy.getInstance().getFriendManager().getFriendData(targetUUID);
@@ -263,8 +262,6 @@ public class FriendCommand extends Command {
                         break;
                     case "remove":
                         if (!argument.equalsIgnoreCase(player.getName())) {
-                            UUID targetUUID = LostProxy.getInstance().getPlayerManager().getUUIDofPlayername(argument);
-
                             if (targetUUID != null) {
                                 IPlayerSync targetIPlayer = new IPlayerSync(targetUUID);
                                 IFriendData targetFriendData = LostProxy.getInstance().getFriendManager().getFriendData(targetUUID);
@@ -289,8 +286,6 @@ public class FriendCommand extends Command {
                         }
                         break;
                     case "accept":
-                        UUID targetUUID = LostProxy.getInstance().getPlayerManager().getUUIDofPlayername(argument);
-
                         if (targetUUID != null) {
                             IPlayerSync targetIPlayer = new IPlayerSync(targetUUID);
                             if (iFriendData.getRequests().containsKey(targetUUID.toString())) {
@@ -314,6 +309,23 @@ public class FriendCommand extends Command {
                         }
                         break;
                     case "deny":
+                        if (targetUUID != null) {
+                            IPlayerSync targetIPlayer = new IPlayerSync(targetUUID);
+
+                            if (iFriendData.haveRequest(targetUUID)) {
+                                iFriendData.removeRequest(targetUUID);
+                                iFriendData.save();
+
+                                player.sendMessage(new MessageBuilder(Prefix.FRIENDS + "Du hast die Freundschaftsanfrage von " + targetIPlayer.getDisplay() + targetIPlayer.getPlayerName() + " §cabgelehnt§8.").build());
+
+                                if (targetIPlayer.isOnline())
+                                    ProxyServer.getInstance().getPlayer(targetUUID).sendMessage(new MessageBuilder(Prefix.FRIENDS + iPlayer.getDisplay() + iPlayer.getPlayerName() + " §7hat deine Freundschaftsanfrage §cabgelehnt§8.").build());
+                            } else {
+                                player.sendMessage(new MessageBuilder(Prefix.FRIENDS + "Du hast §ckeine §7Freundschaftsanfrage von " + targetIPlayer.getDisplay() + targetIPlayer.getPlayerName() + " §7bekommen§8.").build());
+                            }
+                        } else {
+                            player.sendMessage(new MessageBuilder(Prefix.FRIENDS + "Der angegebene Spieler wurde §cnicht §7gefunden§8.").build());
+                        }
                         break;
                     case "jump":
                         break;
