@@ -29,6 +29,7 @@ public class LostProxy extends Plugin {
     private BanManager banManager;
     private MuteManager muteManager;
     private ReasonManager reasonManager;
+    private FriendManager friendManager;
 
     private Property property;
 
@@ -48,6 +49,7 @@ public class LostProxy extends Plugin {
         this.banManager = new BanManager();
         this.muteManager = new MuteManager();
         this.reasonManager = new ReasonManager(gson, database);
+        this.friendManager = new FriendManager(database, gson);
 
         getProxy().getPluginManager().registerCommand(this, new TSCommand("ts", "lostproxy.command.ts"));
         getProxy().getPluginManager().registerCommand(this, new PingCommand("ping", "lostproxy.command.ping"));
@@ -68,6 +70,7 @@ public class LostProxy extends Plugin {
         getProxy().getPluginManager().registerCommand(this, new MuteReasonsCommand("mutereasons", "lostproxy.command.mutereasons", "mr"));
         getProxy().getPluginManager().registerCommand(this, new MuteHistoryCommand("mutehistory", "lostproxy.command.mutehistory", "mh"));
         getProxy().getPluginManager().registerCommand(this, new MuteHistoryClearCommand("mutehistoryclear", "lostproxy.command.mutehistoryclear", "mhclear", "mhc"));
+        getProxy().getPluginManager().registerCommand(this, new FriendCommand("friend", "", "friends"));
 
         getProxy().getPluginManager().registerListener(this, new PostLoginListener());
         getProxy().getPluginManager().registerListener(this, new PlayerDisconnectListener());
@@ -148,5 +151,9 @@ public class LostProxy extends Plugin {
 
     public MuteManager getMuteManager() {
         return muteManager;
+    }
+
+    public FriendManager getFriendManager() {
+        return friendManager;
     }
 }

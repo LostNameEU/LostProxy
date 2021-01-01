@@ -10,4 +10,5 @@ public class MongoCollection {
     public static final String MUTE_HISTORIES = "muteHistories";
     public static final String ACTIVE_MUTES = "activeMutes";
     public static final String MUTE_REASONS = "muteReasons";
+    public static final String FRIEND_DATA = "friendData";
 }
