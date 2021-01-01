@@ -2,8 +2,6 @@ package eu.lostname.lostproxy.listener.teamspeak;
 
 import com.github.theholywaffle.teamspeak3.api.event.*;
 import eu.lostname.lostproxy.LostProxy;
-import eu.lostname.lostproxy.interfaces.IPlayerSync;
-import eu.lostname.lostproxy.interfaces.linkages.ITeamSpeakLinkage;
 import eu.lostname.lostproxy.utils.TSServerGroups;
 
 import java.util.ArrayList;
@@ -22,18 +20,19 @@ public class TeamSpeakListeners implements TS3Listener {
             if (!clientInfo.isServerQueryClient()) {
                 ArrayList<Integer> serverGroups = LostProxy.getInstance().getTeamSpeakManager().getServerGroupsAsList(clientInfo);
                 if (!serverGroups.contains(TSServerGroups.TEAM_BOT)) {
-                    ITeamSpeakLinkage iTeamSpeakLinkage = LostProxy.getInstance().getLinkageManager().getTeamSpeakLinkage(clientInfo.getUniqueIdentifier());
-
-                    if (iTeamSpeakLinkage != null) {
-                        IPlayerSync iPlayer = new IPlayerSync(iTeamSpeakLinkage.getUuid());
-                        if (!clientInfo.isInServerGroup(iPlayer.getIPermissionGroup().getProperties().getInt("tsGroupId"))) {
+                    LostProxy.getInstance().getLinkageManager().getTeamSpeakLinkage(clientInfo.getUniqueIdentifier(), iTeamSpeakLinkage -> {
+                        if (iTeamSpeakLinkage != null) {
+                            LostProxy.getInstance().getPlayerManager().getIPlayerAsync(iTeamSpeakLinkage.getUuid(), iPlayer -> {
+                                if (!clientInfo.isInServerGroup(iPlayer.getiPermissionGroup().getProperties().getInt("tsGroupId"))) {
+                                    LostProxy.getInstance().getTeamSpeakManager().resetAllServerGroups(clientInfo);
+                                    LostProxy.getInstance().getTeamSpeakManager().setServerGroupsUsingInGamePermissions(clientInfo, iPlayer);
+                                    LostProxy.getInstance().getTeamSpeakManager().setHead(clientInfo, iPlayer.getPlayerName());
+                                }
+                            });
+                        } else {
                             LostProxy.getInstance().getTeamSpeakManager().resetAllServerGroups(clientInfo);
-                            LostProxy.getInstance().getTeamSpeakManager().setServerGroupsUsingInGamePermissions(clientInfo, iPlayer);
-                            LostProxy.getInstance().getTeamSpeakManager().setHead(clientInfo, iPlayer.getPlayerName());
                         }
-                    } else {
-                        LostProxy.getInstance().getTeamSpeakManager().resetAllServerGroups(clientInfo);
-                    }
+                    });
                 }
             }
         });

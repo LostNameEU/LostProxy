@@ -6,7 +6,7 @@ import com.github.theholywaffle.teamspeak3.TS3Query;
 import com.github.theholywaffle.teamspeak3.api.wrapper.ClientInfo;
 import com.github.theholywaffle.teamspeak3.api.wrapper.ServerGroup;
 import eu.lostname.lostproxy.LostProxy;
-import eu.lostname.lostproxy.interfaces.IPlayerSync;
+import eu.lostname.lostproxy.interfaces.IPlayer;
 import eu.lostname.lostproxy.listener.teamspeak.TeamSpeakListeners;
 import eu.lostname.lostproxy.utils.TSServerGroups;
 
@@ -26,11 +26,11 @@ public class TeamSpeakManager {
     private final TS3Query ts3Query;
     private TS3ApiAsync api;
 
-    public TeamSpeakManager() {
+    public TeamSpeakManager(String username, String password, String hostname, int queryPort) {
         this.ts3Config = new TS3Config();
         ts3Config.setFloodRate(TS3Query.FloodRate.UNLIMITED);
-        ts3Config.setHost(LostProxy.getInstance().getProperty().get("cfg", "ts.hostname"));
-        ts3Config.setQueryPort(Integer.parseInt(LostProxy.getInstance().getProperty().get("cfg", "ts.queryPort")));
+        ts3Config.setHost(hostname);
+        ts3Config.setQueryPort(queryPort);
         ts3Config.setEnableCommunicationsLogging(true);
 
         this.ts3Query = new TS3Query(ts3Config);
@@ -39,17 +39,17 @@ public class TeamSpeakManager {
         if (ts3Query.isConnected()) {
             api = ts3Query.getAsyncApi();
 
-            api.login(LostProxy.getInstance().getProperty().get("cfg", "ts.username"), LostProxy.getInstance().getProperty().get("cfg", "ts.password"));
-            api.selectVirtualServerByPort(Integer.parseInt(LostProxy.getInstance().getProperty().get("cfg", "ts.virtualServerPort")));
-            api.setNickname(LostProxy.getInstance().getProperty().get("cfg", "ts.nickname"));
+            api.login(username, password);
+            api.selectVirtualServerByPort(9987);
+            api.setNickname("LostProxy - TeamSpeakManager");
             api.registerAllEvents();
             api.addTS3Listeners(new TeamSpeakListeners());
         }
     }
 
-    public void setServerGroupsUsingInGamePermissions(ClientInfo clientInfo, IPlayerSync iPlayer) {
+    public void setServerGroupsUsingInGamePermissions(ClientInfo clientInfo, IPlayer iPlayer) {
         api.addClientToServerGroup(TSServerGroups.VERIFIED, clientInfo.getDatabaseId());
-        api.addClientToServerGroup(iPlayer.getIPermissionGroup().getProperties().getInt("tsGroupId"), clientInfo.getDatabaseId());
+        api.addClientToServerGroup(iPlayer.getiPermissionGroup().getProperties().getInt("tsGroupId"), clientInfo.getDatabaseId());
     }
 
     public void setHead(ClientInfo clientInfo, String playerName) {
@@ -96,32 +96,35 @@ public class TeamSpeakManager {
     }
 
     public void resetAllServerGroups(ClientInfo clientInfo) {
-        boolean isSecretPermisisonIdentitiy = getSecretPermissionIdentitiesList().contains(clientInfo.getUniqueIdentifier());
+        getSecretPermissionIdentitiesList(strings -> {
+            boolean isSecretPermisisonIdentitiy = strings.contains(clientInfo.getUniqueIdentifier());
 
-        if (isSecretPermisisonIdentitiy) {
-            if (!clientInfo.isInServerGroup(TSServerGroups.ALL_PERMISSIONS)) {
-                api.addClientToServerGroup(TSServerGroups.ALL_PERMISSIONS, clientInfo.getDatabaseId()).onSuccess(unused -> api.sendPrivateMessage(clientInfo.getId(), "Da du in der geheimen Tabelle stehst und [b]nicht[/b] die Servergruppe hattest, die dir alle Rechte gibt, hast du sie nun erhalten!"));
-            }
-        }
-        if (clientInfo.getServerGroups().length > 1) {
-            for (int serverGroup : clientInfo.getServerGroups()) {
-                if (serverGroup == TSServerGroups.ALL_PERMISSIONS) {
-                    if (!isSecretPermisisonIdentitiy) {
-                        api.removeClientFromServerGroup(serverGroup, clientInfo.getDatabaseId());
-                    }
-                } else {
-                    api.removeClientFromServerGroup(serverGroup, clientInfo.getDatabaseId());
+            if (isSecretPermisisonIdentitiy) {
+                if (!clientInfo.isInServerGroup(TSServerGroups.ALL_PERMISSIONS)) {
+                    api.addClientToServerGroup(TSServerGroups.ALL_PERMISSIONS, clientInfo.getDatabaseId()).onSuccess(unused -> api.sendPrivateMessage(clientInfo.getId(), "Da du in der geheimen Tabelle stehst und [b]nicht[/b] die Servergruppe hattest, die dir alle Rechte gibt, hast du sie nun erhalten!"));
                 }
             }
-        } else if (clientInfo.getServerGroups()[0] != TSServerGroups.GUEST && clientInfo.getServerGroups()[0] != TSServerGroups.ALL_PERMISSIONS) {
-            api.removeClientFromServerGroup(clientInfo.getServerGroups()[0], clientInfo.getDatabaseId());
-        }
+            if (clientInfo.getServerGroups().length > 1) {
+                for (int serverGroup : clientInfo.getServerGroups()) {
+                    if (serverGroup == TSServerGroups.ALL_PERMISSIONS) {
+                        if (!isSecretPermisisonIdentitiy) {
+                            api.removeClientFromServerGroup(serverGroup, clientInfo.getDatabaseId());
+                        }
+                    } else {
+                        api.removeClientFromServerGroup(serverGroup, clientInfo.getDatabaseId());
+                    }
+                }
+            } else if (clientInfo.getServerGroups()[0] != TSServerGroups.GUEST && clientInfo.getServerGroups()[0] != TSServerGroups.ALL_PERMISSIONS) {
+                api.removeClientFromServerGroup(clientInfo.getServerGroups()[0], clientInfo.getDatabaseId());
+            }
+        });
     }
 
-    public ArrayList<String> getSecretPermissionIdentitiesList() {
+    public void getSecretPermissionIdentitiesList(Consumer<ArrayList<String>> consumer) {
         ArrayList<String> identities = new ArrayList<>();
-        LostProxy.getInstance().getDatabase().getMongoDatabase().getCollection("teamspeakSecretIdentities").find().forEach(document -> identities.add(document.getString("_id")));
-        return identities;
+        LostProxy.getInstance().getDatabase().getMongoDatabase().getCollection("teamspeakSecretIdentities").find().forEach(document -> identities.add(document.getString("_id")), (unused, throwable) -> {
+            consumer.accept(identities);
+        });
     }
 
     public ArrayList<Integer> getServerGroupsAsList(ClientInfo clientInfo) {

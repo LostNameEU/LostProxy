@@ -4,15 +4,15 @@ import com.google.gson.Gson;
 import de.dytanic.cloudnet.driver.CloudNetDriver;
 import de.dytanic.cloudnet.ext.bridge.player.IPlayerManager;
 import de.dytanic.cloudnet.ext.syncproxy.AbstractSyncProxyManagement;
-import eu.lostname.lostproxy.commands.*;
+import eu.lostname.lostproxy.commands.KickCommand;
+import eu.lostname.lostproxy.commands.PingCommand;
+import eu.lostname.lostproxy.commands.TSCommand;
 import eu.lostname.lostproxy.databases.LostProxyDatabase;
-import eu.lostname.lostproxy.listener.ChatListener;
-import eu.lostname.lostproxy.listener.PlayerDisconnectListener;
-import eu.lostname.lostproxy.listener.PostLoginListener;
-import eu.lostname.lostproxy.listener.PreLoginListener;
-import eu.lostname.lostproxy.manager.*;
+import eu.lostname.lostproxy.manager.HistoryManager;
+import eu.lostname.lostproxy.manager.LinkageManager;
+import eu.lostname.lostproxy.manager.PlayerManager;
+import eu.lostname.lostproxy.manager.TeamSpeakManager;
 import eu.lostname.lostproxy.utils.CloudServices;
-import eu.lostname.lostproxy.utils.Property;
 import net.md_5.bungee.api.plugin.Plugin;
 
 public class LostProxy extends Plugin {
@@ -25,12 +25,6 @@ public class LostProxy extends Plugin {
     private PlayerManager playerManager;
     private TeamSpeakManager teamSpeakManager;
     private HistoryManager historyManager;
-    private TeamManager teamManager;
-    private BanManager banManager;
-    private MuteManager muteManager;
-    private ReasonManager reasonManager;
-
-    private Property property;
 
     public static LostProxy getInstance() {
         return instance;
@@ -39,52 +33,25 @@ public class LostProxy extends Plugin {
     @Override
     public void onEnable() {
         this.gson = new Gson();
-        this.database = new LostProxyDatabase(property.get("cfg", "db.host"), property.get("cfg", "db.port"), property.get("cfg", "db.username"), property.get("cfg", "db.password"), property.get("cfg", "db.database"));
+        this.database = new LostProxyDatabase("LostProxy", "BIi7>$_GRP2;Y%+jB%1t_F/@>Y.KT):c%Q\"F3=}-O/,-D|!TeTMY<>86+n3D:1tH=fD2/?%qNylX!y=&:kaT\\g\"}xJl%6#YuGCJ", "LostProxy");
         this.linkageManager = new LinkageManager(gson);
         this.playerManager = new PlayerManager();
         this.historyManager = new HistoryManager();
-        this.teamSpeakManager = new TeamSpeakManager();
-        this.teamManager = new TeamManager();
-        this.banManager = new BanManager();
-        this.muteManager = new MuteManager();
-        this.reasonManager = new ReasonManager(gson, database);
+        this.teamSpeakManager = new TeamSpeakManager("serveradmin", "windo10", "91.218.66.173", 10011);
 
         getProxy().getPluginManager().registerCommand(this, new TSCommand("ts", "lostproxy.command.ts"));
         getProxy().getPluginManager().registerCommand(this, new PingCommand("ping", "lostproxy.command.ping"));
         getProxy().getPluginManager().registerCommand(this, new KickCommand("kick", "lostproxy.command.kick"));
-        getProxy().getPluginManager().registerCommand(this, new NotifyCommand("notify", "lostproxy.command.notify", "benachrichtigung"));
-        getProxy().getPluginManager().registerCommand(this, new KickHistoryClearCommand("kickhistoryclear", "lostproxy.command.kickhistoryclear", "khc", "khclear"));
-        getProxy().getPluginManager().registerCommand(this, new KickHistoryCommand("kickhistory", "lostproxy.command.kickhistory", "kh"));
-        getProxy().getPluginManager().registerCommand(this, new TCCommand("tc", "lostproxy.command.tc", "teamchat"));
-        getProxy().getPluginManager().registerCommand(this, new TeamCommand("team", "lostproxy.command.team"));
-        getProxy().getPluginManager().registerCommand(this, new BanReasonsCommand("banreasons", "lostproxy.command.banreasons", "br"));
-        getProxy().getPluginManager().registerCommand(this, new UnbanCommand("unban", "lostproxy.command.unban", "ub"));
-        getProxy().getPluginManager().registerCommand(this, new BanHistoryCommand("banhistory", "lostproxy.command.banhistory", "bh"));
-        getProxy().getPluginManager().registerCommand(this, new BanHistoryClearCommand("banhistoryclear", "lostproxy.command.banhistoryclear", "bhc", "bhclear"));
-        getProxy().getPluginManager().registerCommand(this, new BanCommand("ban", "lostproxy.command.ban", "b"));
-        getProxy().getPluginManager().registerCommand(this, new EACommand("ea", "lostproxy.command.ea"));
-        getProxy().getPluginManager().registerCommand(this, new UnmuteCommand("unmute", "lostproxy.command.unmute"));
-        getProxy().getPluginManager().registerCommand(this, new MuteCommand("mute", "lostproxy.command.mute"));
-        getProxy().getPluginManager().registerCommand(this, new MuteReasonsCommand("mutereasons", "lostproxy.command.mutereasons", "mr"));
-        getProxy().getPluginManager().registerCommand(this, new MuteHistoryCommand("mutehistory", "lostproxy.command.mutehistory", "mh"));
-        getProxy().getPluginManager().registerCommand(this, new MuteHistoryClearCommand("mutehistoryclear", "lostproxy.command.mutehistoryclear", "mhclear", "mhc"));
-
-        getProxy().getPluginManager().registerListener(this, new PostLoginListener());
-        getProxy().getPluginManager().registerListener(this, new PlayerDisconnectListener());
-        getProxy().getPluginManager().registerListener(this, new PreLoginListener());
-        getProxy().getPluginManager().registerListener(this, new ChatListener());
 
         CloudServices.SYNCPROXY_MANAGEMENT = CloudNetDriver.getInstance().getServicesRegistry().getFirstService(AbstractSyncProxyManagement.class);
-        CloudServices.PERMISSION_MANAGEMENT = CloudNetDriver.getInstance().getPermissionManagement();
-        CloudServices.PLAYER_MANAGER = CloudNetDriver.getInstance().getServicesRegistry().getFirstService(IPlayerManager.class);
     }
 
     @Override
     public void onLoad() {
         instance = this;
 
-        property = new Property();
-        property.setDefaultProps();
+        CloudServices.PERMISSION_MANAGEMENT = CloudNetDriver.getInstance().getPermissionManagement();
+        CloudServices.PLAYER_MANAGER = CloudNetDriver.getInstance().getServicesRegistry().getFirstService(IPlayerManager.class);
     }
 
     @Override
@@ -93,21 +60,6 @@ public class LostProxy extends Plugin {
 
         database.getMongoClient().close();
         getTeamSpeakManager().getTs3Query().exit();
-    }
-
-    public String formatArrayToString(int startIndex, String[] strings) {
-        StringBuilder msg = new StringBuilder();
-        for (int i = startIndex; i < strings.length; i++) {
-            if (i == (strings.length - 1)) {
-                msg.append(strings[i]);
-            } else
-                msg.append(strings[i]).append(" ");
-        }
-        return msg.toString();
-    }
-
-    public BanManager getBanManager() {
-        return banManager;
     }
 
     public TeamSpeakManager getTeamSpeakManager() {
@@ -132,21 +84,5 @@ public class LostProxy extends Plugin {
 
     public HistoryManager getHistoryManager() {
         return historyManager;
-    }
-
-    public TeamManager getTeamManager() {
-        return teamManager;
-    }
-
-    public Property getProperty() {
-        return property;
-    }
-
-    public ReasonManager getReasonManager() {
-        return reasonManager;
-    }
-
-    public MuteManager getMuteManager() {
-        return muteManager;
     }
 }

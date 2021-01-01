@@ -71,8 +71,8 @@
         </dependency>
         <dependency>
             <groupId>org.mongodb</groupId>
-            <artifactId>mongodb-driver-sync</artifactId>
-            <version>4.2.0-beta1</version>
+            <artifactId>mongodb-driver-async</artifactId>
+            <version>3.8.2</version>
         </dependency>
         <dependency>
             <groupId>redis.clients</groupId>
@@ -117,9 +117,6 @@
                         </goals>
                     </execution>
                 </executions>
-                <configuration>
-                    <createDependencyReducedPom>false</createDependencyReducedPom>
-                </configuration>
             </plugin>
         </plugins>
     </build>
