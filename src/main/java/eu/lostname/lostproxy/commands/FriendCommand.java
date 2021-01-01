@@ -20,8 +20,8 @@ import java.util.stream.Collectors;
 
 public class FriendCommand extends Command {
 
-    public FriendCommand(String name) {
-        super(name);
+    public FriendCommand(String name, String s, String friends) {
+        super(name, s, friends);
     }
 
     @Override
