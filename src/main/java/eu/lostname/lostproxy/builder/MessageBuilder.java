@@ -17,9 +17,8 @@ public class MessageBuilder {
         return this;
     }
 
-    @SuppressWarnings("deprecation")
     public MessageBuilder addHoverEvent(HoverEvent.Action action, String content) {
-        textComponent.setHoverEvent(new HoverEvent(action, new ComponentBuilder(content).create()));
+        textComponent.setHoverEvent(new HoverEvent(action, new Text(content)));
         return this;
     }
 
