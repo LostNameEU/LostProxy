@@ -1,21 +1,21 @@
 package eu.lostname.lostproxy.interfaces.historyandentries;
 
+import java.util.UUID;
+
 public class IEntry {
 
     private final String _id;
     private final String invokerId;
-    private final String reason;
     private final long timestamp;
 
-    public IEntry(String _id, String invokerId, String reason, long timestamp) {
-        this._id = _id;
+    public IEntry(UUID _id, String invokerId, long timestamp) {
+        this._id = _id.toString();
         this.invokerId = invokerId;
-        this.reason = reason;
         this.timestamp = timestamp;
     }
 
-    public String getUniqueId() {
-        return _id;
+    public UUID getUniqueId() {
+        return UUID.fromString(_id);
     }
 
     public String getInvokerId() {
@@ -24,10 +24,6 @@ public class IEntry {
 
     public boolean isInvokerConsole() {
         return invokerId.equalsIgnoreCase("console");
-    }
-
-    public String getReason() {
-        return reason;
     }
 
     public long getTimestamp() {

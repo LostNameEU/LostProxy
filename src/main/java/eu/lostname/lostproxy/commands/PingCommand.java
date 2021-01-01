@@ -1,7 +1,7 @@
 package eu.lostname.lostproxy.commands;
 
-import eu.lostname.lostproxy.LostProxy;
 import eu.lostname.lostproxy.builder.MessageBuilder;
+import eu.lostname.lostproxy.interfaces.IPlayerSync;
 import eu.lostname.lostproxy.utils.Prefix;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.ProxyServer;
@@ -36,9 +36,8 @@ public class PingCommand extends Command implements TabExecutor {
 
                     if (target != null) {
                         ProxiedPlayer finalTarget = target;
-                        LostProxy.getInstance().getPlayerManager().getIPlayerAsync(target.getUniqueId(), iPlayer -> {
-                            player.sendMessage(new MessageBuilder(Prefix.LOSTPROXY + "Der Ping von " + iPlayer.getPrefix() + finalTarget.getName() + " §7beträgt aktuell§8: §c" + finalTarget.getPing() + "ms").build());
-                        });
+                        IPlayerSync iPlayer = new IPlayerSync(target.getUniqueId());
+                            player.sendMessage(new MessageBuilder(Prefix.LOSTPROXY + "Der Ping von " + iPlayer.getDisplay() + finalTarget.getName() + " §7beträgt aktuell§8: §c" + finalTarget.getPing() + "ms").build());
                     } else {
                         player.sendMessage(new MessageBuilder(Prefix.LOSTPROXY + "Der angegebene Spieler konnte §cnicht §7gefunden werden§8.").build());
                     }

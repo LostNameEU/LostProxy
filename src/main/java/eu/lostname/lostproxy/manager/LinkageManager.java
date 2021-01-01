@@ -1,15 +1,14 @@
 package eu.lostname.lostproxy.manager;
 
 import com.google.gson.Gson;
-import com.mongodb.async.SingleResultCallback;
-import com.mongodb.client.model.Filters;
-import com.mongodb.client.result.DeleteResult;
 import eu.lostname.lostproxy.LostProxy;
 import eu.lostname.lostproxy.interfaces.linkages.ITeamSpeakLinkage;
+import eu.lostname.lostproxy.utils.MongoCollection;
 import org.bson.Document;
 
 import java.util.UUID;
-import java.util.function.Consumer;
+
+import static com.mongodb.client.model.Filters.eq;
 
 public class LinkageManager {
 
@@ -19,37 +18,36 @@ public class LinkageManager {
         this.gson = gson;
     }
 
-    public void createTeamSpeakLinkage(UUID uuid, String playerName, String identity, Consumer<ITeamSpeakLinkage> consumer) {
-        LostProxy.getInstance().getDatabase().getMongoDatabase().getCollection("teamspeakLinkages").find(Filters.eq("_id", uuid.toString())).first((document, throwable) -> {
-            if (document == null) {
-                ITeamSpeakLinkage iTeamSpeakLinkage = new ITeamSpeakLinkage(playerName, uuid, System.currentTimeMillis(), identity);
+    public ITeamSpeakLinkage createTeamSpeakLinkage(UUID uuid, String playerName, String identity) {
+        Document d = LostProxy.getInstance().getDatabase().getMongoDatabase().getCollection(MongoCollection.TEAMSPEAK_LINKAGES).find(eq("_id", uuid.toString())).first();
 
-                document = gson.fromJson(gson.toJson(iTeamSpeakLinkage), Document.class);
+        if (d == null) {
+            ITeamSpeakLinkage iTeamSpeakLinkage = new ITeamSpeakLinkage(playerName, uuid, System.currentTimeMillis(), identity);
 
-                LostProxy.getInstance().getDatabase().getMongoDatabase().getCollection("teamspeakLinkages").insertOne(document, (unused, throwable1) -> {
-                    consumer.accept(iTeamSpeakLinkage);
-                });
-            } else {
-                consumer.accept(null);
-            }
-        });
+            d = gson.fromJson(gson.toJson(iTeamSpeakLinkage), Document.class);
+
+            LostProxy.getInstance().getDatabase().getMongoDatabase().getCollection(MongoCollection.TEAMSPEAK_LINKAGES).insertOne(d);
+            return gson.fromJson(d.toJson(), ITeamSpeakLinkage.class);
+        } else {
+            return null;
+        }
     }
 
-    public void isTeamSpeakIdentityInUse(String identity, Consumer<Boolean> consumer) {
-        LostProxy.getInstance().getDatabase().getMongoDatabase().getCollection("teamspeakLinkages").find(Filters.eq("identity", identity)).first((document, throwable) -> {
-            consumer.accept(document != null);
-        });
+    public boolean isTeamSpeakIdentityInUse(String identity) {
+        return LostProxy.getInstance().getDatabase().getMongoDatabase().getCollection(MongoCollection.TEAMSPEAK_LINKAGES).find(eq("identity", identity)).first() != null;
     }
 
-    public void getTeamSpeakLinkage(UUID uuid, Consumer<ITeamSpeakLinkage> consumer) {
-        LostProxy.getInstance().getDatabase().getMongoDatabase().getCollection("teamspeakLinkages").find(Filters.eq("_id", uuid.toString())).first(((document, throwable) -> consumer.accept(document != null ? gson.fromJson(document.toJson(), ITeamSpeakLinkage.class) : null)));
+    public ITeamSpeakLinkage getTeamSpeakLinkage(UUID uuid) {
+        Document d = LostProxy.getInstance().getDatabase().getMongoDatabase().getCollection(MongoCollection.TEAMSPEAK_LINKAGES).find(eq("_id", uuid.toString())).first();
+        return d != null ? gson.fromJson(d.toJson(), ITeamSpeakLinkage.class) : null;
     }
 
-    public void getTeamSpeakLinkage(String identity, Consumer<ITeamSpeakLinkage> consumer) {
-        LostProxy.getInstance().getDatabase().getMongoDatabase().getCollection("teamspeakLinkages").find(Filters.eq("identity", identity)).first(((document, throwable) -> consumer.accept(document != null ? gson.fromJson(document.toJson(), ITeamSpeakLinkage.class) : null)));
+    public ITeamSpeakLinkage getTeamSpeakLinkage(String identity) {
+        Document d = LostProxy.getInstance().getDatabase().getMongoDatabase().getCollection(MongoCollection.TEAMSPEAK_LINKAGES).find(eq("identity", identity)).first();
+        return d != null ? gson.fromJson(d.toJson(), ITeamSpeakLinkage.class) : null;
     }
 
-    public void deleteTeamSpeakLinkage(ITeamSpeakLinkage iTeamSpeakLinkage, SingleResultCallback<DeleteResult> callback) {
-        LostProxy.getInstance().getDatabase().getMongoDatabase().getCollection("teamspeakLinkages").deleteOne(Filters.eq("_id", iTeamSpeakLinkage.getUuid().toString()), callback);
+    public void deleteTeamSpeakLinkage(ITeamSpeakLinkage iTeamSpeakLinkage) {
+        LostProxy.getInstance().getDatabase().getMongoDatabase().getCollection("teamspeakLinkages").deleteOne(eq("_id", iTeamSpeakLinkage.getUuid().toString()));
     }
 }

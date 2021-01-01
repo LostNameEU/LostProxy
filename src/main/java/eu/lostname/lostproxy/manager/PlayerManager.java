@@ -15,20 +15,9 @@ import java.util.function.Consumer;
 public class PlayerManager {
 
     @SuppressWarnings("UnstableApiUsage")
-    public void getUUIDofPlayername(String playername, Consumer<UUID> consumer) {
-        CloudNetDriver.getInstance().getServicesRegistry().getFirstService(IPlayerManager.class).getRegisteredPlayersAsync().onComplete(iCloudOfflinePlayers -> {
-            ICloudOfflinePlayer offlinePlayer = null;
-            for (ICloudOfflinePlayer registeredPlayers : iCloudOfflinePlayers) {
-                if (registeredPlayers.getName().equalsIgnoreCase(playername))
-                    offlinePlayer = registeredPlayers;
-            }
-
-            if (offlinePlayer != null) {
-                consumer.accept(offlinePlayer.getUniqueId());
-            } else {
-                consumer.accept(null);
-            }
-        }).onFailure(throwable -> consumer.accept(null));
+    public UUID getUUIDofPlayername(String playername) {
+        ICloudOfflinePlayer player = CloudNetDriver.getInstance().getServicesRegistry().getFirstService(IPlayerManager.class).getRegisteredPlayers().stream().filter(any -> any.getName().equalsIgnoreCase(playername)).findFirst().orElse(null);
+        return player != null ? player.getUniqueId() : null;
     }
 
     public void getCloudOfflinePlayer(UUID uniqueId, Consumer<ICloudOfflinePlayer> consumer) {
