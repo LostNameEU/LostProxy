@@ -1,3 +1,13 @@
+/*
+ * Copyright notice
+ * Copyright (c) Nils Körting-Eberhardt 2021
+ * Created: 01.01.2021 @ 23:34:03
+ *
+ * All contents of this source code are protected by copyright. The copyright is owned by Nils Körting-Eberhardt, unless explicitly stated otherwise. All rights reserved.
+ *
+ * KickHistoryClearCommand.java is part of the lostproxy which is licensed under the Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) license.
+ */
+
 package eu.lostname.lostproxy.commands;
 
 import eu.lostname.lostproxy.LostProxy;
@@ -41,8 +51,8 @@ public class KickHistoryClearCommand extends Command implements TabExecutor {
                     commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Die §eKick-History §7von " + targetiPlayer.getDisplay() + targetiPlayer.getPlayerName() + " §7ist §cleer§8.").build());
                 }
             } else {
-                    commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Der angegebene Spieler konnte §cnicht §7gefunden werden§8.").build());
-                }
+                commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Der angegebene Spieler konnte §cnicht §7gefunden werden§8.").build());
+            }
         } else if (strings.length == 2) {
             if (strings[1].equalsIgnoreCase("confirmed")) {
                 if (LostProxy.getInstance().getHistoryManager().getKickHistoryClearCommandProcess().contains(commandSender.getName())) {
@@ -60,7 +70,7 @@ public class KickHistoryClearCommand extends Command implements TabExecutor {
                         }
                     } else {
                         commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Der angegebene Spieler konnte §cnicht §7gefunden werden§8.").build());
-                        }
+                    }
                 } else {
                     commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Du hast §ckeine §eVerifizierung §7für diesen §eProzess §7beantragt§8.").build());
                 }
