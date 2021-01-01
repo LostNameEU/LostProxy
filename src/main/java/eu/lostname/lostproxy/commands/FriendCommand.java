@@ -10,6 +10,7 @@ import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
+import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
 
@@ -346,13 +347,17 @@ public class FriendCommand extends Command {
 
                                 if (targetIFriendData.isFriendJumpAllowed()) {
                                     if (targetIPlayer.isOnline()) {
-                                        player.sendMessage(new MessageBuilder(Prefix.FRIENDS + "Du wirst nun mit dem Server von " + targetIPlayer.getDisplay() + targetIPlayer.getPlayerName() + " §7verbunden§8.").build());
-                                        ProxiedPlayer targetPlayer = ProxyServer.getInstance().getPlayer(targetUUID);
+                                        ServerInfo targetServer = ProxyServer.getInstance().getPlayer(targetUUID).getServer().getInfo();
 
-                                        player.connect(targetPlayer.getServer().getInfo());
+                                        if (!targetServer.getName().equalsIgnoreCase(player.getServer().getInfo().getName())) {
+                                            player.sendMessage(new MessageBuilder(Prefix.FRIENDS + "Du wirst nun mit dem Server von " + targetIPlayer.getDisplay() + targetIPlayer.getPlayerName() + " §7verbunden§8.").build());
+                                            player.connect(targetServer);
 
-                                        if (targetIFriendData.areNotifyMessagesEnabled())
-                                            targetPlayer.sendMessage(new MessageBuilder(Prefix.FRIENDS + iPlayer.getDisplay() + iPlayer.getPlayerName() + " §7ist zu dir §egesprungen§8.").build());
+                                            if (targetIFriendData.areNotifyMessagesEnabled())
+                                                ProxyServer.getInstance().getPlayer(targetUUID).sendMessage(new MessageBuilder(Prefix.FRIENDS + iPlayer.getDisplay() + iPlayer.getPlayerName() + " §7ist zu dir §egesprungen§8.").build());
+                                        } else {
+                                            player.sendMessage(new MessageBuilder(Prefix.FRIENDS + "Du befindest dich §cbereits §7auf dem Server von " + targetIPlayer.getDisplay() + targetIPlayer.getPlayerName() + "§8.").build());
+                                        }
                                     } else {
                                         player.sendMessage(new MessageBuilder(Prefix.FRIENDS + targetIPlayer.getDisplay() + targetIPlayer.getPlayerName() + " §7ist §cnicht §7online§8.").build());
                                     }
