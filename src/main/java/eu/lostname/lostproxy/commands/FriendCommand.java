@@ -384,6 +384,27 @@ public class FriendCommand extends Command {
                         player.sendMessage(new MessageBuilder(Prefix.FRIENDS + "Bitte beachte die §eBenutzung §7dieses Kommandos§8.").build());
                         break;
                 }
+            } else if (strings.length >= 2) {
+                if (strings[0].equalsIgnoreCase("broadcast")) {
+                    List<String> sortedFriends = iFriendData.getFriends().keySet().stream().filter(filter -> new IPlayerSync(UUID.fromString(filter)).isOnline() && LostProxy.getInstance().getFriendManager().getFriendData(UUID.fromString(filter)).canFriendsSentMessages()).collect(Collectors.toList());
+
+                    if (sortedFriends.size() > 0) {
+                        String message = LostProxy.getInstance().formatArrayToString(1, strings);
+
+                        sortedFriends.forEach(sortedFriend -> {
+                            UUID sortedFriendUUID = UUID.fromString(sortedFriend);
+                            IPlayerSync sortedFriendIPlayer = new IPlayerSync(sortedFriendUUID);
+                            ProxyServer.getInstance().getPlayer(sortedFriendUUID).sendMessage(new MessageBuilder(Prefix.FRIENDS + iPlayer.getDisplay() + iPlayer.getPlayerName() + " §8➡ " + sortedFriendIPlayer.getDisplay() + sortedFriendIPlayer.getPlayerName() + " §8» §e" + message).build());
+                        });
+                        player.sendMessage(new MessageBuilder(Prefix.FRIENDS + "Deine Nachricht wurde an §e" + sortedFriends.size() + " Freunde §7versendet§8.").build());
+                    } else {
+                        player.sendMessage(new MessageBuilder(Prefix.FRIENDS + "Deine Nachricht konnte §cnicht §7zugestellt werden§8. §7Sind vielleicht keine Freunde online oder haben die Freunde, die online sind, Nachrichten ausgeschaltet§8?").build());
+                    }
+                } else {
+                    player.sendMessage(new MessageBuilder(Prefix.FRIENDS + "Bitte beachte die §eBenutzung §7dieses Kommandos§8.").build());
+                }
+            } else {
+                player.sendMessage(new MessageBuilder(Prefix.FRIENDS + "Bitte beachte die §eBenutzung §7dieses Kommandos§8.").build());
             }
         } else {
             commandSender.sendMessage(new MessageBuilder(Prefix.FRIENDS + "Du kannst diesen Befehl §cnicht §7als Konsole ausführen§8.").build());
