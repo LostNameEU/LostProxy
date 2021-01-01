@@ -1,7 +1,7 @@
 /*
  * Copyright notice
  * Copyright (c) Nils Körting-Eberhardt 2021
- * Created: 01.01.2021 @ 23:35:54
+ * Created: 01.01.2021 @ 23:37:34
  *
  * All contents of this source code are protected by copyright. The copyright is owned by Nils Körting-Eberhardt, unless explicitly stated otherwise. All rights reserved.
  *
