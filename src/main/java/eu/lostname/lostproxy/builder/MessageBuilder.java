@@ -1,6 +1,20 @@
+/*
+ * Copyright notice
+ * Copyright (c) Nils Körting-Eberhardt 2021
+ * Created: 01.01.2021 @ 23:32:28
+ *
+ * All contents of this source code are protected by copyright. The copyright is owned by Nils Körting-Eberhardt, unless explicitly stated otherwise. All rights reserved.
+ *
+ * MessageBuilder.java is part of the lostproxy which is licensed under the Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) license.
+ */
+
 package eu.lostname.lostproxy.builder;
 
-import net.md_5.bungee.api.chat.*;
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
+import net.md_5.bungee.api.chat.hover.content.Text;
 
 import java.util.List;
 
