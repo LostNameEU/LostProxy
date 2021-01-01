@@ -47,7 +47,7 @@ public class FriendCommand extends Command {
                         player.sendMessage(new MessageBuilder(Prefix.FRIENDS + "Hilfeseite 2§8:").build());
                         player.sendMessage(new MessageBuilder("§8┃ §c/friend acceptall §8» §7Nimmt alle Freundschaftsanfragen an").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/friend acceptall").build());
                         player.sendMessage(new MessageBuilder("§8┃ §c/friend denyall §8» §7Lehnt alle Freundschaftsanfragen ab").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/friend denyall").build());
-                        player.sendMessage(new MessageBuilder("§8┃ §c/friend broadcast <Nachricht> §8» §7Schicke eine Nachricht an alle Freunde").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/friend broadcast ").build());
+                        player.sendMessage(new MessageBuilder("§8┃ §c/friend broadcast [Nachricht] §8» §7Schicke eine Nachricht an alle Freunde").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/friend broadcast ").build());
                         player.sendMessage(new MessageBuilder("§8┃ §c/friend clear §8» §7Leert deine Freundesliste").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/friend clear").build());
                         player.sendMessage(new MessageBuilder("§8┃ §c/friend jump <Name> §8» §7Springt zu einem Freund").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/friend clear").build());
                         player.sendMessage(new MessageBuilder("§8┃ §c/friend toggle §8» §7De- oder aktiviert Freundschaftsanfragen").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/friend toggle").build());
