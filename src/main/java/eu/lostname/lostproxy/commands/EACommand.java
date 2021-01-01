@@ -1,3 +1,13 @@
+/*
+ * Copyright notice
+ * Copyright (c) Nils Körting-Eberhardt 2021
+ * Created: 01.01.2021 @ 23:33:34
+ *
+ * All contents of this source code are protected by copyright. The copyright is owned by Nils Körting-Eberhardt, unless explicitly stated otherwise. All rights reserved.
+ *
+ * EACommand.java is part of the lostproxy which is licensed under the Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) license.
+ */
+
 package eu.lostname.lostproxy.commands;
 
 import eu.lostname.lostproxy.LostProxy;
@@ -57,10 +67,10 @@ public class EACommand extends Command implements TabExecutor {
                             } else {
                                 commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Da der Bann bereits in §e3 Tagen §cabläuft§8, §7kann der Bann §cnicht §7nochmal verkürzt werden§8.").build());
                             }
-                                } else {
+                        } else {
                             commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Ein §4permanenter §7Bann kann §cnicht §7verkürzt werden§8.").build());
-                                }
-                            } else {
+                        }
+                    } else {
                         commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Der Bann von " + iPlayer.getDisplay() + iPlayer.getPlayerName() + " §7wurde §cbereits §7verkürzt§8.").build());
                     }
                 } else {
