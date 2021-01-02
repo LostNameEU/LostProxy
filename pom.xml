@@ -1,36 +1,39 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xmlns="http://maven.apache.org/POM/4.0.0"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ Copyright notice
+  ~ Copyright (c) Nils Körting-Eberhardt 2021
+  ~ Created: 02.01.2021 @ 22:25:09
+  ~
+  ~ All contents of this source code are protected by copyright. The copyright is owned by Nils Körting-Eberhardt, unless explicitly stated otherwise. All rights reserved.
+  ~
+  ~ pom.xml is part of the lostproxy which is licensed under the Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) license.
+  -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0">
+
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>eu.lostname.</groupId>
-    <artifactId>lostproxy</artifactId>
-    <version>${revision}</version>
-
-    <name>proxysystem</name>
-    <description>The ProxySystem for the LostName.eu network.</description>
+    <groupId>eu.lostname</groupId>
+    <artifactId>LostProxy</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <description>This is the managing sytem for our proxies at LostName.eu</description>
 
     <properties>
-        <revision>1.0.1-SNAPSHOT</revision>
-
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
-        <plugin.shade.version>3.2.3</plugin.shade.version>
     </properties>
 
     <repositories>
-        <!-- <repository>
-            <id>lostname-repo</id>
-            <url>https://lostname.eu:8079/repository/maven-central/</url>
-        </repository> -->
-        <!-- <repository>
+        <repository>
+            <id>oss-sonatype</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </repository>
+        <repository>
             <id>cloudnet-repo</id>
-            <url>https://repo.cloudnetservice.eu/repository/snapshots</url>
-        </repository> -->
+            <url>https://repo.cloudnetservice.eu/repositories/snapshots</url>
+        </repository>
         <repository>
             <id>central</id>
             <url>https://repo1.maven.org/maven2/</url>
@@ -39,16 +42,9 @@
 
     <dependencies>
         <dependency>
-            <groupId>net.md5</groupId>
-            <artifactId>bungeecord</artifactId>
-            <version>1.16</version>
-            <scope>system</scope>
-            <systemPath>F:/buildedJars/waterfall.jar</systemPath>
-        </dependency>
-        <dependency>
-            <groupId>de.dytanic.cloudnet</groupId>
-            <artifactId>cloudnet-wrapper-jvm</artifactId>
-            <version>3.4.0-SNAPSHOT</version>
+            <groupId>net.md-5</groupId>
+            <artifactId>bungeecord-api</artifactId>
+            <version>1.16-R0.4-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -73,14 +69,8 @@
             <groupId>org.mongodb</groupId>
             <artifactId>mongodb-driver-sync</artifactId>
             <version>4.2.0-beta1</version>
-        </dependency>
-        <dependency>
-            <groupId>redis.clients</groupId>
-            <artifactId>jedis</artifactId>
-            <version>3.3.0</version>
             <scope>compile</scope>
         </dependency>
-
         <dependency>
             <groupId>com.github.theholywaffle</groupId>
             <artifactId>teamspeak3-api</artifactId>
@@ -91,12 +81,11 @@
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
             <version>2.8.6</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 
     <build>
-        <finalName>${project.name}</finalName>
-
         <resources>
             <resource>
                 <filtering>true</filtering>
@@ -108,7 +97,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>${plugin.shade.version}</version>
+                <version>3.2.3</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
@@ -123,5 +112,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>
