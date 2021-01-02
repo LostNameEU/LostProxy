@@ -1,7 +1,7 @@
 /*
  * Copyright notice
  * Copyright (c) Nils Körting-Eberhardt 2021
- * Created: 02.01.2021 @ 23:28:39
+ * Created: 02.01.2021 @ 23:45:56
  *
  * All contents of this source code are protected by copyright. The copyright is owned by Nils Körting-Eberhardt, unless explicitly stated otherwise. All rights reserved.
  *
@@ -34,7 +34,7 @@ public class PingCommand extends Command implements TabExecutor {
             ProxiedPlayer player = (ProxiedPlayer) commandSender;
 
             if (strings.length == 0) {
-                player.sendMessage(new MessageBuilder(Prefix.LOSTPROXY + "Dein Ping beträgt aktuell§8: §c§l" + player.getPing() + "ms").build());
+                player.sendMessage(new MessageBuilder(Prefix.LOSTNAME + "Dein Ping beträgt aktuell§8: §c§l" + player.getPing() + "ms").build());
             } else if (strings.length == 1) {
                 if (player.hasPermission("lostproxy.command.ping.other")) {
                     String argument = strings[0];
@@ -46,18 +46,18 @@ public class PingCommand extends Command implements TabExecutor {
 
                     if (target != null) {
                         IPlayerSync iPlayer = new IPlayerSync(target.getUniqueId());
-                        player.sendMessage(new MessageBuilder(Prefix.LOSTPROXY + "Der Ping von " + iPlayer.getDisplay() + target.getName() + " §7beträgt aktuell§8: §c" + target.getPing() + "ms").build());
+                        player.sendMessage(new MessageBuilder(Prefix.LOSTNAME + "Der Ping von " + iPlayer.getDisplay() + target.getName() + " §7beträgt aktuell§8: §c" + target.getPing() + "ms").build());
                     } else {
-                        player.sendMessage(new MessageBuilder(Prefix.LOSTPROXY + "Der angegebene Spieler konnte §cnicht §7gefunden werden§8.").build());
+                        player.sendMessage(new MessageBuilder(Prefix.LOSTNAME + "Der angegebene Spieler konnte §cnicht §7gefunden werden§8.").build());
                     }
                 } else {
-                    player.sendMessage(new MessageBuilder(Prefix.LOSTPROXY + "Dein Ping beträgt aktuell §8» §c" + player.getPing() + "ms").build());
+                    player.sendMessage(new MessageBuilder(Prefix.LOSTNAME + "Dein Ping beträgt aktuell §8» §c" + player.getPing() + "ms").build());
                 }
             } else {
-                player.sendMessage(new MessageBuilder(Prefix.TEAMSPEAK + "Bitte beachte die §eBenutzung §7dieses Kommandos§8.").build());
+                player.sendMessage(new MessageBuilder(Prefix.LOSTNAME + "Bitte beachte die §eBenutzung §7dieses Kommandos§8.").build());
             }
         } else {
-            commandSender.sendMessage(new MessageBuilder(Prefix.LOSTPROXY + "Du kannst diesen Befehl §cnicht §7als Konsole ausführen§8.").build());
+            commandSender.sendMessage(new MessageBuilder(Prefix.LOSTNAME + "Du kannst diesen Befehl §cnicht §7als Konsole ausführen§8.").build());
         }
     }
 
