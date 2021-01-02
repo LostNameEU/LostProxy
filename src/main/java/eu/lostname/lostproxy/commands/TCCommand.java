@@ -1,7 +1,7 @@
 /*
  * Copyright notice
  * Copyright (c) Nils Körting-Eberhardt 2021
- * Created: 02.01.2021 @ 23:28:39
+ * Created: 02.01.2021 @ 23:44:19
  *
  * All contents of this source code are protected by copyright. The copyright is owned by Nils Körting-Eberhardt, unless explicitly stated otherwise. All rights reserved.
  *
@@ -18,8 +18,6 @@ import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
-
-import java.util.Random;
 
 public class TCCommand extends Command {
 
@@ -41,7 +39,7 @@ public class TCCommand extends Command {
                     String msg = LostProxy.getInstance().formatArrayToString(0, strings);
 
                     IPlayerSync iPlayer = new IPlayerSync(player.getUniqueId());
-                    LostProxy.getInstance().getTeamManager().getLoggedIn().forEach(all -> all.sendMessage(new MessageBuilder(Prefix.TMS + iPlayer.getDisplay() + player.getName() + " §8» §" + new Random().nextInt(9) + msg).build()));
+                    LostProxy.getInstance().getTeamManager().getLoggedIn().forEach(all -> all.sendMessage(new MessageBuilder(Prefix.TMS + iPlayer.getDisplay() + player.getName() + " §8» §7" + msg).build()));
                 } else {
                     player.sendMessage(new MessageBuilder(Prefix.TMS + "Du bist §cnicht §7eingeloggt§8.").build());
                 }
