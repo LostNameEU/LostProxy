@@ -1,11 +1,11 @@
 /*
  * Copyright notice
  * Copyright (c) Nils Körting-Eberhardt 2021
- * Created: 01.01.2021 @ 23:35:12
+ * Created: 02.01.2021 @ 23:28:39
  *
  * All contents of this source code are protected by copyright. The copyright is owned by Nils Körting-Eberhardt, unless explicitly stated otherwise. All rights reserved.
  *
- * TSCommand.java is part of the lostproxy which is licensed under the Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) license.
+ * TSCommand.java is part of the LostProxy which is licensed under the Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) license.
  */
 
 package eu.lostname.lostproxy.commands;
@@ -41,21 +41,21 @@ public class TSCommand extends Command implements TabExecutor {
             ProxiedPlayer player = (ProxiedPlayer) commandSender;
 
             if (strings.length == 0) {
-                player.sendMessage(new MessageBuilder(Prefix.TEAMSPEAK + "Benutzung von §b/ts§8:").build());
-                player.sendMessage(new MessageBuilder("§8┃ §b/ts set <Identität> §8» §7Verknüfe manuell deine TeamSpeak Identität").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/ts set ").build());
-                player.sendMessage(new MessageBuilder("§8┃ §b/ts unlink §8» §7Hebe die Teamspeak-Verknüpfung auf").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/ts unlink").build());
-                player.sendMessage(new MessageBuilder("§8┃ §b/ts info §8» §7Zeige dir Informationen zu deiner TeamSpeak Verknüfung an").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/ts info").build());
+                player.sendMessage(new MessageBuilder(Prefix.TEAMSPEAK + "Benutzung von §b§l/ts§8:").build());
+                player.sendMessage(new MessageBuilder("§8┃ §b/ts §lset <Identität> §8» §7Verknüfe manuell deine TeamSpeak Identität").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/ts set ").build());
+                player.sendMessage(new MessageBuilder("§8┃ §b/ts §lunlink §8» §7Hebe die Teamspeak-Verknüpfung auf").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/ts unlink").build());
+                player.sendMessage(new MessageBuilder("§8┃ §b/ts §linfo §8» §7Zeige dir Informationen zu deiner TeamSpeak Verknüfung an").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/ts info").build());
                 if (player.hasPermission("lostproxy.command.ts.iinfo")) {
-                    player.sendMessage(new MessageBuilder("§8┃ §b/ts iinfo <Identität> §8» §7Lasse dir Informationen zu einer TeamSpeak Identität anzeigen").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/ts iinfo ").build());
+                    player.sendMessage(new MessageBuilder("§8┃ §b/ts §liinfo <Identität> §8» §7Lasse dir Informationen zu einer TeamSpeak Identität anzeigen").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/ts iinfo ").build());
                 }
                 if (player.hasPermission("lostproxy.command.ts.ninfo")) {
-                    player.sendMessage(new MessageBuilder("§8┃ §b/ts ninfo <Spielernamen> §8» §7Lasse dir Informationen zu einem Spielernamen anzeigen").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/ts ninfo ").build());
+                    player.sendMessage(new MessageBuilder("§8┃ §b/ts §lninfo <Spielernamen> §8» §7Lasse dir Informationen zu einem Spielernamen anzeigen").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/ts ninfo ").build());
                 }
                 if (player.hasPermission("lostproxy.command.ts.delete")) {
-                    player.sendMessage(new MessageBuilder("§8┃ §b/ts delete <Name> §8» §7Lösche die TeamSpeak Verknüpfung eines anderen Spielers").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/ts delete Name").build());
+                    player.sendMessage(new MessageBuilder("§8┃ §b/ts §ldelete <Name> §8» §7Lösche die TeamSpeak Verknüpfung eines anderen Spielers").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/ts delete Name").build());
                 }
                 if (player.hasPermission("lostproxy.command.ts.set")) {
-                    player.sendMessage(new MessageBuilder("§8┃ §b/ts set <Rang> <ID> §8» §7Setzte einer Permission-Gruppe die dazugehörige TS-Servergruppen-ID").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/ts set ").build());
+                    player.sendMessage(new MessageBuilder("§8┃ §b/ts §lset <Rang> <ID> §8» §7Setzte einer Permission-Gruppe die dazugehörige TS-Servergruppen-ID").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/ts set ").build());
                 }
                 player.sendMessage(new MessageBuilder("§8§m--------------------§r").build());
             } else if (strings.length == 1) {
@@ -163,39 +163,36 @@ public class TSCommand extends Command implements TabExecutor {
                         break;
                 }
             } else if (strings.length == 3) {
-                switch (strings[0]) {
-                    case "set":
-                        if (player.hasPermission("lostproxy.command.ts.set")) {
-                            CloudServices.PERMISSION_MANAGEMENT.getGroupAsync(strings[1]).onComplete(iPermissionGroup -> {
-                                if (iPermissionGroup != null) {
-                                    AtomicInteger tsGroupId = new AtomicInteger(0);
+                if ("set".equals(strings[0])) {
+                    if (player.hasPermission("lostproxy.command.ts.set")) {
+                        CloudServices.PERMISSION_MANAGEMENT.getGroupAsync(strings[1]).onComplete(iPermissionGroup -> {
+                            if (iPermissionGroup != null) {
+                                AtomicInteger tsGroupId = new AtomicInteger(0);
 
-                                    try {
-                                        tsGroupId.set(Integer.parseInt(strings[2]));
-                                    } catch (NumberFormatException exception) {
-                                        player.sendMessage(new MessageBuilder(Prefix.TEAMSPEAK + "Du hast §ckeine §7Zahl angegeben§8.").build());
-                                        return;
-                                    }
-
-                                    LostProxy.getInstance().getTeamSpeakManager().getServerGroup(tsGroupId.get(), serverGroup -> {
-                                        if (serverGroup != null) {
-                                            iPermissionGroup.getProperties().append("tsGroupId", tsGroupId.get());
-                                            CloudServices.PERMISSION_MANAGEMENT.updateGroupAsync(iPermissionGroup).onComplete(unused -> player.sendMessage(new MessageBuilder(Prefix.TEAMSPEAK + "Du hast §aerfolgreich §7die hinterlegte §eTS-Servergruppen-ID §7auf §b" + tsGroupId.get() + " §7gesetzt§8.").build())).onFailure(e -> player.sendMessage(new MessageBuilder(Prefix.TEAMSPEAK + "Beim §eSpeichern §7der §eRechtegruppe §7ist ein §4Fehler §7aufgetreten§8.").build()));
-                                        } else {
-                                            player.sendMessage(new MessageBuilder(Prefix.TEAMSPEAK + "Die angegebene §eTeamSpeak-Servergruppe §7wurde §cnicht §7gefunden§8.").build());
-                                        }
-                                    });
-                                } else {
-                                    player.sendMessage(new MessageBuilder(Prefix.TEAMSPEAK + "Die angegebene §eRechtegruppe §7wurde §cnicht §7gefunden§8.").build());
+                                try {
+                                    tsGroupId.set(Integer.parseInt(strings[2]));
+                                } catch (NumberFormatException exception) {
+                                    player.sendMessage(new MessageBuilder(Prefix.TEAMSPEAK + "Du hast §ckeine §7Zahl angegeben§8.").build());
+                                    return;
                                 }
-                            }).onFailure(e -> player.sendMessage(new MessageBuilder(Prefix.TEAMSPEAK + "Es trat ein §4Fehler §7bei der Suche der angegebenen §eRechtegruppe §7auf§8.").build()));
-                        } else {
-                            player.sendMessage(new MessageBuilder(Prefix.TEAMSPEAK + "Du hast §cnicht §7die erforderlichen Rechte§8, §7um dieses Kommando auszuführen§8.").build());
-                        }
-                        break;
-                    default:
-                        player.sendMessage(new MessageBuilder(Prefix.TEAMSPEAK + "Bitte beachte die §eBenutzung §7dieses Kommandos§8.").build());
-                        break;
+
+                                LostProxy.getInstance().getTeamSpeakManager().getServerGroup(tsGroupId.get(), serverGroup -> {
+                                    if (serverGroup != null) {
+                                        iPermissionGroup.getProperties().append("tsGroupId", tsGroupId.get());
+                                        CloudServices.PERMISSION_MANAGEMENT.updateGroupAsync(iPermissionGroup).onComplete(unused -> player.sendMessage(new MessageBuilder(Prefix.TEAMSPEAK + "Du hast §aerfolgreich §7die hinterlegte §eTS-Servergruppen-ID §7auf §b" + tsGroupId.get() + " §7gesetzt§8.").build())).onFailure(e -> player.sendMessage(new MessageBuilder(Prefix.TEAMSPEAK + "Beim §eSpeichern §7der §eRechtegruppe §7ist ein §4Fehler §7aufgetreten§8.").build()));
+                                    } else {
+                                        player.sendMessage(new MessageBuilder(Prefix.TEAMSPEAK + "Die angegebene §eTeamSpeak-Servergruppe §7wurde §cnicht §7gefunden§8.").build());
+                                    }
+                                });
+                            } else {
+                                player.sendMessage(new MessageBuilder(Prefix.TEAMSPEAK + "Die angegebene §eRechtegruppe §7wurde §cnicht §7gefunden§8.").build());
+                            }
+                        }).onFailure(e -> player.sendMessage(new MessageBuilder(Prefix.TEAMSPEAK + "Es trat ein §4Fehler §7bei der Suche der angegebenen §eRechtegruppe §7auf§8.").build()));
+                    } else {
+                        player.sendMessage(new MessageBuilder(Prefix.TEAMSPEAK + "Du hast §cnicht §7die erforderlichen Rechte§8, §7um dieses Kommando auszuführen§8.").build());
+                    }
+                } else {
+                    player.sendMessage(new MessageBuilder(Prefix.TEAMSPEAK + "Bitte beachte die §eBenutzung §7dieses Kommandos§8.").build());
                 }
             }
         } else {

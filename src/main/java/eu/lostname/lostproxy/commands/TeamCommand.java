@@ -1,11 +1,11 @@
 /*
  * Copyright notice
  * Copyright (c) Nils Körting-Eberhardt 2021
- * Created: 01.01.2021 @ 23:35:05
+ * Created: 02.01.2021 @ 23:28:39
  *
  * All contents of this source code are protected by copyright. The copyright is owned by Nils Körting-Eberhardt, unless explicitly stated otherwise. All rights reserved.
  *
- * TeamCommand.java is part of the lostproxy which is licensed under the Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) license.
+ * TeamCommand.java is part of the LostProxy which is licensed under the Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) license.
  */
 
 package eu.lostname.lostproxy.commands;
@@ -36,10 +36,10 @@ public class TeamCommand extends Command implements TabExecutor {
             ProxiedPlayer player = (ProxiedPlayer) commandSender;
 
             if (strings.length == 0) {
-                player.sendMessage(new MessageBuilder(Prefix.TMS + "Benutzung von §a/team§8:").build());
-                player.sendMessage(new MessageBuilder("§8┃ §a/team login §8» §7Loggt dich in das Team Management System ein").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/team login").build());
-                player.sendMessage(new MessageBuilder("§8┃ §a/team logout §8» §7Loggt dich aus dem Team Management System aus").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/team logout").build());
-                player.sendMessage(new MessageBuilder("§8┃ §a/team list §8» §7Liste dir alle verfügbaren Teammitglieder auf").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/team list").build());
+                player.sendMessage(new MessageBuilder(Prefix.TMS + "Benutzung von §a§l/team§8:").build());
+                player.sendMessage(new MessageBuilder("§8┃ §a/team §llogin §8» §7Loggt dich in das Team Management System ein").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/team login").build());
+                player.sendMessage(new MessageBuilder("§8┃ §a/team §llogout §8» §7Loggt dich aus dem Team Management System aus").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/team logout").build());
+                player.sendMessage(new MessageBuilder("§8┃ §a/team §llist §8» §7Liste dir alle verfügbaren Teammitglieder auf").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/team list").build());
                 player.sendMessage(new MessageBuilder("§8§m--------------------§r").build());
             } else if (strings.length == 1) {
                 IPlayerSync iPlayer = new IPlayerSync(player.getUniqueId());

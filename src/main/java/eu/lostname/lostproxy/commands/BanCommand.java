@@ -1,11 +1,11 @@
 /*
  * Copyright notice
  * Copyright (c) Nils Körting-Eberhardt 2021
- * Created: 01.01.2021 @ 23:33:00
+ * Created: 02.01.2021 @ 23:28:39
  *
  * All contents of this source code are protected by copyright. The copyright is owned by Nils Körting-Eberhardt, unless explicitly stated otherwise. All rights reserved.
  *
- * BanCommand.java is part of the lostproxy which is licensed under the Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) license.
+ * BanCommand.java is part of the LostProxy which is licensed under the Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) license.
  */
 
 package eu.lostname.lostproxy.commands;
@@ -46,9 +46,9 @@ public class BanCommand extends Command implements TabExecutor {
     @Override
     public void execute(CommandSender commandSender, String[] strings) {
         if (strings.length == 0) {
-            commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Benutzung von §c/ban§8:").build());
-            commandSender.sendMessage(new MessageBuilder("§8┃ §c/ban <Spieler> §8» §7Zeigt dir alle verfügbaren Banngründe an").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/ban ").build());
-            commandSender.sendMessage(new MessageBuilder("§8┃ §c/ban <Spieler> <ID> §8» §7Banne einen Spieler direkt").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/ban ").build());
+            commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Benutzung von §c§l/ban§8:").build());
+            commandSender.sendMessage(new MessageBuilder("§8┃ §c/ban §l<Spieler> §8» §7Zeigt dir alle verfügbaren Banngründe an").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/ban ").build());
+            commandSender.sendMessage(new MessageBuilder("§8┃ §c/ban §l<Spieler> <ID> §8» §7Banne einen Spieler direkt").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/ban ").build());
             commandSender.sendMessage(new MessageBuilder("§8§m--------------------§r").build());
         } else if (strings.length == 1) {
             if (!commandSender.getName().equalsIgnoreCase(strings[0])) {
@@ -189,6 +189,7 @@ public class BanCommand extends Command implements TabExecutor {
         }
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public Iterable<String> onTabComplete(CommandSender commandSender, String[] strings) {
         ArrayList<String> list = new ArrayList<>();

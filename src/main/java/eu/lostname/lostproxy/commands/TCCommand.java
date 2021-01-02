@@ -1,11 +1,11 @@
 /*
  * Copyright notice
  * Copyright (c) Nils Körting-Eberhardt 2021
- * Created: 01.01.2021 @ 23:34:58
+ * Created: 02.01.2021 @ 23:28:39
  *
  * All contents of this source code are protected by copyright. The copyright is owned by Nils Körting-Eberhardt, unless explicitly stated otherwise. All rights reserved.
  *
- * TCCommand.java is part of the lostproxy which is licensed under the Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) license.
+ * TCCommand.java is part of the LostProxy which is licensed under the Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) license.
  */
 
 package eu.lostname.lostproxy.commands;
@@ -33,8 +33,8 @@ public class TCCommand extends Command {
             ProxiedPlayer player = (ProxiedPlayer) commandSender;
 
             if (strings.length == 0) {
-                player.sendMessage(new MessageBuilder(Prefix.TMS + "Benutzung von §a/tc§8:").build());
-                player.sendMessage(new MessageBuilder("§8┃ §a/tc [Nachricht] §8» §7Schreibe in den TeamChat").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/tc ").build());
+                player.sendMessage(new MessageBuilder(Prefix.TMS + "Benutzung von §a§l/tc§8:").build());
+                player.sendMessage(new MessageBuilder("§8┃ §a/tc §l[Nachricht] §8» §7Schreibe in den TeamChat").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/tc ").build());
                 player.sendMessage(new MessageBuilder("§8§m--------------------§r").build());
             } else {
                 if (LostProxy.getInstance().getTeamManager().isLoggedIn(player)) {

@@ -1,11 +1,11 @@
 /*
  * Copyright notice
  * Copyright (c) Nils Körting-Eberhardt 2021
- * Created: 01.01.2021 @ 23:33:54
+ * Created: 02.01.2021 @ 23:28:39
  *
  * All contents of this source code are protected by copyright. The copyright is owned by Nils Körting-Eberhardt, unless explicitly stated otherwise. All rights reserved.
  *
- * KickCommand.java is part of the lostproxy which is licensed under the Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) license.
+ * KickCommand.java is part of the LostProxy which is licensed under the Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) license.
  */
 
 package eu.lostname.lostproxy.commands;
@@ -35,8 +35,8 @@ public class KickCommand extends Command implements TabExecutor {
     @Override
     public void execute(CommandSender commandSender, String[] strings) {
         if (strings.length == 0) {
-            commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Benutzung von §c/kick§8:").build());
-            commandSender.sendMessage(new MessageBuilder("§8┃ §c/kick <Spieler> [Grund] §8» §7Kicke den angegebenen Spieler mit einem Grund").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/kick ").build());
+            commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Benutzung von §c§l/kick§8:").build());
+            commandSender.sendMessage(new MessageBuilder("§8┃ §c/kick §l<Spieler> [Grund] §8» §7Kicke den angegebenen Spieler mit einem Grund").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/kick ").build());
             commandSender.sendMessage(new MessageBuilder("§8§m--------------------§r").build());
         } else if (strings.length == 1) {
             commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Bitte beachte die §eBenutzung §7dieses Kommandos§8.").build());
@@ -50,16 +50,15 @@ public class KickCommand extends Command implements TabExecutor {
 
             if (target != null) {
                 if (!commandSender.getName().equalsIgnoreCase(target.getName())) {
-                    ProxiedPlayer finalTarget = target;
 
                     IPlayerSync targetIPlayer = new IPlayerSync(target.getUniqueId());
                     if (commandSender.hasPermission("lostproxy.command.kick." + targetIPlayer.getIPermissionGroup().getName().toLowerCase())) {
                         String reason = LostProxy.getInstance().formatArrayToString(1, strings);
 
-                        IKickHistory iKickHistory = LostProxy.getInstance().getHistoryManager().getKickHistory(finalTarget.getUniqueId());
-                        iKickHistory.addEntry(new IKickEntry(finalTarget.getUniqueId(), (commandSender instanceof ProxiedPlayer ? ((ProxiedPlayer) commandSender).getUniqueId().toString() : "console"), reason, System.currentTimeMillis()));
+                        IKickHistory iKickHistory = LostProxy.getInstance().getHistoryManager().getKickHistory(target.getUniqueId());
+                        iKickHistory.addEntry(new IKickEntry(target.getUniqueId(), (commandSender instanceof ProxiedPlayer ? ((ProxiedPlayer) commandSender).getUniqueId().toString() : "console"), reason, System.currentTimeMillis()));
                         LostProxy.getInstance().getHistoryManager().saveKickHistory(iKickHistory);
-                        finalTarget.disconnect(new MessageBuilder("§6§o■§r §8┃ §c§lLostName §8● §7the new version of us §8┃ §6§o■§r \n" +
+                        target.disconnect(new MessageBuilder("§6§o■§r §8┃ §c§lLostName §8● §7the new version of us §8┃ §6§o■§r \n" +
                                 "\n" +
                                 "§7Deine bestehende Verbindung zum Netzwerk wurde §egetrennt§8." +
                                 "\n" +
@@ -93,6 +92,7 @@ public class KickCommand extends Command implements TabExecutor {
         }
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public Iterable<String> onTabComplete(CommandSender commandSender, String[] strings) {
         ArrayList<String> list = new ArrayList<>();

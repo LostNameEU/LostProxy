@@ -1,11 +1,11 @@
 /*
  * Copyright notice
  * Copyright (c) Nils Körting-Eberhardt 2021
- * Created: 01.01.2021 @ 23:34:18
+ * Created: 02.01.2021 @ 23:28:39
  *
  * All contents of this source code are protected by copyright. The copyright is owned by Nils Körting-Eberhardt, unless explicitly stated otherwise. All rights reserved.
  *
- * MuteCommand.java is part of the lostproxy which is licensed under the Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) license.
+ * MuteCommand.java is part of the LostProxy which is licensed under the Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) license.
  */
 
 package eu.lostname.lostproxy.commands;
@@ -46,9 +46,9 @@ public class MuteCommand extends Command implements TabExecutor {
     @Override
     public void execute(CommandSender commandSender, String[] strings) {
         if (strings.length == 0) {
-            commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Benutzung von §c/mute§8:").build());
-            commandSender.sendMessage(new MessageBuilder("§8┃ §c/mute <Spieler> §8» §7Zeigt dir alle verfügbaren Mutegründe an").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/mute ").build());
-            commandSender.sendMessage(new MessageBuilder("§8┃ §c/mute <Spieler> <ID> §8» §7Mute einen Spieler direkt").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/mute ").build());
+            commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Benutzung von §c§l/mute§8:").build());
+            commandSender.sendMessage(new MessageBuilder("§8┃ §c/mute §l<Spieler> §8» §7Zeigt dir alle verfügbaren Mutegründe an").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/mute ").build());
+            commandSender.sendMessage(new MessageBuilder("§8┃ §c/mute §l<Spieler> <ID> §8» §7Mute einen Spieler direkt").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/mute ").build());
             commandSender.sendMessage(new MessageBuilder("§8§m--------------------§r").build());
         } else if (strings.length == 1) {
             if (!commandSender.getName().equalsIgnoreCase(strings[0])) {
@@ -166,6 +166,7 @@ public class MuteCommand extends Command implements TabExecutor {
         }
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public Iterable<String> onTabComplete(CommandSender commandSender, String[] strings) {
         ArrayList<String> list = new ArrayList<>();
