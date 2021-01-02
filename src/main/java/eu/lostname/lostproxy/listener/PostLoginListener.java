@@ -1,11 +1,11 @@
 /*
  * Copyright notice
  * Copyright (c) Nils Körting-Eberhardt 2021
- * Created: 01.01.2021 @ 23:40:13
+ * Created: 02.01.2021 @ 23:21:05
  *
  * All contents of this source code are protected by copyright. The copyright is owned by Nils Körting-Eberhardt, unless explicitly stated otherwise. All rights reserved.
  *
- * PostLoginListener.java is part of the lostproxy which is licensed under the Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) license.
+ * PostLoginListener.java is part of the LostProxy which is licensed under the Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) license.
  */
 
 package eu.lostname.lostproxy.listener;
@@ -52,13 +52,13 @@ public class PostLoginListener implements Listener {
 
         if (player.hasPermission("lostproxy.notify")) {
             if (LostProxy.getInstance().getTeamManager().enableNotifications(player)) {
-                player.sendMessage(new MessageBuilder(Prefix.NOTIFICATIONS + "§a✔").build());
+                player.sendMessage(new MessageBuilder(Prefix.NOTIFICATIONS + "§7Du erhälst nun §a§lBenachrichtigungen§8.").build());
             }
         }
 
         if (player.hasPermission("lostproxy.command.team") && player.hasPermission("lostproxy.command.team.login")) {
             if (LostProxy.getInstance().getTeamManager().login(player)) {
-                player.sendMessage(new MessageBuilder(Prefix.TMS + "§a✔").build());
+                player.sendMessage(new MessageBuilder(Prefix.TMS + "§7Du wurdest soeben §a§leingeloggt§8.").build());
                 LostProxy.getInstance().getTeamManager().getLoggedIn().forEach(all -> all.sendMessage(new MessageBuilder(Prefix.TMS + iPlayer.getDisplay() + iPlayer.getPlayerName() + " §7hat das Netzwerk §abetreten§8.").build()));
             }
         }
