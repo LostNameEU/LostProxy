@@ -1,7 +1,7 @@
 /*
  * Copyright notice
  * Copyright (c) Nils Körting-Eberhardt 2021
- * Created: 02.01.2021 @ 23:28:39
+ * Created: 03.01.2021 @ 00:01:00
  *
  * All contents of this source code are protected by copyright. The copyright is owned by Nils Körting-Eberhardt, unless explicitly stated otherwise. All rights reserved.
  *
@@ -47,8 +47,8 @@ public class BanCommand extends Command implements TabExecutor {
     public void execute(CommandSender commandSender, String[] strings) {
         if (strings.length == 0) {
             commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Benutzung von §c§l/ban§8:").build());
-            commandSender.sendMessage(new MessageBuilder("§8┃ §c/ban §l<Spieler> §8» §7Zeigt dir alle verfügbaren Banngründe an").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/ban ").build());
-            commandSender.sendMessage(new MessageBuilder("§8┃ §c/ban §l<Spieler> <ID> §8» §7Banne einen Spieler direkt").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/ban ").build());
+            commandSender.sendMessage(new MessageBuilder("§8" + Prefix.DASH + " §c/ban §l<Spieler> §8» §7Zeigt dir alle verfügbaren Banngründe an").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/ban ").build());
+            commandSender.sendMessage(new MessageBuilder("§8" + Prefix.DASH + " §c/ban §l<Spieler> <ID> §8» §7Banne einen Spieler direkt").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/ban ").build());
             commandSender.sendMessage(new MessageBuilder("§8§m--------------------§r").build());
         } else if (strings.length == 1) {
             if (!commandSender.getName().equalsIgnoreCase(strings[0])) {
@@ -66,7 +66,7 @@ public class BanCommand extends Command implements TabExecutor {
 
                                     commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Verfügbare Banngründe§8:").build());
                                     iBanReasons.forEach(iBanReason -> {
-                                        TextComponent tc1 = new MessageBuilder("§8┃ §e" + iBanReason.getId() + " §8» §c" + iBanReason.getName() + " §8» ").build();
+                                        TextComponent tc1 = new MessageBuilder("§8" + Prefix.DASH + " §e" + iBanReason.getId() + " §8» §c" + iBanReason.getName() + " §8» ").build();
                                         TextComponent tc2 = new MessageBuilder("§7[§a§lKlick§7]").addClickEvent(ClickEvent.Action.RUN_COMMAND, "/ban " + targetIPlayer.getPlayerName() + " " + iBanReason.getId()).build();
                                         tc1.addExtra(tc2);
                                         commandSender.sendMessage(tc1);
@@ -116,7 +116,7 @@ public class BanCommand extends Command implements TabExecutor {
 
                                         if (targetIPlayer.isOnline()) {
                                             if (banDuration == -1) {
-                                                ProxyServer.getInstance().getPlayer(uuid).disconnect(new MessageBuilder("§6§o■§r §8┃ §c§lLostName §8● §7the new version of us §8┃ §6§o■§r \n" +
+                                                ProxyServer.getInstance().getPlayer(uuid).disconnect(new MessageBuilder("§6§o■§r §8" + Prefix.DASH + " §c§lLostName §8● §7the new version of us §8" + Prefix.DASH + " §6§o■§r \n" +
                                                         "\n" +
                                                         "§7Du wurdest §4§npermanent§r §7vom Netzwerk §4gebannt§8." +
                                                         "\n" +
@@ -131,7 +131,7 @@ public class BanCommand extends Command implements TabExecutor {
                                                         "\n" +
                                                         "§8§m--------------------------------------§r").build());
                                             } else {
-                                                ProxyServer.getInstance().getPlayer(uuid).disconnect(new MessageBuilder("§6§o■§r §8┃ §c§lLostName §8● §7the new version of us §8┃ §6§o■§r \n" +
+                                                ProxyServer.getInstance().getPlayer(uuid).disconnect(new MessageBuilder("§6§o■§r §8" + Prefix.DASH + " §c§lLostName §8● §7the new version of us §8" + Prefix.DASH + " §6§o■§r \n" +
                                                         "\n" +
                                                         "§7Du wurdest §4temporär §7vom Netzwerk §4gebannt§8." +
                                                         "\n" +

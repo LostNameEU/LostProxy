@@ -1,11 +1,11 @@
 /*
  * Copyright notice
  * Copyright (c) Nils Körting-Eberhardt 2021
- * Created: 01.01.2021 @ 23:40:24
+ * Created: 03.01.2021 @ 00:01:00
  *
  * All contents of this source code are protected by copyright. The copyright is owned by Nils Körting-Eberhardt, unless explicitly stated otherwise. All rights reserved.
  *
- * PreLoginListener.java is part of the lostproxy which is licensed under the Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) license.
+ * PreLoginListener.java is part of the LostProxy which is licensed under the Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) license.
  */
 
 package eu.lostname.lostproxy.listener;
@@ -13,6 +13,7 @@ package eu.lostname.lostproxy.listener;
 import eu.lostname.lostproxy.LostProxy;
 import eu.lostname.lostproxy.builder.MessageBuilder;
 import eu.lostname.lostproxy.interfaces.bkms.IBan;
+import eu.lostname.lostproxy.utils.Prefix;
 import net.md_5.bungee.api.event.LoginEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
@@ -21,14 +22,13 @@ import java.text.SimpleDateFormat;
 
 public class PreLoginListener implements Listener {
 
-    @SuppressWarnings("deprecation")
     @EventHandler
     public void onPreLogin(LoginEvent event) {
         IBan iBan = LostProxy.getInstance().getBanManager().getBan(event.getConnection().getUniqueId());
         if (iBan != null) {
             if (iBan.getEnd() == -1) {
                 event.setCancelled(true);
-                event.setCancelReason(new MessageBuilder("§6§o■§r §8┃ §c§lLostName §8● §7the new version of us §8┃ §6§o■§r \n" +
+                event.setCancelReason(new MessageBuilder("§6§o■§r §8" + Prefix.DASH + " §c§lLostName §8● §7the new version of us §8" + Prefix.DASH + " §6§o■§r \n" +
                         "\n" +
                         "§7Du bist §4§npermanent§r §7vom Netzwerk §4gebannt§8." +
                         "\n" +
@@ -46,7 +46,7 @@ public class PreLoginListener implements Listener {
                 String remainingTime = LostProxy.getInstance().getBanManager().calculateRemainingTime(iBan.getEnd());
 
                 event.setCancelled(true);
-                event.setCancelReason(new MessageBuilder("§6§o■§r §8┃ §c§lLostName §8● §7the new version of us §8┃ §6§o■§r \n" +
+                event.setCancelReason(new MessageBuilder("§6§o■§r §8" + Prefix.DASH + " §c§lLostName §8● §7the new version of us §8" + Prefix.DASH + " §6§o■§r \n" +
                         "\n" +
                         "§7Du bist §4temporär §7vom Netzwerk §4gebannt§8." +
                         "\n" +

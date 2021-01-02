@@ -1,7 +1,7 @@
 /*
  * Copyright notice
  * Copyright (c) Nils Körting-Eberhardt 2021
- * Created: 02.01.2021 @ 23:28:39
+ * Created: 03.01.2021 @ 00:01:00
  *
  * All contents of this source code are protected by copyright. The copyright is owned by Nils Körting-Eberhardt, unless explicitly stated otherwise. All rights reserved.
  *
@@ -35,17 +35,17 @@ public class MuteReasonsCommand extends Command implements TabExecutor {
     public void execute(CommandSender commandSender, String[] strings) {
         if (strings.length == 0 || strings.length == 5 || strings.length >= 7) {
             commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Benutzung von §c§l/mutereasons§8:").build());
-            commandSender.sendMessage(new MessageBuilder("§8┃ §c/mutereasons §llist §8» §7Liste dir alle Mutegruende auf").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/mutereasons list").build());
-            commandSender.sendMessage(new MessageBuilder("§8┃ §c/mutereasons §ladd <ID> <Name> <Zeit> <Zeiteinheit> <Permission> §8» §7Liste dir alle Mutegruende auf").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/mutereasons add NAME ZEIT ZEITEINHEIT PERMISSION").build());
-            commandSender.sendMessage(new MessageBuilder("§8┃ §c/mutereasons §l<ID> §8» §7Zeige Informationen über einen Mutegrund an").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/mutereasons ID").build());
-            commandSender.sendMessage(new MessageBuilder("§8┃ §c/mutereasons §l<ID> set <id,name,time,timeunit,permission> <Wert> §8» §7Bearbeite einen Mutegrund").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/mutereasons ID set ").build());
-            commandSender.sendMessage(new MessageBuilder("§8┃ §c/mutereasons §l<ID> delete §8» §7Lösche einen Mutegrund").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/mutereasons ID set ").build());
+            commandSender.sendMessage(new MessageBuilder("§8" + Prefix.DASH + " §c/mutereasons §llist §8» §7Liste dir alle Mutegruende auf").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/mutereasons list").build());
+            commandSender.sendMessage(new MessageBuilder("§8" + Prefix.DASH + " §c/mutereasons §ladd <ID> <Name> <Zeit> <Zeiteinheit> <Permission> §8» §7Liste dir alle Mutegruende auf").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/mutereasons add NAME ZEIT ZEITEINHEIT PERMISSION").build());
+            commandSender.sendMessage(new MessageBuilder("§8" + Prefix.DASH + " §c/mutereasons §l<ID> §8» §7Zeige Informationen über einen Mutegrund an").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/mutereasons ID").build());
+            commandSender.sendMessage(new MessageBuilder("§8" + Prefix.DASH + " §c/mutereasons §l<ID> set <id,name,time,timeunit,permission> <Wert> §8» §7Bearbeite einen Mutegrund").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/mutereasons ID set ").build());
+            commandSender.sendMessage(new MessageBuilder("§8" + Prefix.DASH + " §c/mutereasons §l<ID> delete §8» §7Lösche einen Mutegrund").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/mutereasons ID set ").build());
             commandSender.sendMessage(new MessageBuilder("§8§m--------------------§r").build());
         } else if (strings.length == 1) {
             if ("list".equals(strings[0])) {
                 if (commandSender.hasPermission("lostproxy.command.mutereasons.list")) {
                     commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Folgende Mutegründe sind registriert§8:").build());
-                    LostProxy.getInstance().getReasonManager().getRegistedMuteReasons().stream().sorted(Comparator.comparingInt(IReason::getId)).forEach(iMuteReason -> commandSender.sendMessage(new MessageBuilder("§8┃ §e" + iMuteReason.getId() + " §8» §e" + iMuteReason.getName()).addClickEvent(ClickEvent.Action.RUN_COMMAND, "/mutereasons " + iMuteReason.getId()).addHoverEvent(HoverEvent.Action.SHOW_TEXT, "§8» §7Klicke diese Nachricht§8, §7um genaue Informationen zu diesem Mutegrund zu erhalten§8.").build()));
+                    LostProxy.getInstance().getReasonManager().getRegistedMuteReasons().stream().sorted(Comparator.comparingInt(IReason::getId)).forEach(iMuteReason -> commandSender.sendMessage(new MessageBuilder("§8" + Prefix.DASH + " §e" + iMuteReason.getId() + " §8» §e" + iMuteReason.getName()).addClickEvent(ClickEvent.Action.RUN_COMMAND, "/mutereasons " + iMuteReason.getId()).addHoverEvent(HoverEvent.Action.SHOW_TEXT, "§8» §7Klicke diese Nachricht§8, §7um genaue Informationen zu diesem Mutegrund zu erhalten§8.").build()));
                 } else {
                     commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Du hast §cnicht §7die erforderlichen Rechte§8, §7um dieses Kommando auszuführen§8.").build());
                 }
@@ -55,10 +55,10 @@ public class MuteReasonsCommand extends Command implements TabExecutor {
 
                     if (iMuteReason != null) {
                         commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Informationen zum angegebenen Mutegrund§8:").build());
-                        commandSender.sendMessage(new MessageBuilder("§8┃ §7Name §8» §c" + iMuteReason.getName()).build());
-                        commandSender.sendMessage(new MessageBuilder("§8┃ §7ID §8» §c" + iMuteReason.getId()).build());
-                        commandSender.sendMessage(new MessageBuilder("§8┃ §7Mutezeit §8» §c" + (iMuteReason.getTime() == -1 ? "permanent" : iMuteReason.getTime() + " " + ETimeUnit.getDisplayName(iMuteReason.getTime(), iMuteReason.getETimeUnit()))).build());
-                        commandSender.sendMessage(new MessageBuilder("§8┃ §7Berechtigung §8» §c" + iMuteReason.getPermission()).build());
+                        commandSender.sendMessage(new MessageBuilder("§8" + Prefix.DASH + " §7Name §8» §c" + iMuteReason.getName()).build());
+                        commandSender.sendMessage(new MessageBuilder("§8" + Prefix.DASH + " §7ID §8» §c" + iMuteReason.getId()).build());
+                        commandSender.sendMessage(new MessageBuilder("§8" + Prefix.DASH + " §7Mutezeit §8» §c" + (iMuteReason.getTime() == -1 ? "permanent" : iMuteReason.getTime() + " " + ETimeUnit.getDisplayName(iMuteReason.getTime(), iMuteReason.getETimeUnit()))).build());
+                        commandSender.sendMessage(new MessageBuilder("§8" + Prefix.DASH + " §7Berechtigung §8» §c" + iMuteReason.getPermission()).build());
                         commandSender.sendMessage(new MessageBuilder("§8§m--------------------§r").build());
 
                     } else {

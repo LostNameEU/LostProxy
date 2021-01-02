@@ -1,7 +1,7 @@
 /*
  * Copyright notice
  * Copyright (c) Nils Körting-Eberhardt 2021
- * Created: 02.01.2021 @ 23:45:11
+ * Created: 03.01.2021 @ 00:01:00
  *
  * All contents of this source code are protected by copyright. The copyright is owned by Nils Körting-Eberhardt, unless explicitly stated otherwise. All rights reserved.
  *
@@ -20,4 +20,5 @@ public class Prefix {
     public static final String TEAMSPEAK = "§8┃ §b§lTeamSpeak §8» §7";
     public static final String TMS = "§8┃ §a§lTMS §8» §7";
     public static final String FRIENDS = "§8┃ §c§lFreunde §8» §7";
+    public static final String DASH = "┃";
 }

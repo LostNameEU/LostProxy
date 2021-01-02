@@ -1,7 +1,7 @@
 /*
  * Copyright notice
  * Copyright (c) Nils Körting-Eberhardt 2021
- * Created: 02.01.2021 @ 23:21:05
+ * Created: 03.01.2021 @ 00:01:00
  *
  * All contents of this source code are protected by copyright. The copyright is owned by Nils Körting-Eberhardt, unless explicitly stated otherwise. All rights reserved.
  *
@@ -44,8 +44,8 @@ public class PostLoginListener implements Listener {
             LostProxy.getInstance().getHistoryManager().saveBanHistory(iBanHistory);
             LostProxy.getInstance().getTeamManager().getNotificationOn().forEach(all -> {
                 all.sendMessage(new MessageBuilder(Prefix.BKMS + "§4BKM-System" + " §8➼ " + iPlayer.getDisplay() + player.getName()).build());
-                all.sendMessage(new MessageBuilder("§8┃ §7Typ §8» §aUnban").build());
-                all.sendMessage(new MessageBuilder("§8┃ §7Grund §8» §eAbgelaufen").build());
+                all.sendMessage(new MessageBuilder("§8" + Prefix.DASH + " §7Typ §8» §aUnban").build());
+                all.sendMessage(new MessageBuilder("§8" + Prefix.DASH + " §7Grund §8» §eAbgelaufen").build());
                 all.sendMessage(new MessageBuilder("§8§m--------------------§r").build());
             });
         }
