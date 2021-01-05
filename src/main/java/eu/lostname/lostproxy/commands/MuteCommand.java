@@ -1,7 +1,7 @@
 /*
  * Copyright notice
  * Copyright (c) Nils Körting-Eberhardt 2021
- * Created: 03.01.2021 @ 00:01:00
+ * Created: 05.01.2021 @ 11:22:51
  *
  * All contents of this source code are protected by copyright. The copyright is owned by Nils Körting-Eberhardt, unless explicitly stated otherwise. All rights reserved.
  *
@@ -46,9 +46,9 @@ public class MuteCommand extends Command implements TabExecutor {
     @Override
     public void execute(CommandSender commandSender, String[] strings) {
         if (strings.length == 0) {
-            commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Benutzung von §c§l/mute§8:").build());
-            commandSender.sendMessage(new MessageBuilder("§8" + Prefix.DASH + " §c/mute §l<Spieler> §8» §7Zeigt dir alle verfügbaren Mutegründe an").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/mute ").build());
-            commandSender.sendMessage(new MessageBuilder("§8" + Prefix.DASH + " §c/mute §l<Spieler> <ID> §8» §7Mute einen Spieler direkt").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/mute ").build());
+            commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Benutzung von §c/mute§8:").build());
+            commandSender.sendMessage(new MessageBuilder("§8» §c/mute <Spieler> §8" + Prefix.DASH + " §7Zeigt dir alle verfügbaren Mutegründe an").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/mute ").build());
+            commandSender.sendMessage(new MessageBuilder("§8» §c/mute <Spieler> <ID> §8" + Prefix.DASH + " §7Mute einen Spieler direkt").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/mute ").build());
             commandSender.sendMessage(new MessageBuilder("§8§m--------------------§r").build());
         } else if (strings.length == 1) {
             if (!commandSender.getName().equalsIgnoreCase(strings[0])) {
@@ -66,7 +66,7 @@ public class MuteCommand extends Command implements TabExecutor {
 
                                     commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Verfügbare Mutegründe§8:").build());
                                     iMuteReasons.forEach(iMuteReason -> {
-                                        TextComponent tc1 = new MessageBuilder("§8" + Prefix.DASH + " §e" + iMuteReason.getId() + " §8» §c" + iMuteReason.getName() + " §8» ").build();
+                                        TextComponent tc1 = new MessageBuilder("§8» §e" + iMuteReason.getId() + " §8» §c" + iMuteReason.getName() + " §8» ").build();
                                         TextComponent tc2 = new MessageBuilder("§7[§a§lKlick§7]").addClickEvent(ClickEvent.Action.RUN_COMMAND, "/mute " + targetIPlayer.getPlayerName() + " " + iMuteReason.getId()).build();
                                         tc1.addExtra(tc2);
                                         commandSender.sendMessage(tc1);
@@ -117,13 +117,13 @@ public class MuteCommand extends Command implements TabExecutor {
                                         if (targetIPlayer.isOnline()) {
                                             if (muteDuration == -1) {
                                                 ProxyServer.getInstance().getPlayer(uuid).sendMessage(new MessageBuilder(Prefix.BKMS + "Du wurdest §4permanent §7gemutet§8.").build());
-                                                ProxyServer.getInstance().getPlayer(uuid).sendMessage(new MessageBuilder("§8" + Prefix.DASH + " §7Grund §8» §c" + mute.getReason()).build());
+                                                ProxyServer.getInstance().getPlayer(uuid).sendMessage(new MessageBuilder("§8» §7Grund §8» §c" + mute.getReason()).build());
                                                 ProxyServer.getInstance().getPlayer(uuid).sendMessage(new MessageBuilder("§8§m--------------------§r").build());
                                             } else {
                                                 ProxyServer.getInstance().getPlayer(uuid).sendMessage(new MessageBuilder(Prefix.BKMS + "Du wurdest §ctemporär §7gemutet§8.").build());
-                                                ProxyServer.getInstance().getPlayer(uuid).sendMessage(new MessageBuilder("§8" + Prefix.DASH + " §7Grund §8» §c" + mute.getReason()).build());
-                                                ProxyServer.getInstance().getPlayer(uuid).sendMessage(new MessageBuilder("§8" + Prefix.DASH + " §7Verleibende Zeit §8» §c" + LostProxy.getInstance().getMuteManager().calculateRemainingTime(mute.getEnd())).build());
-                                                ProxyServer.getInstance().getPlayer(uuid).sendMessage(new MessageBuilder("§8" + Prefix.DASH + " §7Läuft ab am §8» §c" + new SimpleDateFormat("dd.MM.yyyy").format(mute.getEnd()) + " §7um §c" + new SimpleDateFormat("HH:mm:ss").format(mute.getEnd()) + " §7Uhr").build());
+                                                ProxyServer.getInstance().getPlayer(uuid).sendMessage(new MessageBuilder("§8» §7Grund §8» §c" + mute.getReason()).build());
+                                                ProxyServer.getInstance().getPlayer(uuid).sendMessage(new MessageBuilder("§8» §7Verleibende Zeit §8» §c" + LostProxy.getInstance().getMuteManager().calculateRemainingTime(mute.getEnd())).build());
+                                                ProxyServer.getInstance().getPlayer(uuid).sendMessage(new MessageBuilder("§8» §7Läuft ab am §8» §c" + new SimpleDateFormat("dd.MM.yyyy").format(mute.getEnd()) + " §7um §c" + new SimpleDateFormat("HH:mm:ss").format(mute.getEnd()) + " §7Uhr").build());
                                                 ProxyServer.getInstance().getPlayer(uuid).sendMessage(new MessageBuilder("§8§m--------------------§r").build());
                                             }
                                         }

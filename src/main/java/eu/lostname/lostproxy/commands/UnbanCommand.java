@@ -1,7 +1,7 @@
 /*
  * Copyright notice
  * Copyright (c) Nils Körting-Eberhardt 2021
- * Created: 03.01.2021 @ 00:01:00
+ * Created: 05.01.2021 @ 11:22:52
  *
  * All contents of this source code are protected by copyright. The copyright is owned by Nils Körting-Eberhardt, unless explicitly stated otherwise. All rights reserved.
  *
@@ -37,8 +37,8 @@ public class UnbanCommand extends Command implements TabExecutor {
     @Override
     public void execute(CommandSender commandSender, String[] strings) {
         if (strings.length <= 1) {
-            commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Benutzung von §c§l/unban§8:").build());
-            commandSender.sendMessage(new MessageBuilder("§8" + Prefix.DASH + " §c/unban §l<Spieler> [Grund] §8» §7Entbannt einen gebannten Spieler").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/unban ").build());
+            commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Benutzung von §c/unban§8:").build());
+            commandSender.sendMessage(new MessageBuilder("§8» §c/unban <Spieler> [Grund] §8" + Prefix.DASH + " §7Entbannt einen gebannten Spieler").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/unban ").build());
             commandSender.sendMessage(new MessageBuilder("§8§m--------------------§r").build());
         } else {
             UUID uuid = LostProxy.getInstance().getPlayerManager().getUUIDofPlayername(strings[0]);

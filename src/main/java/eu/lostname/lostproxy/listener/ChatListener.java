@@ -1,7 +1,7 @@
 /*
  * Copyright notice
  * Copyright (c) Nils Körting-Eberhardt 2021
- * Created: 03.01.2021 @ 00:01:00
+ * Created: 05.01.2021 @ 11:22:52
  *
  * All contents of this source code are protected by copyright. The copyright is owned by Nils Körting-Eberhardt, unless explicitly stated otherwise. All rights reserved.
  *
@@ -43,16 +43,16 @@ public class ChatListener implements Listener {
                             return;
                         }
                         player.sendMessage(new MessageBuilder(Prefix.BKMS + "Du bist §4permanent §7gemutet§8.").build());
-                        player.sendMessage(new MessageBuilder("§8" + Prefix.DASH + " §7Grund §8» §c" + iMute.getReason()).build());
+                        player.sendMessage(new MessageBuilder("§8» §7Grund §8» §c" + iMute.getReason()).build());
                         player.sendMessage(new MessageBuilder("§8§m--------------------§r").build());
                     } else if (iMute.getEnd() > System.currentTimeMillis()) {
                         if (player.hasPermission("lostproxy.bkms.bypasschat")) {
                             return;
                         }
                         player.sendMessage(new MessageBuilder(Prefix.BKMS + "Du bist §ctemporär §7gemutet§8.").build());
-                        player.sendMessage(new MessageBuilder("§8" + Prefix.DASH + " §7Grund §8» §c" + iMute.getReason()).build());
-                        player.sendMessage(new MessageBuilder("§8" + Prefix.DASH + " §7Verleibende Zeit §8» §c" + LostProxy.getInstance().getMuteManager().calculateRemainingTime(iMute.getEnd())).build());
-                        player.sendMessage(new MessageBuilder("§8" + Prefix.DASH + " §7Läuft ab am §8» §c" + new SimpleDateFormat("dd.MM.yyyy").format(iMute.getEnd()) + " §7um §c" + new SimpleDateFormat("HH:mm:ss").format(iMute.getEnd()) + " §7Uhr").build());
+                        player.sendMessage(new MessageBuilder("§8» §7Grund §8» §c" + iMute.getReason()).build());
+                        player.sendMessage(new MessageBuilder("§8» §7Verleibende Zeit §8» §c" + LostProxy.getInstance().getMuteManager().calculateRemainingTime(iMute.getEnd())).build());
+                        player.sendMessage(new MessageBuilder("§8» §7Läuft ab am §8» §c" + new SimpleDateFormat("dd.MM.yyyy").format(iMute.getEnd()) + " §7um §c" + new SimpleDateFormat("HH:mm:ss").format(iMute.getEnd()) + " §7Uhr").build());
                         player.sendMessage(new MessageBuilder("§8§m--------------------§r").build());
                     } else if (iMute.getEnd() < System.currentTimeMillis()) {
                         LostProxy.getInstance().getMuteManager().deleteMute(iMute);
@@ -61,8 +61,8 @@ public class ChatListener implements Listener {
                         LostProxy.getInstance().getHistoryManager().saveMuteHistory(iMuteHistory);
                         LostProxy.getInstance().getTeamManager().getNotificationOn().forEach(all -> {
                             all.sendMessage(new MessageBuilder(Prefix.BKMS + "§4BKM-System" + " §8➼ " + iPlayer.getDisplay() + player.getName()).build());
-                            all.sendMessage(new MessageBuilder("§8" + Prefix.DASH + " §7Typ §8» §aUnmute").build());
-                            all.sendMessage(new MessageBuilder("§8" + Prefix.DASH + " §7Grund §8» §eAbgelaufen").build());
+                            all.sendMessage(new MessageBuilder("§8» §7Typ §8» §aUnmute").build());
+                            all.sendMessage(new MessageBuilder("§8» §7Grund §8» §eAbgelaufen").build());
                             all.sendMessage(new MessageBuilder("§8§m--------------------§r").build());
                         });
                     }

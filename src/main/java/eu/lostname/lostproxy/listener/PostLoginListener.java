@@ -1,7 +1,7 @@
 /*
  * Copyright notice
  * Copyright (c) Nils Körting-Eberhardt 2021
- * Created: 03.01.2021 @ 00:01:00
+ * Created: 05.01.2021 @ 11:22:52
  *
  * All contents of this source code are protected by copyright. The copyright is owned by Nils Körting-Eberhardt, unless explicitly stated otherwise. All rights reserved.
  *
@@ -44,21 +44,21 @@ public class PostLoginListener implements Listener {
             LostProxy.getInstance().getHistoryManager().saveBanHistory(iBanHistory);
             LostProxy.getInstance().getTeamManager().getNotificationOn().forEach(all -> {
                 all.sendMessage(new MessageBuilder(Prefix.BKMS + "§4BKM-System" + " §8➼ " + iPlayer.getDisplay() + player.getName()).build());
-                all.sendMessage(new MessageBuilder("§8" + Prefix.DASH + " §7Typ §8» §aUnban").build());
-                all.sendMessage(new MessageBuilder("§8" + Prefix.DASH + " §7Grund §8» §eAbgelaufen").build());
+                all.sendMessage(new MessageBuilder("§8» §7Typ §8» §aUnban").build());
+                all.sendMessage(new MessageBuilder("§8» §7Grund §8» §eAbgelaufen").build());
                 all.sendMessage(new MessageBuilder("§8§m--------------------§r").build());
             });
         }
 
         if (player.hasPermission("lostproxy.notify")) {
             if (LostProxy.getInstance().getTeamManager().enableNotifications(player)) {
-                player.sendMessage(new MessageBuilder(Prefix.NOTIFICATIONS + "§7Du erhälst nun §a§lBenachrichtigungen§8.").build());
+                player.sendMessage(new MessageBuilder(Prefix.NOTIFICATIONS + "§7Du erhälst nun §aBenachrichtigungen§8.").build());
             }
         }
 
         if (player.hasPermission("lostproxy.command.team") && player.hasPermission("lostproxy.command.team.login")) {
             if (LostProxy.getInstance().getTeamManager().login(player)) {
-                player.sendMessage(new MessageBuilder(Prefix.TMS + "§7Du wurdest soeben §a§leingeloggt§8.").build());
+                player.sendMessage(new MessageBuilder(Prefix.TMS + "§7Du wurdest soeben §aeingeloggt§8.").build());
                 LostProxy.getInstance().getTeamManager().getLoggedIn().forEach(all -> all.sendMessage(new MessageBuilder(Prefix.TMS + iPlayer.getDisplay() + iPlayer.getPlayerName() + " §7hat das Netzwerk §abetreten§8.").build()));
             }
         }

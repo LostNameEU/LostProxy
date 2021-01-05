@@ -1,7 +1,7 @@
 /*
  * Copyright notice
  * Copyright (c) Nils Körting-Eberhardt 2021
- * Created: 03.01.2021 @ 00:01:00
+ * Created: 05.01.2021 @ 11:22:51
  *
  * All contents of this source code are protected by copyright. The copyright is owned by Nils Körting-Eberhardt, unless explicitly stated otherwise. All rights reserved.
  *
@@ -33,8 +33,8 @@ public class KickHistoryClearCommand extends Command implements TabExecutor {
     @Override
     public void execute(CommandSender commandSender, String[] strings) {
         if (strings.length == 0) {
-            commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Benutzung von §c§l/khclear§8:").build());
-            commandSender.sendMessage(new MessageBuilder("§8" + Prefix.DASH + " §c/khclear §l<Spieler> §8» §7Leert die Kick-History des angegebenen Spielers").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/khclear ").build());
+            commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Benutzung von §c/khclear§8:").build());
+            commandSender.sendMessage(new MessageBuilder("§8» §c/khclear <Spieler> §8" + Prefix.DASH + " §7Leert die Kick-History des angegebenen Spielers").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/khclear ").build());
             commandSender.sendMessage(new MessageBuilder("§8§m--------------------§r").build());
         } else if (strings.length == 1) {
             UUID targetUUID = LostProxy.getInstance().getPlayerManager().getUUIDofPlayername(strings[0]);
@@ -43,7 +43,7 @@ public class KickHistoryClearCommand extends Command implements TabExecutor {
                 IKickHistory iKickHistory = LostProxy.getInstance().getHistoryManager().getKickHistory(targetUUID);
                 if (iKickHistory.getHistory().size() > 0) {
                     commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Möchtest du wirklich die §eKick-History §7von " + targetiPlayer.getDisplay() + targetiPlayer.getPlayerName() + " §clöschen§8?").build());
-                    commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "§7[§a§lKlick§7]").addClickEvent(ClickEvent.Action.RUN_COMMAND, "/khclear " + strings[0] + " confirmed").build());
+                    commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "§7[§aKlick§7]").addClickEvent(ClickEvent.Action.RUN_COMMAND, "/khclear " + strings[0] + " confirmed").build());
                     if (!LostProxy.getInstance().getHistoryManager().getKickHistoryClearCommandProcess().contains(commandSender.getName())) {
                         LostProxy.getInstance().getHistoryManager().getKickHistoryClearCommandProcess().add(commandSender.getName());
                     }

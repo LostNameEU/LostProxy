@@ -1,7 +1,7 @@
 /*
  * Copyright notice
  * Copyright (c) Nils Körting-Eberhardt 2021
- * Created: 03.01.2021 @ 00:01:00
+ * Created: 05.01.2021 @ 11:22:52
  *
  * All contents of this source code are protected by copyright. The copyright is owned by Nils Körting-Eberhardt, unless explicitly stated otherwise. All rights reserved.
  *
@@ -41,21 +41,21 @@ public class TSCommand extends Command implements TabExecutor {
             ProxiedPlayer player = (ProxiedPlayer) commandSender;
 
             if (strings.length == 0) {
-                player.sendMessage(new MessageBuilder(Prefix.TEAMSPEAK + "Benutzung von §b§l/ts§8:").build());
-                player.sendMessage(new MessageBuilder("§8" + Prefix.DASH + " §b/ts §lset <Identität> §8» §7Verknüfe manuell deine TeamSpeak Identität").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/ts set ").build());
-                player.sendMessage(new MessageBuilder("§8" + Prefix.DASH + " §b/ts §lunlink §8» §7Hebe die Teamspeak-Verknüpfung auf").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/ts unlink").build());
-                player.sendMessage(new MessageBuilder("§8" + Prefix.DASH + " §b/ts §linfo §8» §7Zeige dir Informationen zu deiner TeamSpeak Verknüfung an").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/ts info").build());
+                player.sendMessage(new MessageBuilder(Prefix.TEAMSPEAK + "Benutzung von §b/ts§8:").build());
+                player.sendMessage(new MessageBuilder("§8» §b/ts set <Identität> §8" + Prefix.DASH + " §7Verknüfe manuell deine TeamSpeak Identität").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/ts set ").build());
+                player.sendMessage(new MessageBuilder("§8» §b/ts unlink §8" + Prefix.DASH + " §7Hebe die Teamspeak-Verknüpfung auf").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/ts unlink").build());
+                player.sendMessage(new MessageBuilder("§8» §b/ts info §8" + Prefix.DASH + " §7Zeige dir Informationen zu deiner TeamSpeak Verknüfung an").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/ts info").build());
                 if (player.hasPermission("lostproxy.command.ts.iinfo")) {
-                    player.sendMessage(new MessageBuilder("§8" + Prefix.DASH + " §b/ts §liinfo <Identität> §8» §7Lasse dir Informationen zu einer TeamSpeak Identität anzeigen").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/ts iinfo ").build());
+                    player.sendMessage(new MessageBuilder("§8» §b/ts iinfo <Identität> §8" + Prefix.DASH + " §7Lasse dir Informationen zu einer TeamSpeak Identität anzeigen").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/ts iinfo ").build());
                 }
                 if (player.hasPermission("lostproxy.command.ts.ninfo")) {
-                    player.sendMessage(new MessageBuilder("§8" + Prefix.DASH + " §b/ts §lninfo <Spielernamen> §8» §7Lasse dir Informationen zu einem Spielernamen anzeigen").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/ts ninfo ").build());
+                    player.sendMessage(new MessageBuilder("§8» §b/ts ninfo <Spielernamen> §8" + Prefix.DASH + " §7Lasse dir Informationen zu einem Spielernamen anzeigen").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/ts ninfo ").build());
                 }
                 if (player.hasPermission("lostproxy.command.ts.delete")) {
-                    player.sendMessage(new MessageBuilder("§8" + Prefix.DASH + " §b/ts §ldelete <Name> §8» §7Lösche die TeamSpeak Verknüpfung eines anderen Spielers").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/ts delete Name").build());
+                    player.sendMessage(new MessageBuilder("§8» §b/ts delete <Name> §8" + Prefix.DASH + " §7Lösche die TeamSpeak Verknüpfung eines anderen Spielers").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/ts delete Name").build());
                 }
                 if (player.hasPermission("lostproxy.command.ts.set")) {
-                    player.sendMessage(new MessageBuilder("§8" + Prefix.DASH + " §b/ts §lset <Rang> <ID> §8» §7Setzte einer Permission-Gruppe die dazugehörige TS-Servergruppen-ID").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/ts set ").build());
+                    player.sendMessage(new MessageBuilder("§8» §b/ts set <Rang> <ID> §8" + Prefix.DASH + " §7Setzte einer Permission-Gruppe die dazugehörige TS-Servergruppen-ID").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/ts set ").build());
                 }
                 player.sendMessage(new MessageBuilder("§8§m--------------------§r").build());
             } else if (strings.length == 1) {
@@ -72,8 +72,8 @@ public class TSCommand extends Command implements TabExecutor {
                     case "info":
                         if (iTeamSpeakLinkage != null) {
                             player.sendMessage(new MessageBuilder(Prefix.TEAMSPEAK + "Verknüpfungsinformationen§8:").build());
-                            player.sendMessage(new MessageBuilder("§8" + Prefix.DASH + " §7TeamSpeak-Identität §8» §b" + iTeamSpeakLinkage.getIdentity()).build());
-                            player.sendMessage(new MessageBuilder("§8" + Prefix.DASH + " §7Zeitstempel §8» §7Am §b" + new SimpleDateFormat("dd.MM.yyyy").format(iTeamSpeakLinkage.getCreationTimestamp()) + " §7um §b" + new SimpleDateFormat("HH:mm:ss").format(iTeamSpeakLinkage.getCreationTimestamp()) + " §7Uhr").build());
+                            player.sendMessage(new MessageBuilder("§8» §7TeamSpeak-Identität §8" + Prefix.DASH + " §b" + iTeamSpeakLinkage.getIdentity()).build());
+                            player.sendMessage(new MessageBuilder("§8» §7Zeitstempel §8" + Prefix.DASH + " §7Am §b" + new SimpleDateFormat("dd.MM.yyyy").format(iTeamSpeakLinkage.getCreationTimestamp()) + " §7um §b" + new SimpleDateFormat("HH:mm:ss").format(iTeamSpeakLinkage.getCreationTimestamp()) + " §7Uhr").build());
                             player.sendMessage(new MessageBuilder("§8§m--------------------§r").build());
                         } else {
                             player.sendMessage(new MessageBuilder(Prefix.TEAMSPEAK + "Du hast deinen Minecraft-Account §cnicht §7mit einer TeamSpeak-Identität §everknüpft§8.").build());
@@ -106,9 +106,9 @@ public class TSCommand extends Command implements TabExecutor {
                             if (iTeamSpeakLinkage != null) {
                                 IPlayerSync iPlayer = new IPlayerSync(iTeamSpeakLinkage.getUuid());
                                 player.sendMessage(new MessageBuilder(Prefix.TEAMSPEAK + "Verknüpfungsinformationen§8:").build());
-                                player.sendMessage(new MessageBuilder("§8" + Prefix.DASH + " §7TeamSpeak-Identität §8» §b" + iTeamSpeakLinkage.getIdentity()).addClickEvent(ClickEvent.Action.COPY_TO_CLIPBOARD, iTeamSpeakLinkage.getIdentity()).build());
-                                player.sendMessage(new MessageBuilder("§8" + Prefix.DASH + " §7Minecraft-Account §8» " + iPlayer.getDisplay() + iPlayer.getPlayerName()).build());
-                                player.sendMessage(new MessageBuilder("§8" + Prefix.DASH + " §7Zeitstempel §8» §7Am §b" + new SimpleDateFormat("dd.MM.yyyy").format(iTeamSpeakLinkage.getCreationTimestamp()) + " §7um §b" + new SimpleDateFormat("HH:mm:ss").format(iTeamSpeakLinkage.getCreationTimestamp()) + " §7Uhr").build());
+                                player.sendMessage(new MessageBuilder("§8» §7TeamSpeak-Identität §8" + Prefix.DASH + " §b" + iTeamSpeakLinkage.getIdentity()).addClickEvent(ClickEvent.Action.COPY_TO_CLIPBOARD, iTeamSpeakLinkage.getIdentity()).build());
+                                player.sendMessage(new MessageBuilder("§8» §7Minecraft-Account §8" + Prefix.DASH + " " + iPlayer.getDisplay() + iPlayer.getPlayerName()).build());
+                                player.sendMessage(new MessageBuilder("§8» §7Zeitstempel §8" + Prefix.DASH + " §7Am §b" + new SimpleDateFormat("dd.MM.yyyy").format(iTeamSpeakLinkage.getCreationTimestamp()) + " §7um §b" + new SimpleDateFormat("HH:mm:ss").format(iTeamSpeakLinkage.getCreationTimestamp()) + " §7Uhr").build());
                                 player.sendMessage(new MessageBuilder("§8§m--------------------§r").build());
                             } else {
                                 player.sendMessage(new MessageBuilder(Prefix.TEAMSPEAK + "Die angegebene Identität ist mit §ckeinem §7Minecraft-Account verknüpft§8.").build());
@@ -125,9 +125,9 @@ public class TSCommand extends Command implements TabExecutor {
                                 if (iTeamSpeakLinkage != null) {
                                     IPlayerSync iPlayer = new IPlayerSync(uuid);
                                     player.sendMessage(new MessageBuilder(Prefix.TEAMSPEAK + "Verknüpfungsinformationen§8:").build());
-                                    player.sendMessage(new MessageBuilder("§8" + Prefix.DASH + " §7Minecraft-Account §8» " + iPlayer.getDisplay() + iPlayer.getPlayerName()).build());
-                                    player.sendMessage(new MessageBuilder("§8" + Prefix.DASH + " §7TeamSpeak-Identität §8» §b" + iTeamSpeakLinkage.getIdentity()).addClickEvent(ClickEvent.Action.COPY_TO_CLIPBOARD, iTeamSpeakLinkage.getIdentity()).build());
-                                    player.sendMessage(new MessageBuilder("§8" + Prefix.DASH + " §7Zeitstempel §8» §7Am §b" + new SimpleDateFormat("dd.MM.yyyy").format(iTeamSpeakLinkage.getCreationTimestamp()) + " §7um §b" + new SimpleDateFormat("HH:mm:ss").format(iTeamSpeakLinkage.getCreationTimestamp()) + " §7Uhr").build());
+                                    player.sendMessage(new MessageBuilder("§8» §7Minecraft-Account §8" + Prefix.DASH + " " + iPlayer.getDisplay() + iPlayer.getPlayerName()).build());
+                                    player.sendMessage(new MessageBuilder("§8» §7TeamSpeak-Identität §8" + Prefix.DASH + " §b" + iTeamSpeakLinkage.getIdentity()).addClickEvent(ClickEvent.Action.COPY_TO_CLIPBOARD, iTeamSpeakLinkage.getIdentity()).build());
+                                    player.sendMessage(new MessageBuilder("§8» §7Zeitstempel §8" + Prefix.DASH + " §7Am §b" + new SimpleDateFormat("dd.MM.yyyy").format(iTeamSpeakLinkage.getCreationTimestamp()) + " §7um §b" + new SimpleDateFormat("HH:mm:ss").format(iTeamSpeakLinkage.getCreationTimestamp()) + " §7Uhr").build());
                                     player.sendMessage(new MessageBuilder("§8§m--------------------§r").build());
                                 } else {
                                     player.sendMessage(new MessageBuilder(Prefix.TEAMSPEAK + "Dieser Minecraft-Account hat §ckeine §7TeamSpeak-Identität §7verknüpft§8.").build());
@@ -203,20 +203,20 @@ public class TSCommand extends Command implements TabExecutor {
 
     /*
                     player.sendMessage(new MessageBuilder(Prefix.TEAMSPEAK + "Benutzung von §b/ts§8:").build());
-                player.sendMessage(new MessageBuilder("§8" + Prefix.DASH + " §b/ts set <Identität> §8» §7Verknüfe manuell deine TeamSpeak Identität").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/ts set ").build());
-                player.sendMessage(new MessageBuilder("§8" + Prefix.DASH + " §b/ts unlink §8» §7Hebe die Teamspeak-Verknüpfung auf").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/ts unlink").build());
-                player.sendMessage(new MessageBuilder("§8" + Prefix.DASH + " §b/ts info §8» §7Zeige dir Informationen zu deiner TeamSpeak Verknüfung an").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/ts info").build());
+                player.sendMessage(new MessageBuilder("§8» §b/ts set <Identität> §8» §7Verknüfe manuell deine TeamSpeak Identität").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/ts set ").build());
+                player.sendMessage(new MessageBuilder("§8» §b/ts unlink §8» §7Hebe die Teamspeak-Verknüpfung auf").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/ts unlink").build());
+                player.sendMessage(new MessageBuilder("§8» §b/ts info §8» §7Zeige dir Informationen zu deiner TeamSpeak Verknüfung an").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/ts info").build());
                 if (player.hasPermission("lostproxy.command.ts.iinfo")) {
-                    player.sendMessage(new MessageBuilder("§8" + Prefix.DASH + " §b/ts iinfo <Identität> §8» §7Lasse dir Informationen zu einer TeamSpeak Identität anzeigen").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/ts iinfo ").build());
+                    player.sendMessage(new MessageBuilder("§8» §b/ts iinfo <Identität> §8» §7Lasse dir Informationen zu einer TeamSpeak Identität anzeigen").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/ts iinfo ").build());
                 }
                 if (player.hasPermission("lostproxy.command.ts.ninfo")) {
-                    player.sendMessage(new MessageBuilder("§8" + Prefix.DASH + " §b/ts ninfo <Spielernamen> §8» §7Lasse dir Informationen zu einem Spielernamen anzeigen").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/ts ninfo ").build());
+                    player.sendMessage(new MessageBuilder("§8» §b/ts ninfo <Spielernamen> §8» §7Lasse dir Informationen zu einem Spielernamen anzeigen").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/ts ninfo ").build());
                 }
                 if (player.hasPermission("lostproxy.command.ts.delete")) {
-                    player.sendMessage(new MessageBuilder("§8" + Prefix.DASH + " §b/ts delete <Name> §8» §7Lösche die TeamSpeak Verknüpfung eines anderen Spielers").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/ts delete Name").build());
+                    player.sendMessage(new MessageBuilder("§8» §b/ts delete <Name> §8» §7Lösche die TeamSpeak Verknüpfung eines anderen Spielers").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/ts delete Name").build());
                 }
                 if (player.hasPermission("lostproxy.command.ts.set")) {
-                    player.sendMessage(new MessageBuilder("§8" + Prefix.DASH + " §b/ts set <Rang> <ID> §8» §7Setzte einer Permission-Gruppe die dazugehörige TS-Servergruppen-ID").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/ts set ").build());
+                    player.sendMessage(new MessageBuilder("§8» §b/ts set <Rang> <ID> §8» §7Setzte einer Permission-Gruppe die dazugehörige TS-Servergruppen-ID").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/ts set ").build());
                 }
                 player.sendMessage(new MessageBuilder("§8§m--------------------§r").build());
      */

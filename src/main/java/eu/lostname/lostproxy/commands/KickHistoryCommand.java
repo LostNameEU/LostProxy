@@ -1,7 +1,7 @@
 /*
  * Copyright notice
  * Copyright (c) Nils Körting-Eberhardt 2021
- * Created: 03.01.2021 @ 00:01:00
+ * Created: 05.01.2021 @ 11:22:51
  *
  * All contents of this source code are protected by copyright. The copyright is owned by Nils Körting-Eberhardt, unless explicitly stated otherwise. All rights reserved.
  *
@@ -37,8 +37,8 @@ public class KickHistoryCommand extends Command implements TabExecutor {
     @Override
     public void execute(CommandSender commandSender, String[] strings) {
         if (strings.length == 0) {
-            commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Benutzung von §c§l/kickhistory§8:").build());
-            commandSender.sendMessage(new MessageBuilder("§8" + Prefix.DASH + " §c/kickhistory §l<Spieler> §8» §7Zeigt dir die History-Einträge eines Spielers").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/kickinfo ").build());
+            commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Benutzung von §c/kickhistory§8:").build());
+            commandSender.sendMessage(new MessageBuilder("§8» §c/kickhistory <Spieler> §8" + Prefix.DASH + " §7Zeigt dir die History-Einträge eines Spielers").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/kickinfo ").build());
             commandSender.sendMessage(new MessageBuilder("§8§m--------------------§r").build());
         } else if (strings.length == 1) {
             UUID targetUUID = LostProxy.getInstance().getPlayerManager().getUUIDofPlayername(strings[0]);
@@ -47,7 +47,7 @@ public class KickHistoryCommand extends Command implements TabExecutor {
                 IPlayerSync iPlayer = new IPlayerSync(targetUUID);
                 if (iKickHistory.getHistory().size() > 0) {
                     commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Kicks von " + iPlayer.getDisplay() + iPlayer.getPlayerName() + "§8:").build());
-                    commandSender.sendMessage(new MessageBuilder("§8" + Prefix.DASH + " §7Anzahl §8» §c" + iKickHistory.getHistory().size()).build());
+                    commandSender.sendMessage(new MessageBuilder("§8» §7Anzahl §8" + Prefix.DASH + " §c" + iKickHistory.getHistory().size()).build());
                     AtomicInteger currentEntry = new AtomicInteger(-1);
 
                     iKickHistory.getHistory().stream().sorted(Comparator.comparingLong(IEntry::getTimestamp)).forEach(iKickEntry -> {
@@ -55,10 +55,10 @@ public class KickHistoryCommand extends Command implements TabExecutor {
                         String time = new SimpleDateFormat("HH:mm:ss").format(new Date(iKickEntry.getTimestamp()));
 
                         if (iKickEntry.getInvokerId().equalsIgnoreCase("console")) {
-                            commandSender.sendMessage(new MessageBuilder("§8" + Prefix.DASH + " §e" + date + " §7@ §e" + time + " §8» §4Konsole §8» §c" + iKickEntry.getReason()).build());
+                            commandSender.sendMessage(new MessageBuilder("§8» §e" + date + " §7@ §e" + time + " §8" + Prefix.DASH + " §4Konsole §8» §c" + iKickEntry.getReason()).build());
                         } else {
                             IPlayerSync invokerIPlayer = new IPlayerSync(UUID.fromString(iKickEntry.getInvokerId()));
-                            commandSender.sendMessage(new MessageBuilder("§8" + Prefix.DASH + " §e" + date + " §7@ §e" + time + " §8» " + invokerIPlayer.getDisplay() + invokerIPlayer.getPlayerName() + " §8» §c" + iKickEntry.getReason()).build());
+                            commandSender.sendMessage(new MessageBuilder("§8» §e" + date + " §7@ §e" + time + " §8" + Prefix.DASH + " " + invokerIPlayer.getDisplay() + invokerIPlayer.getPlayerName() + " §8» §c" + iKickEntry.getReason()).build());
                         }
 
                         currentEntry.set(currentEntry.get() + 1);

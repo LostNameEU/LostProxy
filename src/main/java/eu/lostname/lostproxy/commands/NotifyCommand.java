@@ -1,7 +1,7 @@
 /*
  * Copyright notice
  * Copyright (c) Nils Körting-Eberhardt 2021
- * Created: 02.01.2021 @ 23:28:39
+ * Created: 05.01.2021 @ 11:22:51
  *
  * All contents of this source code are protected by copyright. The copyright is owned by Nils Körting-Eberhardt, unless explicitly stated otherwise. All rights reserved.
  *
@@ -30,13 +30,13 @@ public class NotifyCommand extends Command {
 
             if (LostProxy.getInstance().getTeamManager().hasNotificationsEnabled(player)) {
                 if (LostProxy.getInstance().getTeamManager().disableNotifications(player)) {
-                    player.sendMessage(new MessageBuilder(Prefix.NOTIFICATIONS + "§7Du erhälst nun §a§lBenachrichtigungen§8.").build());
+                    player.sendMessage(new MessageBuilder(Prefix.NOTIFICATIONS + "§7Du erhälst nun §aBenachrichtigungen§8.").build());
                 } else {
                     player.sendMessage(new MessageBuilder(Prefix.NOTIFICATIONS + "Beim §eVerarbeiten §7dieser Anfrage §7ist ein §4Fehler §7aufgetreten§8. §7Bitte kontaktiere sofort das Referat §4DEV/01§8!").build());
                 }
             } else {
                 if (LostProxy.getInstance().getTeamManager().enableNotifications(player)) {
-                    player.sendMessage(new MessageBuilder(Prefix.NOTIFICATIONS + "§7Du erhälst nun §c§l §7Benachrichtigungen mehr§8.").build());
+                    player.sendMessage(new MessageBuilder(Prefix.NOTIFICATIONS + "§7Du erhälst nun §c §7Benachrichtigungen mehr§8.").build());
                 } else {
                     player.sendMessage(new MessageBuilder(Prefix.NOTIFICATIONS + "Beim §eVerarbeiten §7dieser Anfrage §7ist ein §4Fehler §7aufgetreten§8. §7Bitte kontaktiere sofort das Referat §4DEV/01§8!").build());
                 }

@@ -1,7 +1,7 @@
 /*
  * Copyright notice
  * Copyright (c) Nils Körting-Eberhardt 2021
- * Created: 03.01.2021 @ 00:01:00
+ * Created: 05.01.2021 @ 11:22:51
  *
  * All contents of this source code are protected by copyright. The copyright is owned by Nils Körting-Eberhardt, unless explicitly stated otherwise. All rights reserved.
  *
@@ -34,18 +34,18 @@ public class BanReasonsCommand extends Command implements TabExecutor {
     @Override
     public void execute(CommandSender commandSender, String[] strings) {
         if (strings.length == 0 || strings.length == 5 || strings.length >= 7) {
-            commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Benutzung von §c§l/banreasons§8:").build());
-            commandSender.sendMessage(new MessageBuilder("§8" + Prefix.DASH + " §c/banreasons §llist §8» §7Liste dir alle Bangruende auf").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/banreasons list").build());
-            commandSender.sendMessage(new MessageBuilder("§8" + Prefix.DASH + " §c/banreasons §ladd <ID> <Name> <Zeit> <Zeiteinheit> <Permission> §8» §7Liste dir alle Bangruende auf").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/banreasons add NAME ZEIT ZEITEINHEIT PERMISSION").build());
-            commandSender.sendMessage(new MessageBuilder("§8" + Prefix.DASH + " §c/banreasons §l<ID> §8» §7Zeige Informationen über einen Banngrund an").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/banreasons ID").build());
-            commandSender.sendMessage(new MessageBuilder("§8" + Prefix.DASH + " §c/banreasons §l<ID> set <id,name,time,timeunit,permission> <Wert> §8» §7Bearbeite einen Banngrund").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/banreasons ID set ").build());
-            commandSender.sendMessage(new MessageBuilder("§8" + Prefix.DASH + " §c/banreasons §l<ID> delete §8» §7Lösche einen Banngrund").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/banreasons ID set ").build());
+            commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Benutzung von §c/banreasons§8:").build());
+            commandSender.sendMessage(new MessageBuilder("§8» §c/banreasons list §8" + Prefix.DASH + " §7Liste dir alle Bangruende auf").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/banreasons list").build());
+            commandSender.sendMessage(new MessageBuilder("§8» §c/banreasons add <ID> <Name> <Zeit> <Zeiteinheit> <Permission> §8" + Prefix.DASH + " §7Liste dir alle Bangruende auf").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/banreasons add NAME ZEIT ZEITEINHEIT PERMISSION").build());
+            commandSender.sendMessage(new MessageBuilder("§8» §c/banreasons <ID> §8" + Prefix.DASH + " §7Zeige Informationen über einen Banngrund an").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/banreasons ID").build());
+            commandSender.sendMessage(new MessageBuilder("§8» §c/banreasons <ID> set <id,name,time,timeunit,permission> <Wert> §8" + Prefix.DASH + " §7Bearbeite einen Banngrund").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/banreasons ID set ").build());
+            commandSender.sendMessage(new MessageBuilder("§8» §c/banreasons <ID> delete §8" + Prefix.DASH + " §7Lösche einen Banngrund").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/banreasons ID set ").build());
             commandSender.sendMessage(new MessageBuilder("§8§m--------------------§r").build());
         } else if (strings.length == 1) {
             if ("list".equals(strings[0])) {
                 if (commandSender.hasPermission("lostproxy.command.banreasons.list")) {
                     commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Folgende Banngründe sind registriert§8:").build());
-                    LostProxy.getInstance().getReasonManager().getRegistedBanReasons().stream().sorted(Comparator.comparingInt(IReason::getId)).forEach(iBanReason -> commandSender.sendMessage(new MessageBuilder("§8" + Prefix.DASH + " §e" + iBanReason.getId() + " §8» §e" + iBanReason.getName()).addClickEvent(ClickEvent.Action.RUN_COMMAND, "/banreasons " + iBanReason.getId()).addHoverEvent(HoverEvent.Action.SHOW_TEXT, "§8» §7Klicke diese Nachricht§8, §7um genaue Informationen zu diesem Banngrund zu erhalten§8.").build()));
+                    LostProxy.getInstance().getReasonManager().getRegistedBanReasons().stream().sorted(Comparator.comparingInt(IReason::getId)).forEach(iBanReason -> commandSender.sendMessage(new MessageBuilder("§8» §e" + iBanReason.getId() + " §8» §e" + iBanReason.getName()).addClickEvent(ClickEvent.Action.RUN_COMMAND, "/banreasons " + iBanReason.getId()).addHoverEvent(HoverEvent.Action.SHOW_TEXT, "§8» §7Klicke diese Nachricht§8, §7um genaue Informationen zu diesem Banngrund zu erhalten§8.").build()));
                 } else {
                     commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Du hast §cnicht §7die erforderlichen Rechte§8, §7um dieses Kommando auszuführen§8.").build());
                 }
@@ -55,10 +55,10 @@ public class BanReasonsCommand extends Command implements TabExecutor {
 
                     if (iBanReason != null) {
                         commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Informationen zum angegebenen Banngrund§8:").build());
-                        commandSender.sendMessage(new MessageBuilder("§8" + Prefix.DASH + " §7Name §8» §c" + iBanReason.getName()).build());
-                        commandSender.sendMessage(new MessageBuilder("§8" + Prefix.DASH + " §7ID §8» §c" + iBanReason.getId()).build());
-                        commandSender.sendMessage(new MessageBuilder("§8" + Prefix.DASH + " §7Bannzeit §8» §c" + (iBanReason.getTime() == -1 ? "permanent" : iBanReason.getTime() + " " + ETimeUnit.getDisplayName(iBanReason.getTime(), iBanReason.getETimeUnit()))).build());
-                        commandSender.sendMessage(new MessageBuilder("§8" + Prefix.DASH + " §7Berechtigung §8» §c" + iBanReason.getPermission()).build());
+                        commandSender.sendMessage(new MessageBuilder("§8» §7Name §8" + Prefix.DASH + " §c" + iBanReason.getName()).build());
+                        commandSender.sendMessage(new MessageBuilder("§8» §7ID §8" + Prefix.DASH + " §c" + iBanReason.getId()).build());
+                        commandSender.sendMessage(new MessageBuilder("§8» §7Bannzeit §8" + Prefix.DASH + " §c" + (iBanReason.getTime() == -1 ? "permanent" : iBanReason.getTime() + " " + ETimeUnit.getDisplayName(iBanReason.getTime(), iBanReason.getETimeUnit()))).build());
+                        commandSender.sendMessage(new MessageBuilder("§8» §7Berechtigung §8" + Prefix.DASH + " §c" + iBanReason.getPermission()).build());
                         commandSender.sendMessage(new MessageBuilder("§8§m--------------------§r").build());
 
                     } else {

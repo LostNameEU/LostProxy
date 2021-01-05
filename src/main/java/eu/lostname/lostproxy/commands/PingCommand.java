@@ -1,7 +1,7 @@
 /*
  * Copyright notice
  * Copyright (c) Nils Körting-Eberhardt 2021
- * Created: 02.01.2021 @ 23:45:56
+ * Created: 05.01.2021 @ 11:22:52
  *
  * All contents of this source code are protected by copyright. The copyright is owned by Nils Körting-Eberhardt, unless explicitly stated otherwise. All rights reserved.
  *
@@ -34,7 +34,7 @@ public class PingCommand extends Command implements TabExecutor {
             ProxiedPlayer player = (ProxiedPlayer) commandSender;
 
             if (strings.length == 0) {
-                player.sendMessage(new MessageBuilder(Prefix.LOSTNAME + "Dein Ping beträgt aktuell§8: §c§l" + player.getPing() + "ms").build());
+                player.sendMessage(new MessageBuilder(Prefix.LOSTNAME + "Dein Ping beträgt aktuell§8: §c" + player.getPing() + "ms").build());
             } else if (strings.length == 1) {
                 if (player.hasPermission("lostproxy.command.ping.other")) {
                     String argument = strings[0];
