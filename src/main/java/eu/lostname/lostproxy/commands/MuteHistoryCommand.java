@@ -1,7 +1,7 @@
 /*
  * Copyright notice
  * Copyright (c) Nils Körting-Eberhardt 2021
- * Created: 05.01.2021 @ 11:22:51
+ * Created: 11.01.2021 @ 18:46:29
  *
  * All contents of this source code are protected by copyright. The copyright is owned by Nils Körting-Eberhardt, unless explicitly stated otherwise. All rights reserved.
  *
@@ -74,7 +74,7 @@ public class MuteHistoryCommand extends Command implements TabExecutor {
                                     commandSender.sendMessage(new MessageBuilder("§8» §aUnmute §8" + Prefix.DASH + " §e" + date + " §7@ §e" + time + " §8» §4Konsole §8» §e" + iMuteEntry.getReason()).build());
                                 } else {
                                     IPlayerSync iPlayer = new IPlayerSync(UUID.fromString(iMuteEntry.getInvokerId()));
-                                    commandSender.sendMessage(new MessageBuilder("§8» §aUnmute §8" + Prefix.DASH + " §e" + date + " §7@ §e" + time + " §8» " + iPlayer.getDisplay() + iPlayer.getPlayerName() + " §8» §e" + iMuteEntry.getReason()).build());
+                                    commandSender.sendMessage(new MessageBuilder("§8» §aUnmute §8" + Prefix.DASH + " §e" + date + " §7@ §e" + time + " §8» " + iPlayer.getDisplay() + iPlayer.getPlayerName() + "  §e" + iMuteEntry.getReason()).build());
                                 }
                                 break;
                         }

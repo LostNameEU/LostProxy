@@ -1,7 +1,7 @@
 /*
  * Copyright notice
  * Copyright (c) Nils Körting-Eberhardt 2021
- * Created: 03.01.2021 @ 00:01:00
+ * Created: 11.01.2021 @ 18:46:29
  *
  * All contents of this source code are protected by copyright. The copyright is owned by Nils Körting-Eberhardt, unless explicitly stated otherwise. All rights reserved.
  *
@@ -82,6 +82,7 @@ public class LostProxy extends Plugin {
         getProxy().getPluginManager().registerCommand(this, new MuteHistoryClearCommand("mutehistoryclear", "lostproxy.command.mutehistoryclear", "mhclear", "mhc"));
         getProxy().getPluginManager().registerCommand(this, new FriendCommand("friend", "", "friends"));
         getProxy().getPluginManager().registerCommand(this, new HelpCommand("help"));
+        getProxy().getPluginManager().registerCommand(this, new BroadcastCommand("broadcast", "lostproxy.command.broadcast", "bc"));
 
         getProxy().getPluginManager().registerListener(this, new PostLoginListener());
         getProxy().getPluginManager().registerListener(this, new PlayerDisconnectListener());
