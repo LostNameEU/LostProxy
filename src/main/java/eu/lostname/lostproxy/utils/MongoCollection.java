@@ -1,11 +1,11 @@
 /*
  * Copyright notice
  * Copyright (c) Nils Körting-Eberhardt 2021
- * Created: 01.01.2021 @ 23:41:47
+ * Created: 14.01.2021 @ 23:59:23
  *
  * All contents of this source code are protected by copyright. The copyright is owned by Nils Körting-Eberhardt, unless explicitly stated otherwise. All rights reserved.
  *
- * MongoCollection.java is part of the lostproxy which is licensed under the Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) license.
+ * MongoCollection.java is part of the LostProxy which is licensed under the Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) license.
  */
 
 package eu.lostname.lostproxy.utils;
@@ -21,4 +21,5 @@ public class MongoCollection {
     public static final String ACTIVE_MUTES = "activeMutes";
     public static final String MUTE_REASONS = "muteReasons";
     public static final String FRIEND_DATA = "friendData";
+    public static final String LOCALIZATION_DATA = "localizationData";
 }
