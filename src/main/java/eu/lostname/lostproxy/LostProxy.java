@@ -1,7 +1,7 @@
 /*
  * Copyright notice
  * Copyright (c) Nils Körting-Eberhardt 2021
- * Created: 11.01.2021 @ 18:46:29
+ * Created: 15.01.2021 @ 00:03:35
  *
  * All contents of this source code are protected by copyright. The copyright is owned by Nils Körting-Eberhardt, unless explicitly stated otherwise. All rights reserved.
  *
@@ -40,6 +40,7 @@ public class LostProxy extends Plugin {
     private MuteManager muteManager;
     private ReasonManager reasonManager;
     private FriendManager friendManager;
+    private LocaleManager localeManager;
 
     private Property property;
 
@@ -60,6 +61,7 @@ public class LostProxy extends Plugin {
         this.muteManager = new MuteManager();
         this.reasonManager = new ReasonManager(gson, database);
         this.friendManager = new FriendManager(database, gson);
+        this.localeManager = new LocaleManager(gson, database);
 
         getProxy().getPluginManager().registerCommand(this, new TSCommand("ts", "lostproxy.command.ts"));
         getProxy().getPluginManager().registerCommand(this, new PingCommand("ping", "lostproxy.command.ping"));
@@ -167,5 +169,9 @@ public class LostProxy extends Plugin {
 
     public FriendManager getFriendManager() {
         return friendManager;
+    }
+
+    public LocaleManager getLocaleManager() {
+        return localeManager;
     }
 }
