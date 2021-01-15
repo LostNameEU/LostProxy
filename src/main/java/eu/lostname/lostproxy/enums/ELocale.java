@@ -1,7 +1,7 @@
 /*
  * Copyright notice
  * Copyright (c) Nils Körting-Eberhardt 2021
- * Created: 15.01.2021 @ 00:24:11
+ * Created: 15.01.2021 @ 22:55:46
  *
  * All contents of this source code are protected by copyright. The copyright is owned by Nils Körting-Eberhardt, unless explicitly stated otherwise. All rights reserved.
  *
@@ -13,7 +13,8 @@ package eu.lostname.lostproxy.enums;
 public enum ELocale {
 
     GERMAN("Deutsch", "de_DE"),
-    AMERICAN_ENGLISH("English", "en_US");
+    AMERICAN_ENGLISH("English", "en_US"),
+    SPANISH("Español", "en_ES");
 
     private final String displayName;
     private final String fileName;

@@ -1,11 +1,11 @@
 /*
  * Copyright notice
  * Copyright (c) Nils Körting-Eberhardt 2021
- * Created: 01.01.2021 @ 23:40:33
+ * Created: 15.01.2021 @ 22:55:46
  *
  * All contents of this source code are protected by copyright. The copyright is owned by Nils Körting-Eberhardt, unless explicitly stated otherwise. All rights reserved.
  *
- * BanManager.java is part of the lostproxy which is licensed under the Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) license.
+ * BanManager.java is part of the LostProxy which is licensed under the Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) license.
  */
 
 package eu.lostname.lostproxy.manager;
@@ -13,6 +13,7 @@ package eu.lostname.lostproxy.manager;
 import com.google.gson.Gson;
 import com.mongodb.client.model.ReplaceOptions;
 import eu.lostname.lostproxy.LostProxy;
+import eu.lostname.lostproxy.interfaces.ILocaleData;
 import eu.lostname.lostproxy.interfaces.bkms.IBan;
 import eu.lostname.lostproxy.utils.MongoCollection;
 import org.bson.Document;
@@ -72,7 +73,7 @@ public class BanManager {
      */
 
     @SuppressWarnings("deprecation")
-    public String calculateRemainingTime(long end) {
+    public String calculateRemainingTime(ILocaleData locale, long end) {
         long millis = end - System.currentTimeMillis();
         int seconds = 0, minutes = 0, hours = 0, days = 0;
 
@@ -99,27 +100,27 @@ public class BanManager {
         String estimatedTime = "";
 
         if (days == 1) {
-            estimatedTime += "ein §7Tag§8, ";
+            estimatedTime += locale.getMessage("one_day");
         } else if (days > 1) {
-            estimatedTime += days + " §7Tage§8, ";
+            estimatedTime += "§c" + days + " §7" + locale.getMessage("remaining_time_days");
         }
 
         if (hours == 1) {
-            estimatedTime += "§ceine §7Stunde§8, ";
+            estimatedTime += locale.getMessage("one_hour");
         } else if (hours > 1) {
-            estimatedTime += "§c" + hours + " §7Stunden§8, ";
+            estimatedTime += locale.getMessage("remaining_time_hours");
         }
 
         if (minutes == 1) {
-            estimatedTime += "§ceine §7Minute und ";
+            estimatedTime += locale.getMessage("one_minute");
         } else if (minutes > 1) {
-            estimatedTime += "§c" + minutes + " §7Minuten und ";
+            estimatedTime += "§c" + minutes + " " + locale.getMessage("remaining_time_minutes");
         }
 
         if (seconds == 1) {
-            estimatedTime += "§ceine §7Sekunde";
+            estimatedTime += locale.getMessage("one_seconds");
         } else if (seconds > 1) {
-            estimatedTime += "§c" + seconds + " §7Sekunden";
+            estimatedTime += "§c" + seconds + " " + locale.getMessage("remaining_time_seconds");
         }
 
         return estimatedTime;

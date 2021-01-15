@@ -1,11 +1,11 @@
 /*
  * Copyright notice
  * Copyright (c) Nils Körting-Eberhardt 2021
- * Created: 01.01.2021 @ 23:37:34
+ * Created: 15.01.2021 @ 22:55:46
  *
  * All contents of this source code are protected by copyright. The copyright is owned by Nils Körting-Eberhardt, unless explicitly stated otherwise. All rights reserved.
  *
- * ETimeUnit.java is part of the lostproxy which is licensed under the Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) license.
+ * ETimeUnit.java is part of the LostProxy which is licensed under the Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) license.
  */
 
 /*
@@ -44,6 +44,8 @@
  */
 
 package eu.lostname.lostproxy.enums;
+
+import eu.lostname.lostproxy.interfaces.ILocaleData;
 
 /**
  * A {@code TimeUnit} represents time durations at a given unit of
@@ -160,55 +162,55 @@ public enum ETimeUnit {
         this.maxSecs = Long.MAX_VALUE / sr;
     }
 
-    public static String getDisplayName(long l, ETimeUnit eTimeUnit) {
+    public static String getDisplayName(long l, ETimeUnit eTimeUnit, ILocaleData locale) {
         switch (eTimeUnit) {
             case NANOSECONDS:
                 if (l == 1) {
-                    return "Nanosekunde";
+                    return locale.getMessage("nanosecond");
                 } else {
-                    return "Nanosekunden";
+                    return locale.getMessage("nanoseconds");
                 }
             case MICROSECONDS:
                 if (l == 1) {
-                    return "Mikrosekunde";
+                    return locale.getMessage("microsecond");
                 } else {
-                    return "Mikrosekunden";
+                    return locale.getMessage("microseconds");
                 }
             case MILLISECONDS:
                 if (l == 1) {
-                    return "Millisekunde";
+                    return locale.getMessage("millisecond");
                 } else {
-                    return "Millisekunden";
+                    return locale.getMessage("milliseconds");
                 }
             case SECONDS:
                 if (l == 1) {
-                    return "Sekunde";
+                    return locale.getMessage("second");
                 } else {
-                    return "Sekunden";
+                    return locale.getMessage("seconds");
                 }
             case MINUTES:
                 if (l == 1) {
-                    return "Minute";
+                    return locale.getMessage("minute");
                 } else {
-                    return "Minuten";
+                    return locale.getMessage("minutes");
                 }
             case HOURS:
                 if (l == 1) {
-                    return "Stunde";
+                    return locale.getMessage("hour");
                 } else {
-                    return "Stunden";
+                    return locale.getMessage("hours");
                 }
             case DAYS:
                 if (l == 1) {
-                    return "Tag";
+                    return locale.getMessage("day");
                 } else {
-                    return "Tage";
+                    return locale.getMessage("days");
                 }
             case WEEKS:
                 if (l == 1) {
-                    return "Woche";
+                    return locale.getMessage("week");
                 } else {
-                    return "Wochen";
+                    return locale.getMessage("weeks");
                 }
             default:
                 return "";
