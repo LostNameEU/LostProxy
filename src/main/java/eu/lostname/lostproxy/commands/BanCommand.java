@@ -1,7 +1,7 @@
 /*
  * Copyright notice
  * Copyright (c) Nils Körting-Eberhardt 2021
- * Created: 16.01.2021 @ 22:29:30
+ * Created: 17.01.2021 @ 00:11:00
  *
  * All contents of this source code are protected by copyright. The copyright is owned by Nils Körting-Eberhardt, unless explicitly stated otherwise. All rights reserved.
  *
@@ -178,7 +178,7 @@ public class BanCommand extends Command implements TabExecutor {
                                         commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + locale.getMessage("bancommand.banreason.no_permission").replaceAll("%reason%", iBanReason.getName())).build());
                                     }
                                 } else {
-                                    commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + locale.getMessage("bancommand.banreasons.not_found")).build());
+                                    commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + locale.getMessage("banreason.not_found")).build());
                                 }
                             } catch (NumberFormatException numberFormatException) {
                                 commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + locale.getMessage("commands.no_number_given")).build());
