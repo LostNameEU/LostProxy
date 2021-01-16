@@ -1,7 +1,7 @@
 /*
  * Copyright notice
  * Copyright (c) Nils Körting-Eberhardt 2021
- * Created: 15.01.2021 @ 22:55:46
+ * Created: 16.01.2021 @ 22:29:30
  *
  * All contents of this source code are protected by copyright. The copyright is owned by Nils Körting-Eberhardt, unless explicitly stated otherwise. All rights reserved.
  *
@@ -13,7 +13,7 @@ package eu.lostname.lostproxy.manager;
 import com.google.gson.Gson;
 import com.mongodb.client.model.ReplaceOptions;
 import eu.lostname.lostproxy.LostProxy;
-import eu.lostname.lostproxy.interfaces.ILocaleData;
+import eu.lostname.lostproxy.enums.ELocale;
 import eu.lostname.lostproxy.interfaces.bkms.IBan;
 import eu.lostname.lostproxy.utils.MongoCollection;
 import org.bson.Document;
@@ -73,7 +73,7 @@ public class BanManager {
      */
 
     @SuppressWarnings("deprecation")
-    public String calculateRemainingTime(ILocaleData locale, long end) {
+    public String calculateRemainingTime(ELocale locale, long end) {
         long millis = end - System.currentTimeMillis();
         int seconds = 0, minutes = 0, hours = 0, days = 0;
 
