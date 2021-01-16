@@ -1,7 +1,7 @@
 /*
  * Copyright notice
  * Copyright (c) Nils Körting-Eberhardt 2021
- * Created: 15.01.2021 @ 22:55:46
+ * Created: 16.01.2021 @ 14:27:53
  *
  * All contents of this source code are protected by copyright. The copyright is owned by Nils Körting-Eberhardt, unless explicitly stated otherwise. All rights reserved.
  *
@@ -52,7 +52,7 @@ public class BanCommand extends Command implements TabExecutor {
             ILocaleData locale = LostProxy.getInstance().getLocaleManager().getLocaleData(player);
 
             if (strings.length == 0) {
-                commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + locale.getMessage("bancommand.usage").replaceAll("%cmd%", "/ban")).build());
+                commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + locale.getMessage("commands.usage").replaceAll("%cmd%", "/ban")).build());
                 commandSender.sendMessage(new MessageBuilder("§8» §c/ban <" + locale.getMessage("player") + "> §8" + Prefix.DASH + " §7" + locale.getMessage("bancommand.usage.description")).addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/ban ").build());
                 commandSender.sendMessage(new MessageBuilder("§8» §c/ban <" + locale.getMessage("player") + "> <" + locale.getMessage("id") + "> §8" + Prefix.DASH + " §7" + locale.getMessage("bancommand.usage.direct.description")).addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/ban ").build());
                 commandSender.sendMessage(new MessageBuilder("§8§m--------------------§r").build());
@@ -172,7 +172,7 @@ public class BanCommand extends Command implements TabExecutor {
                                         commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + locale.getMessage("bancommand.banreasons.not_found")).build());
                                     }
                                 } catch (NumberFormatException numberFormatException) {
-                                    commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + locale.getMessage("command.no_number_given")).build());
+                                    commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + locale.getMessage("commands.no_number_given")).build());
                                 }
                             } else {
                                 commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + locale.getMessage("bancommand.ban.no_permission").replaceAll("%player%", targetIPlayer.getDisplay() + targetIPlayer.getPlayerName())).build());
@@ -187,7 +187,7 @@ public class BanCommand extends Command implements TabExecutor {
                     commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + locale.getMessage("bancommand.ban.itself")).build());
                 }
             } else {
-                commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + locale.getMessage("command.see_usage")).build());
+                commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + locale.getMessage("commands.see_usage")).build());
             }
         } else {
             if (strings.length == 0) {
