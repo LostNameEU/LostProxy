@@ -1,7 +1,7 @@
 /*
  * Copyright notice
  * Copyright (c) Nils Körting-Eberhardt 2021
- * Created: 05.01.2021 @ 11:22:51
+ * Created: 18.01.2021 @ 23:20:35
  *
  * All contents of this source code are protected by copyright. The copyright is owned by Nils Körting-Eberhardt, unless explicitly stated otherwise. All rights reserved.
  *
@@ -12,6 +12,7 @@ package eu.lostname.lostproxy.commands;
 
 import eu.lostname.lostproxy.LostProxy;
 import eu.lostname.lostproxy.builder.MessageBuilder;
+import eu.lostname.lostproxy.enums.ELocale;
 import eu.lostname.lostproxy.interfaces.IFriendData;
 import eu.lostname.lostproxy.interfaces.IPlayerSync;
 import eu.lostname.lostproxy.utils.Prefix;
@@ -41,14 +42,15 @@ public class FriendCommand extends Command {
             ProxiedPlayer player = (ProxiedPlayer) commandSender;
             IFriendData iFriendData = LostProxy.getInstance().getFriendManager().getFriendData(player.getUniqueId());
             IPlayerSync iPlayer = new IPlayerSync(player.getUniqueId());
+            ELocale locale = LostProxy.getInstance().getLocaleManager().getLocaleData(player).getLocale();
 
             if (strings.length == 0) {
-                player.sendMessage(new MessageBuilder(Prefix.FRIENDS + "Benutzung von §c/friend§8:").build());
-                player.sendMessage(new MessageBuilder("§8» §c/friend 2 §8" + Prefix.DASH + " §7Zeigt Hilfeseite 2").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/friend 2").build());
-                player.sendMessage(new MessageBuilder("§8» §c/friend add <Name> §8" + Prefix.DASH + " §7Fügt jemanden als Freund hinzu").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/friend add ").build());
-                player.sendMessage(new MessageBuilder("§8» §c/friend remove <Name> §8" + Prefix.DASH + " §7Löst die Freundschaft mit jemanden auf").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/friend remove ").build());
-                player.sendMessage(new MessageBuilder("§8» §c/friend accept <Name> §8" + Prefix.DASH + " §7Nimmt Freundschaftsanfragen an").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/friend accept ").build());
-                player.sendMessage(new MessageBuilder("§8» §c/friend deny <Name> §8" + Prefix.DASH + " §7Lehnt Freundschaftsanfragen ab").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/friend deny ").build());
+                player.sendMessage(new MessageBuilder(Prefix.FRIENDS + locale.getMessage("commands.usage").replaceAll("%cmd%", "§c/friend")).build());
+                player.sendMessage(new MessageBuilder("§8» §c/friend 2 §8" + Prefix.DASH + " §7" + locale.getMessage("friendcommand.2.usage.description")).addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/friend 2").build());
+                player.sendMessage(new MessageBuilder("§8» §c/friend add <Name> §8" + Prefix.DASH + " §7" + locale.getMessage("friendcommand.add.usage.description")).addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/friend add ").build());
+                player.sendMessage(new MessageBuilder("§8» §c/friend remove <Name> §8" + Prefix.DASH + " §7" + locale.getMessage("friendcommand.remove.usage.description")).addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/friend remove ").build());
+                player.sendMessage(new MessageBuilder("§8» §c/friend accept <Name> §8" + Prefix.DASH + " §7" + locale.getMessage("friendcommand.accept.usage.description")).addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/friend accept ").build());
+                player.sendMessage(new MessageBuilder("§8» §c/friend deny <Name> §8" + Prefix.DASH + " §7" + locale.getMessage("friendcommand.deny.usage.description")).addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/friend deny ").build());
                 player.sendMessage(new MessageBuilder("§8» §c/friend list §8" + Prefix.DASH + " §7Listet alle Freunde auf").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/friend list").build());
                 player.sendMessage(new MessageBuilder("§8» §c/friend requests §8" + Prefix.DASH + " §7Listet alle Freundschaftsanfragen auf").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/friend requests").build());
                 player.sendMessage(new MessageBuilder("§8§m--------------------§r").build());
