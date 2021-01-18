@@ -1,7 +1,7 @@
 /*
  * Copyright notice
  * Copyright (c) Nils Körting-Eberhardt 2021
- * Created: 05.01.2021 @ 11:22:51
+ * Created: 18.01.2021 @ 23:14:55
  *
  * All contents of this source code are protected by copyright. The copyright is owned by Nils Körting-Eberhardt, unless explicitly stated otherwise. All rights reserved.
  *
@@ -13,6 +13,7 @@ package eu.lostname.lostproxy.commands;
 import eu.lostname.lostproxy.LostProxy;
 import eu.lostname.lostproxy.builder.MessageBuilder;
 import eu.lostname.lostproxy.enums.EBanEntryType;
+import eu.lostname.lostproxy.enums.ELocale;
 import eu.lostname.lostproxy.interfaces.IPlayerSync;
 import eu.lostname.lostproxy.interfaces.bkms.IBan;
 import eu.lostname.lostproxy.interfaces.historyandentries.ban.IBanEntry;
@@ -36,9 +37,14 @@ public class EACommand extends Command implements TabExecutor {
 
     @Override
     public void execute(CommandSender commandSender, String[] strings) {
+        ELocale locale = ELocale.GERMAN;
+        if (commandSender instanceof ProxiedPlayer) {
+            locale = LostProxy.getInstance().getLocaleManager().getLocaleData(((ProxiedPlayer) commandSender)).getLocale();
+        }
+
         if (strings.length != 1) {
-            commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Benutzung von §c/ea§8:").build());
-            commandSender.sendMessage(new MessageBuilder("§8» §c/ea <Spieler> §8" + Prefix.DASH + " §7Verkürze den Ban des angegebenen Spielers").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/ea ").build());
+            commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + locale.getMessage("commands.usage").replaceAll("%cmd%", "§c/ea")).build());
+            commandSender.sendMessage(new MessageBuilder("§8» §c/ea <" + locale.getMessage("player") + "> §8" + Prefix.DASH + " §7" + locale.getMessage("eacommand.usage.description")).addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/ea ").build());
             commandSender.sendMessage(new MessageBuilder("§8§m--------------------§r").build());
         } else {
             UUID uuid = LostProxy.getInstance().getPlayerManager().getUUIDofPlayername(strings[0]);
@@ -60,24 +66,24 @@ public class EACommand extends Command implements TabExecutor {
                                     IPlayerSync invoker = new IPlayerSync(((ProxiedPlayer) commandSender).getUniqueId());
                                     LostProxy.getInstance().getTeamManager().sendEANotify(invoker.getDisplay() + invoker.getPlayerName(), iPlayer.getDisplay() + iPlayer.getPlayerName());
                                 } else {
-                                    LostProxy.getInstance().getTeamManager().sendEANotify("§4Konsole", iPlayer.getDisplay() + iPlayer.getPlayerName());
+                                    LostProxy.getInstance().getTeamManager().sendEANotify("§4System", iPlayer.getDisplay() + iPlayer.getPlayerName());
                                 }
 
-                                commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Der Ban von " + iPlayer.getDisplay() + iPlayer.getPlayerName() + " §7läuft nun in §e3 Tagen §7ab§8.").build());
+                                commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + locale.getMessage("eacommand.successfully").replaceAll("%player%", iPlayer.getDisplay() + iPlayer.getPlayerName())).build());
                             } else {
-                                commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Da der Bann bereits in §e3 Tagen §cabläuft§8, §7kann der Bann §cnicht §7nochmal verkürzt werden§8.").build());
+                                commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + locale.getMessage("eacommand.too_short")).build());
                             }
                         } else {
-                            commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Ein §4permanenter §7Bann kann §cnicht §7verkürzt werden§8.").build());
+                            commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + locale.getMessage("eacommand.is_permanent")).build());
                         }
                     } else {
-                        commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Der Bann von " + iPlayer.getDisplay() + iPlayer.getPlayerName() + " §7wurde §cbereits §7verkürzt§8.").build());
+                        commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + locale.getMessage("eacommand.already_shorten").replaceAll("%player%", iPlayer.getDisplay() + iPlayer.getPlayerName())).build());
                     }
                 } else {
-                    commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Der Spieler " + iPlayer.getDisplay() + iPlayer.getPlayerName() + " §7ist §cnicht §7gebannt§8.").build());
+                    commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + locale.getMessage("player.not_banned").replaceAll("%player%", iPlayer.getDisplay() + iPlayer.getPlayerName())).build());
                 }
             } else {
-                commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + "Der angegebene Spieler wurde §cnicht §7gefunden§8.").build());
+                commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + locale.getMessage("player.not_banned")).build());
             }
         }
     }
