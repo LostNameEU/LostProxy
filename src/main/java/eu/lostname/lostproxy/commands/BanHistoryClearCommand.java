@@ -1,7 +1,7 @@
 /*
  * Copyright notice
  * Copyright (c) Nils Körting-Eberhardt 2021
- * Created: 16.01.2021 @ 22:29:30
+ * Created: 18.01.2021 @ 23:00:34
  *
  * All contents of this source code are protected by copyright. The copyright is owned by Nils Körting-Eberhardt, unless explicitly stated otherwise. All rights reserved.
  *
@@ -79,7 +79,7 @@ public class BanHistoryClearCommand extends Command implements TabExecutor {
                         commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + locale.getMessage("player_not_found")).build());
                     }
                 } else {
-                    commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + locale.getMessage("historyclearcommands.verify.not_requested")).build());
+                    commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + locale.getMessage("verify.not_requested")).build());
                 }
             } else {
                 commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + locale.getMessage("commands.see_usage")).build());
