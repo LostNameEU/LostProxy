@@ -1,7 +1,7 @@
 /*
  * Copyright notice
  * Copyright (c) Nils Körting-Eberhardt 2021
- * Created: 18.01.2021 @ 23:20:35
+ * Created: 20.01.2021 @ 21:36:40
  *
  * All contents of this source code are protected by copyright. The copyright is owned by Nils Körting-Eberhardt, unless explicitly stated otherwise. All rights reserved.
  *
@@ -47,28 +47,28 @@ public class FriendCommand extends Command {
             if (strings.length == 0) {
                 player.sendMessage(new MessageBuilder(Prefix.FRIENDS + locale.getMessage("commands.usage").replaceAll("%cmd%", "§c/friend")).build());
                 player.sendMessage(new MessageBuilder("§8» §c/friend 2 §8" + Prefix.DASH + " §7" + locale.getMessage("friendcommand.2.usage.description")).addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/friend 2").build());
-                player.sendMessage(new MessageBuilder("§8» §c/friend add <Name> §8" + Prefix.DASH + " §7" + locale.getMessage("friendcommand.add.usage.description")).addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/friend add ").build());
-                player.sendMessage(new MessageBuilder("§8» §c/friend remove <Name> §8" + Prefix.DASH + " §7" + locale.getMessage("friendcommand.remove.usage.description")).addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/friend remove ").build());
-                player.sendMessage(new MessageBuilder("§8» §c/friend accept <Name> §8" + Prefix.DASH + " §7" + locale.getMessage("friendcommand.accept.usage.description")).addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/friend accept ").build());
-                player.sendMessage(new MessageBuilder("§8» §c/friend deny <Name> §8" + Prefix.DASH + " §7" + locale.getMessage("friendcommand.deny.usage.description")).addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/friend deny ").build());
-                player.sendMessage(new MessageBuilder("§8» §c/friend list §8" + Prefix.DASH + " §7Listet alle Freunde auf").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/friend list").build());
-                player.sendMessage(new MessageBuilder("§8» §c/friend requests §8" + Prefix.DASH + " §7Listet alle Freundschaftsanfragen auf").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/friend requests").build());
+                player.sendMessage(new MessageBuilder("§8» §c/friend add <" + locale.getMessage("name") + "> §8" + Prefix.DASH + " §7" + locale.getMessage("friendcommand.add.usage.description")).addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/friend add ").build());
+                player.sendMessage(new MessageBuilder("§8» §c/friend remove <" + locale.getMessage("name") + "> §8" + Prefix.DASH + " §7" + locale.getMessage("friendcommand.remove.usage.description")).addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/friend remove ").build());
+                player.sendMessage(new MessageBuilder("§8» §c/friend accept <" + locale.getMessage("name") + "> §8" + Prefix.DASH + " §7" + locale.getMessage("friendcommand.accept.usage.description")).addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/friend accept ").build());
+                player.sendMessage(new MessageBuilder("§8» §c/friend deny <" + locale.getMessage("name") + "> §8" + Prefix.DASH + " §7" + locale.getMessage("friendcommand.deny.usage.description")).addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/friend deny ").build());
+                player.sendMessage(new MessageBuilder("§8» §c/friend list §8" + Prefix.DASH + " §7" + locale.getMessage("friendcommand.list.usage.description")).addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/friend list").build());
+                player.sendMessage(new MessageBuilder("§8» §c/friend requests §8" + Prefix.DASH + " §7" + locale.getMessage("friendcommand.requests.usage.description")).addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/friend requests").build());
                 player.sendMessage(new MessageBuilder("§8§m--------------------§r").build());
             } else if (strings.length == 1) {
                 switch (strings[0]) {
                     case "2":
                         player.sendMessage(new MessageBuilder(Prefix.FRIENDS + "Hilfeseite 2§8:").build());
-                        player.sendMessage(new MessageBuilder("§8» §c/friend acceptall §8" + Prefix.DASH + " §7Nimmt alle Freundschaftsanfragen an").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/friend acceptall").build());
-                        player.sendMessage(new MessageBuilder("§8» §c/friend denyall §8" + Prefix.DASH + " §7Lehnt alle Freundschaftsanfragen ab").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/friend denyall").build());
-                        player.sendMessage(new MessageBuilder("§8» §c/friend broadcast [Nachricht] §8" + Prefix.DASH + " §7Schicke eine Nachricht an alle Freunde").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/friend broadcast ").build());
-                        player.sendMessage(new MessageBuilder("§8» §c/friend clear §8" + Prefix.DASH + " §7Leert deine Freundesliste").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/friend clear").build());
-                        player.sendMessage(new MessageBuilder("§8» §c/friend jump <Name> §8" + Prefix.DASH + " §7Springt zu einem Freund").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/friend clear").build());
-                        player.sendMessage(new MessageBuilder("§8» §c/friend toggle §8" + Prefix.DASH + " §7De- oder aktiviert Freundschaftsanfragen").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/friend toggle").build());
-                        player.sendMessage(new MessageBuilder("§8» §c/friend togglenotify §8" + Prefix.DASH + " §7De- oder aktiviert Benachrichtigungen").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/friend togglenotify").build());
-                        player.sendMessage(new MessageBuilder("§8» §c/friend togglemsg §8" + Prefix.DASH + " §7De- oder aktiviert Nachrichten von Freunden").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/friend togglemsg").build());
-                        player.sendMessage(new MessageBuilder("§8» §c/friend togglejump §8" + Prefix.DASH + " §7De- oder aktiviert Nachspringen von Freunden").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/friend togglejump").build());
-                        player.sendMessage(new MessageBuilder("§8» §c/friend toggleonline §8" + Prefix.DASH + " §7De- oder aktiviert den Onlinestatus vor anderen Freunden").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/friend toggleonline").build());
-                        player.sendMessage(new MessageBuilder("§8» §c/friend info <Name> §8" + Prefix.DASH + " §7Zeigt Informationen über einen Freund").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/friend info ").build());
+                        player.sendMessage(new MessageBuilder("§8» §c/friend acceptall §8" + Prefix.DASH + " §7" + locale.getMessage("friendcommand.acceptall.usage.description")).addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/friend acceptall").build());
+                        player.sendMessage(new MessageBuilder("§8» §c/friend denyall §8" + Prefix.DASH + " §7" + locale.getMessage("friendcommand.denyall.usage.description")).addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/friend denyall").build());
+                        player.sendMessage(new MessageBuilder("§8» §c/friend broadcast [" + locale.getMessage("message") + "] §8" + Prefix.DASH + " §7" + locale.getMessage("friendcommand.broadcast.usage.description")).addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/friend broadcast ").build());
+                        player.sendMessage(new MessageBuilder("§8» §c/friend clear §8" + Prefix.DASH + " §7" + locale.getMessage("friendcommand.clear.usage.description")).addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/friend clear").build());
+                        player.sendMessage(new MessageBuilder("§8» §c/friend jump <" + locale.getMessage("name") + "> §8" + Prefix.DASH + " §7" + locale.getMessage("friendcommand.jump.usage.description")).addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/friend clear").build());
+                        player.sendMessage(new MessageBuilder("§8» §c/friend toggle §8" + Prefix.DASH + " §7" + locale.getMessage("friendcommand.toggle.usage.description")).addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/friend toggle").build());
+                        player.sendMessage(new MessageBuilder("§8» §c/friend togglenotify §8" + Prefix.DASH + " §7" + locale.getMessage("friendcommand.togglenotify.usage.description")).addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/friend togglenotify").build());
+                        player.sendMessage(new MessageBuilder("§8» §c/friend togglemsg §8" + Prefix.DASH + " §7" + locale.getMessage("friendcommand.togglemsg.usage.description")).addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/friend togglemsg").build());
+                        player.sendMessage(new MessageBuilder("§8» §c/friend togglejump §8" + Prefix.DASH + " §7" + locale.getMessage("friendcommand.togglejump.usage.description")).addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/friend togglejump").build());
+                        player.sendMessage(new MessageBuilder("§8» §c/friend toggleonline §8" + Prefix.DASH + " §7" + locale.getMessage("friendcommand.toggleonline.usage.description")).addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/friend toggleonline").build());
+                        player.sendMessage(new MessageBuilder("§8» §c/friend info <" + locale.getMessage("name") + "> §8" + Prefix.DASH + " §7" + locale.getMessage("friendcommand.info.usage.description")).addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/friend info ").build());
                         player.sendMessage(new MessageBuilder("§8§m--------------------§r").build());
                         break;
                     case "list":
