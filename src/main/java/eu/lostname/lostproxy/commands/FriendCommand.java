@@ -1,7 +1,7 @@
 /*
  * Copyright notice
  * Copyright (c) Nils Körting-Eberhardt 2021
- * Created: 24.01.2021 @ 19:41:43
+ * Created: 25.01.2021 @ 00:10:05
  *
  * All contents of this source code are protected by copyright. The copyright is owned by Nils Körting-Eberhardt, unless explicitly stated otherwise. All rights reserved.
  *
@@ -110,14 +110,14 @@ public class FriendCommand extends Command {
                         break;
                     case "requests":
                         if (iFriendData.getRequests().size() > 0) {
-                            player.sendMessage(new MessageBuilder(Prefix.FRIENDS + "Freundschaftsanfragen §8(§e" + iFriendData.getRequests().size() + "§8):").build());
+                            player.sendMessage(new MessageBuilder(Prefix.FRIENDS + locale.getMessage("friendcommand.requests.title").replaceAll("%size%", String.valueOf(iFriendData.getRequests().size()))).build());
                             iFriendData.getRequests().keySet().forEach(all -> {
                                 IPlayerSync friendiPlayer = new IPlayerSync(UUID.fromString(all));
 
                                 TextComponent playerNameComponent = new MessageBuilder("§8» " + friendiPlayer.getDisplay() + friendiPlayer.getPlayerName() + " §8" + Prefix.DASH + " ").build();
-                                TextComponent acceptComponent = new MessageBuilder("§a§l✔").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/friend accept " + friendiPlayer.getPlayerName()).addHoverEvent(HoverEvent.Action.SHOW_TEXT, "§8» §eKlicke§8, §7um diese Freundschaftsanfrage §aanzunehmen§8.").build();
+                                TextComponent acceptComponent = new MessageBuilder("§a§l✔").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/friend accept " + friendiPlayer.getPlayerName()).addHoverEvent(HoverEvent.Action.SHOW_TEXT, "§8 " + locale.getMessage("friendcommand.requests.hover.accept")).build();
                                 TextComponent seperateComponent = new MessageBuilder(" §8| ").build();
-                                TextComponent denyComponent = new MessageBuilder("§c§l✖").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/friend deny " + friendiPlayer.getPlayerName()).addHoverEvent(HoverEvent.Action.SHOW_TEXT, "§8» §eKlicke§8, §7um diese Freundschaftsanfrage §cabzulehnen§8.").build();
+                                TextComponent denyComponent = new MessageBuilder("§c§l✖").addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/friend deny " + friendiPlayer.getPlayerName()).addHoverEvent(HoverEvent.Action.SHOW_TEXT, "§8» " + locale.getMessage("friendcommand.requests.hover.deny")).build();
 
                                 playerNameComponent.addExtra(acceptComponent);
                                 playerNameComponent.addExtra(seperateComponent);
@@ -126,7 +126,7 @@ public class FriendCommand extends Command {
                                 player.sendMessage(playerNameComponent);
                             });
                         } else {
-                            player.sendMessage(new MessageBuilder(Prefix.FRIENDS + "Du hast §ckeine §7Freundschaftsanfragen §7erhalten§8.").build());
+                            player.sendMessage(new MessageBuilder(Prefix.FRIENDS + locale.getMessage("friendrequests.empty")).build());
                         }
                         break;
                     case "acceptall":
@@ -141,15 +141,18 @@ public class FriendCommand extends Command {
                                 requestIFriendData.addFriend(player.getUniqueId());
                                 requestIFriendData.save();
 
-                                player.sendMessage(new MessageBuilder(Prefix.FRIENDS + "Du bist nun mit " + requestIPlayer.getDisplay() + requestIPlayer.getPlayerName() + " §7befreundet§8.").build());
+                                player.sendMessage(new MessageBuilder(Prefix.FRIENDS + locale.getMessage("friendcommand.request.accept").replaceAll("%player%", requestIPlayer.getDisplay() + requestIPlayer.getPlayerName())).build());
 
-                                if (requestIPlayer.isOnline())
-                                    ProxyServer.getInstance().getPlayer(requestIPlayer.getUniqueId()).sendMessage(new MessageBuilder(Prefix.FRIENDS + iPlayer.getDisplay() + iPlayer.getPlayerName() + " §7hat deine Freundschaftsanfrage §aakzeptiert§8.").build());
+                                if (requestIPlayer.isOnline()) {
+                                    ProxiedPlayer requestPlayer = ProxyServer.getInstance().getPlayer(requestIPlayer.getUniqueId());
+                                    ELocale requestLocale = LostProxy.getInstance().getLocaleManager().getLocaleData(requestPlayer).getLocale();
+                                    requestPlayer.sendMessage(new MessageBuilder(Prefix.FRIENDS + requestLocale.getMessage("friendcommand.request.accepted").replaceAll("%player%", iPlayer.getDisplay() + iPlayer.getPlayerName())).build());
+                                }
                             });
                             iFriendData.getRequests().clear();
                             iFriendData.save();
                         } else {
-                            player.sendMessage(new MessageBuilder(Prefix.FRIENDS + "Du hast §ckeine §7Freundschaftsanfragen §7erhalten§8.").build());
+                            player.sendMessage(new MessageBuilder(Prefix.FRIENDS + locale.getMessage("friendrequests.empty")).build());
                         }
                         break;
                     case "denyall":
