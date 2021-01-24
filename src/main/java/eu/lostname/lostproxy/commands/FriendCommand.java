@@ -1,7 +1,7 @@
 /*
  * Copyright notice
  * Copyright (c) Nils Körting-Eberhardt 2021
- * Created: 20.01.2021 @ 21:36:40
+ * Created: 24.01.2021 @ 19:41:43
  *
  * All contents of this source code are protected by copyright. The copyright is owned by Nils Körting-Eberhardt, unless explicitly stated otherwise. All rights reserved.
  *
@@ -73,7 +73,7 @@ public class FriendCommand extends Command {
                         break;
                     case "list":
                         if (iFriendData.getFriends().size() > 0) {
-                            player.sendMessage(new MessageBuilder(Prefix.FRIENDS + "Deine Freundeliste §8(§e" + iFriendData.getFriends().size() + "§8):").build());
+                            player.sendMessage(new MessageBuilder(Prefix.FRIENDS + locale.getMessage("friendcommand.friendlist.title").replaceAll("%size%", String.valueOf(iFriendData.getFriends().size()))).build());
                             List<String> onlineFriends = iFriendData.getFriends().keySet().stream().filter(filter -> new IPlayerSync(UUID.fromString(filter)).isOnline()).filter(filter -> LostProxy.getInstance().getFriendManager().getFriendData(UUID.fromString(filter)).canFriendsSeeOnlineStatusAllowed()).collect(Collectors.toList());
                             List<String> offlineFriends = iFriendData.getFriends().keySet().stream().filter(filter -> !new IPlayerSync(UUID.fromString(filter)).isOnline() || !LostProxy.getInstance().getFriendManager().getFriendData(UUID.fromString(filter)).canFriendsSeeOnlineStatusAllowed()).collect(Collectors.toList());
 
@@ -81,7 +81,7 @@ public class FriendCommand extends Command {
                                 IPlayerSync friendiPlayer = new IPlayerSync(UUID.fromString(online));
 
                                 TextComponent playerNameComponent = new MessageBuilder("§8» " + friendiPlayer.getDisplay() + friendiPlayer.getPlayerName() + " §8" + Prefix.DASH + " ").build();
-                                TextComponent serverComponent = new MessageBuilder("§e§n" + friendiPlayer.getICloudPlayer().getConnectedService().getServerName()).addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/friend jump " + friendiPlayer.getPlayerName()).addHoverEvent(HoverEvent.Action.SHOW_TEXT, "§8» §eKlicke§8, §7um " + friendiPlayer.getDisplay() + friendiPlayer.getPlayerName() + " §7nachzuspringen§8.").build();
+                                TextComponent serverComponent = new MessageBuilder("§e§n" + friendiPlayer.getICloudPlayer().getConnectedService().getServerName()).addClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/friend jump " + friendiPlayer.getPlayerName()).addHoverEvent(HoverEvent.Action.SHOW_TEXT, "§8» " + locale.getMessage("friendcommand.friendlist.jump.hover").replaceAll("%player%", friendiPlayer.getDisplay() + friendiPlayer.getPlayerName())).build();
                                 playerNameComponent.addExtra(serverComponent);
 
                                 player.sendMessage(playerNameComponent);
@@ -95,9 +95,9 @@ public class FriendCommand extends Command {
                                 TextComponent extraComponent;
 
                                 if (friendData.canFriendsSeeOnlineStatusAllowed()) {
-                                    extraComponent = new MessageBuilder("§7zul. online am §e" + new SimpleDateFormat("dd.MM.yyyy").format(iFriendData.getLastLogoutTimestamp()) + " §7um §e" + new SimpleDateFormat("HH:mm:ss").format(iFriendData.getLastLogoutTimestamp()) + " §7Uhr").build();
+                                    extraComponent = new MessageBuilder(locale.getMessage("friendcommand.friendlist.lastonline").replaceAll("%date%", new SimpleDateFormat("dd.MM.yyyy").format(iFriendData.getLastLogoutTimestamp())).replaceAll("%time%", new SimpleDateFormat("HH:mm:ss").format(iFriendData.getLastLogoutTimestamp()))).build();
                                 } else {
-                                    extraComponent = new MessageBuilder("§7Onlinestatus verborgen").build();
+                                    extraComponent = new MessageBuilder("§7" + locale.getMessage("friendcommand.friendlist.onlinestatus.disabled")).build();
                                 }
                                 playerNameComponent.addExtra(extraComponent);
 
@@ -105,7 +105,7 @@ public class FriendCommand extends Command {
                             });
 
                         } else {
-                            player.sendMessage(new MessageBuilder(Prefix.FRIENDS + "Deine Freundesliste ist §cleer§8.").build());
+                            player.sendMessage(new MessageBuilder(Prefix.FRIENDS + locale.getMessage("friendlist.empty")).build());
                         }
                         break;
                     case "requests":

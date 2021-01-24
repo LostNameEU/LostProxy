@@ -1,7 +1,7 @@
 /*
  * Copyright notice
  * Copyright (c) Nils Körting-Eberhardt 2021
- * Created: 17.01.2021 @ 00:11:00
+ * Created: 24.01.2021 @ 19:41:43
  *
  * All contents of this source code are protected by copyright. The copyright is owned by Nils Körting-Eberhardt, unless explicitly stated otherwise. All rights reserved.
  *
@@ -80,13 +80,13 @@ public class BanCommand extends Command implements TabExecutor {
                                     });
                                     commandSender.sendMessage(new MessageBuilder("§8§m--------------------§r").build());
                                 } else {
-                                    commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + locale.getMessage("bancommand.banreasons.no_available")).build());
+                                    commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + locale.getMessage("bancommand.banreasons.not_available")).build());
                                 }
                             } else {
                                 commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + locale.getMessage("bancommand.banreasons.no_registered")).build());
                             }
                         } else {
-                            commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + locale.getMessage("bancommand.no_permission_to_kick").replaceAll("%player%", targetIPlayer.getDisplay() + targetIPlayer.getPlayerName())).build());
+                            commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + locale.getMessage("bancommand.no_permission").replaceAll("%player%", targetIPlayer.getDisplay() + targetIPlayer.getPlayerName())).build());
                         }
                     } else {
                         commandSender.sendMessage(new MessageBuilder(Prefix.BKMS + locale.getMessage("bancommand.ban.already_banned").replaceAll("%player%", targetIPlayer.getDisplay() + targetIPlayer.getPlayerName())).build());
